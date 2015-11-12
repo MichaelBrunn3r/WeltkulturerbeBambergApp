@@ -11,10 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.WaypointsArrayAdapter;
 import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.RouteSegmentsTable;
@@ -167,6 +169,8 @@ public class NavigationActivity extends AppCompatActivity {
     private void setUpDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.navlayout_navigation);
         mLvWaypoints = (ListView) findViewById(R.id.lv_navigation);
+
+        mLvWaypoints.setAdapter(new WaypointsArrayAdapter(this, new String[]{"Bamberg", "Hoffenheim", "Ebern"}));
 
         // Configure Drawer Toggle Button in Action Bar
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.waypoint_1, R.string.waypoint_2);
