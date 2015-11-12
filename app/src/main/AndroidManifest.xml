@@ -26,6 +26,7 @@
         <activity
             android:name=".activity.welcomepage.WelcomePageActivity"
             android:label="@string/title_activity_welcomepage"
+            android:screenOrientation="portrait"
             android:clearTaskOnLaunch="true"> <!-- Always start/resume at this Activity when pressing the Launch Icon-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,18 +38,21 @@
         <activity
             android:name=".activity.InstructionsActivity"
             android:label="@string/title_activity_instructions"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
         </activity>
 
         <activity
             android:name=".activity.InformationActivity"
             android:label="@string/title_activity_information"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.navigation.NavigationActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
         </activity>
 
         <activity
             android:name=".activity.ScoreActivity"
             android:label="@string/title_activity_score"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
 
         </activity>
@@ -56,17 +60,20 @@
         <activity
             android:name=".activity.navigation.NavigationActivity"
             android:label="@string/title_activity_navigation"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
         </activity>
         <activity
             android:name=".activity.QuizActivity"
             android:label="@string/title_activity_quiz"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.navigation.NavigationActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
         </activity>
 
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/title_activity_about"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" > <!-- Activity opened upon pressing the "Up" or "Back" Button -->
         </activity>
 
