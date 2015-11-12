@@ -57,7 +57,7 @@ public class RouteSegment {
         addMarkersToMap(map);
 
         // Add the Polyline showing the Route to the Map
-        addPolylineToMape(activity, map);
+        addPolylineToMap(activity, map);
 
         // Add the proximity alert at the destination Waypoint
         addProximityAlert(activity);
@@ -99,7 +99,7 @@ public class RouteSegment {
         locationManager.addProximityAlert(toWaypoint.getLatitude(), toWaypoint.getLongitude(), detectionRadius, expirationTime, pendingIntent);
     }
 
-    private void addPolylineToMape(Activity activity, GoogleMap map) {
+    private void addPolylineToMap(Activity activity, GoogleMap map) {
         List<LatLng> points = new ArrayList<>();
 
         try {
