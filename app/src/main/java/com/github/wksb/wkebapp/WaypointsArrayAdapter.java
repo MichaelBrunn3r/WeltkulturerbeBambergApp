@@ -37,7 +37,7 @@ public class WaypointsArrayAdapter extends ArrayAdapter<String> {
         }
 
         ImageView icon = (ImageView) waypointView.findViewById(R.id.list_waypoints_item_icon);
-        icon.setImageResource(R.drawable.waypoints_icon);
+        icon.setImageResource(R.drawable.ic_waypoint_selected);
         TextView text = (TextView) waypointView.findViewById(R.id.list_waypoints_item_text);
         text.setText(mWaypoints[position]);
 
