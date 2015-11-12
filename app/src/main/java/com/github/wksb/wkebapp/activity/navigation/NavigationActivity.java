@@ -2,7 +2,6 @@ package com.github.wksb.wkebapp.activity.navigation;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
@@ -11,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,27 +53,25 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        // Set up Map and Route if they don't exist
-        if (mMap == null) setUpMap();
-        if (mRoute == null) setUpRoute();
-
         // Set up the Action Bar
         setUpActionBar();
 
         // Set up the Navigation Drawer
         setUpDrawer();
 
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", true).commit(); // Set the Tour to being in progress
-        mRoute.getRouteSegments().get(getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1) - 1).init(this, mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
+        // Set Tour in progress
+        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", true).commit();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+     protected void onStart() {
+        super.onStart();
 
-        // Set up Map and Route if they don't exist
+        // Set up Route and Map if they don't exist
         if (mMap == null) setUpMap();
         if (mRoute == null) setUpRoute();
+
+        mRoute.getRouteSegmentAt(getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1) - 1).init(this, mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
 
         // TODO Improve this
         mActionBarTitle.setText(String.format("Progress: %d / %d", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 0), mRoute.getRouteSegments().size()));
