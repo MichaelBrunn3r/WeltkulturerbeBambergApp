@@ -7,7 +7,6 @@
         <item name="android:actionBarStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar</item> <!-- Style of the ActionBar -->
         <item name="android:buttonStyle">@style/WeltkulturerbeBambergAppTheme.Button</item> <!-- Style of the Buttons -->
         <item name="android:textViewStyle">@style/WeltkulturerbeBambergAppTheme.TextView</item> <!-- Style of the TextViews -->
-        <item name="android:windowFullscreen">true</item> <!-- Hide Status Bar -->
 
         <!-- Support AppCompat -->
         <item name="actionBarStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar</item> <!-- Style of the ActionBar -->
