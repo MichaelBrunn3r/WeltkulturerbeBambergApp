@@ -26,6 +26,7 @@
         <activity
             android:name=".activity.welcomepage.WelcomePageActivity"
             android:label="@string/title_activity_welcomepage"
+            android:theme="@style/WeltkulturerbeBambergAppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:clearTaskOnLaunch="true"> <!-- Always start/resume at this Activity when pressing the Launch Icon-->
             <intent-filter>
