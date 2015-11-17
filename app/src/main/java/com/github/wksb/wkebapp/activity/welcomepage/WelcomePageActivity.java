@@ -16,6 +16,7 @@ import com.github.wksb.wkebapp.QuizzesAsyncTaskLoader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 /**
@@ -50,9 +51,6 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
             onFirstLaunch();
             getSharedPreferences("MISCELLANEOUS", MODE_PRIVATE).edit().putBoolean("IS_FIRST_APP_LAUNCH", false).commit();
         }
-
-        // Set up the ActionBar
-        setUpActionBar();
     }
 
     @Override
@@ -68,19 +66,6 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
 
         //TODO Remove or improve
         ((TextView)findViewById(R.id.tv_welcome_title)).setTypeface(Typeface.createFromAsset(getAssets(), "fonts/hanged_letters.ttf"));
-        getSupportActionBar().hide();
-    }
-
-    private void setUpActionBar() {
-        if (getSupportActionBar() == null)return;
-
-        // Use Custom ActionBar Layout
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-
-        // Set Custom ActionBar Layout
-        getSupportActionBar().setCustomView(R.layout.actionbar_title);
-
-        // WelcomePageActivity doesn't need a Back Button
     }
 
     /**
