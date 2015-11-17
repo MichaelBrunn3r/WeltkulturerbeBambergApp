@@ -27,21 +27,21 @@
         android:text="@string/btn_welcome_continue"
         android:id="@+id/btn_welcome_continue"
         android:onClick="onBtnClickedContinue"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        android:layout_above="@+id/btn_welcome_restart"
         android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"/>
+        android:visibility="visible"/>
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_restart_tour"
-        android:id="@+id/btn_welcome_start"
+        android:id="@+id/btn_welcome_restart"
         android:onClick="onBtnClickedRestartTour"
-        android:layout_below="@+id/btn_welcome_continue"
-        android:layout_alignParentLeft="true"
+        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"/>
+        android:visibility="visible"/>
 
     <Button
         android:layout_width="fill_parent"
@@ -49,8 +49,19 @@
         android:text="@string/btn_welcome_about"
         android:id="@+id/btn_welcome_about"
         android:onClick="onBtnClickedAbout"
-        android:layout_below="@+id/btn_welcome_start"
+        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        android:layout_below="@+id/btn_welcome_restart"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_welcome_start"
+        android:id="@+id/btn_welcome_start"
+        android:onClick="onBtnClickedStart"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"/>
+        android:visibility="invisible"/>
 
 </RelativeLayout>

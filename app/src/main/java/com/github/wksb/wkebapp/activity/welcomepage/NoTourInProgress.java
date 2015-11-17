@@ -32,7 +32,10 @@ public class NoTourInProgress implements WelcomePageActivityState{
 
     @Override
     public void onActivityStart() {
-        welcomePageActivity.setContentView(R.layout.activity_welcome_page_app_notourinprogress);
+        welcomePageActivity.setContentView(R.layout.activity_welcome_page_app);
+        welcomePageActivity.findViewById(R.id.btn_welcome_start).setVisibility(View.VISIBLE);
+        welcomePageActivity.findViewById(R.id.btn_welcome_restart).setVisibility(View.INVISIBLE);
+        welcomePageActivity.findViewById(R.id.btn_welcome_continue).setVisibility(View.INVISIBLE);
     }
 
     @Override
