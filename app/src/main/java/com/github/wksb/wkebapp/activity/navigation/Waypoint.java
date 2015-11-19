@@ -15,8 +15,19 @@ public class Waypoint {
     private float longitude;
     private String name;
     private int quizID;
+    private WaypointState state;
 
     public Waypoint(Activity activity, int waypointID) {
+        state = WaypointState.NOT_VISITED;
+        loadDataFromDatabase(activity, waypointID);
+    }
+
+    public Waypoint(Activity activity, int waypointID, WaypointState state) {
+        this.state = state;
+        loadDataFromDatabase(activity, waypointID);
+    }
+
+    private void loadDataFromDatabase(Activity activity, int waypointID) {
         // The parameter for the SQLite query
         String[] projection = {WaypointsTable.COLUMN_LATITUDE, WaypointsTable.COLUMN_LONGITUDE, WaypointsTable.COLUMN_NAME, WaypointsTable.COLUMN_QUIZ_ID};
         String selection = WaypointsTable.COLUMN_WAYPOINT_ID + "=?";
@@ -61,5 +72,15 @@ public class Waypoint {
      */
     public int getQuizID() {
         return quizID;
+    }
+
+    public WaypointState getState() {
+        return state;
+    }
+
+    public enum WaypointState {
+        NOT_VISITED,
+        VISITED,
+        CURRENT_POSITION
     }
 }
