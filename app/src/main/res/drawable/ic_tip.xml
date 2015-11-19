@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    android:height="48dp"
+    android:width="48dp"
+    android:viewportHeight="24.0"
+    android:viewportWidth="24.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <path
+        android:name="lamp"
+        android:fillColor="@color/PrimaryColor"
+        android:pathData="m 12,6.375 c -3.322443,-2.52e-4 -6.015879,2.6723915 -6.015625,5.969186 4.055e-4,2.185796 1.0486,4.196542 2.9833985,5.24145 l -0.018555,4.856747 6.0000005,0 -0.0059,-4.856747 C 16.88231,16.543549 18.01308,14.532255 18.015625,12.344186 18.015879,9.0473915 15.322443,6.374748 12,6.375 Z"/>
+
+</vector>
