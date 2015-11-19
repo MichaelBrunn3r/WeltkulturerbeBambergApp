@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Color -->
-    <color name="PrimaryColor">@color/light_blue</color>
-    <color name="PrimaryColorDarker">@color/light_blue_darker</color>
-    <color name="PrimaryColorDarkest">@color/light_blue_darkest</color>
-    <color name="PrimaryColorLighter">@color/light_blue_lighter</color>
+    <color name="PrimaryColor">#2196F3</color>
+    <color name="PrimaryColorDark">#1976D2</color>
+    <color name="PrimaryColorLight">#BBDEFB</color>
 
-    <!-- Secondary Color -->
-    <color name="SecondaryColor">@color/white</color>
+    <!-- Text and Icon Color on top of Primary Color -->
+    <color name="TextAndIconsColor">#FFFFFF</color>
+
+    <!-- Text Color -->
+    <color name="PrimaryTextColor">#212121</color>
+    <color name="SecondaryTextColor">#727272</color>
+
+    <color name="AccentColor">#FFC107</color>
+    <color name="DividerColor">#B6B6B6</color>
+
+    <color name="BackgroundColor">#fff3f3f3</color>
+
+
 
     <!-- light blue -->
     <color name="light_blue">#2196f3</color>
