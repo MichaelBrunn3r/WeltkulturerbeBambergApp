@@ -8,13 +8,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
-import com.github.wksb.wkebapp.WaypointsArrayAdapter;
 import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.RouteSegmentsTable;
@@ -23,6 +23,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 /**
  * This activity shows a GoogleMaps map on which a route between to waypoints is shown.
@@ -45,7 +47,8 @@ public class NavigationActivity extends AppCompatActivity {
 
     // Components of the Navigation Drawer
     private DrawerLayout mDrawerLayout;
-    private ListView mLvWaypoints;  // ListView in the Drawer containign a List of Waypoints
+    private RecyclerView mRvRouteList;
+    private RouteAdapter mRouteAdapter;
     private ActionBarDrawerToggle mDrawerToggle;  // Button in ActionBar toggling the DrawerLayout
 
     @Override
@@ -163,19 +166,32 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void setUpDrawer() {
+        // Set up the Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.navlayout_navigation);
-        mLvWaypoints = (ListView) findViewById(R.id.lv_navigation);
-
-        mLvWaypoints.setAdapter(new WaypointsArrayAdapter(this, new String[]{"Bamberg", "Hoffenheim", "Ebern"}));
 
         // Configure Drawer Toggle Button in Action Bar
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.waypoint_1, R.string.waypoint_2);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        // Set up the Recycler View inside the Navigation Drawer
+        mRvRouteList = (RecyclerView) findViewById(R.id.rv_navigation_route);
+        mRvRouteList.setHasFixedSize(true);
+        mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
+        mRouteAdapter = new RouteAdapter(new ArrayList<Waypoint>());
+        mRvRouteList.setAdapter(mRouteAdapter);
+
+
+        // Fill Adapter with dummy Data TODO remove this
+        mRouteAdapter.addWaypoint(new Waypoint(this, 0, Waypoint.WaypointState.NOT_VISITED), 0);
+        mRouteAdapter.addWaypoint(new Waypoint(this, 1, Waypoint.WaypointState.NOT_VISITED), 0);
+        mRouteAdapter.addWaypoint(new Waypoint(this, 2, Waypoint.WaypointState.NOT_VISITED), 0);
+        mRouteAdapter.addWaypoint(new Waypoint(this, 3, Waypoint.WaypointState.NOT_VISITED), 0);
+        mRouteAdapter.addWaypoint(new Waypoint(this, 4, Waypoint.WaypointState.NOT_VISITED), 0);
+        mRouteAdapter.addWaypoint(new Waypoint(this, 5, Waypoint.WaypointState.NOT_VISITED), 0);
     }
 
-    //TODO Dont animate camera on onResume()
     /**
      * This function sets up the GoogleMaps v2 Map
      */
