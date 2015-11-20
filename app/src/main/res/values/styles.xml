@@ -3,23 +3,15 @@
     <!-- Theme of the Application. -->
     <!-- ========================= -->
     <!-- ========================= -->
-    <style name="WeltkulturerbeBambergAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar</item> <!-- Style of the ActionBar -->
+    <style name="WeltkulturerbeBambergAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:buttonStyle">@style/WeltkulturerbeBambergAppTheme.Button</item> <!-- Style of the Buttons -->
         <item name="android:textViewStyle">@style/WeltkulturerbeBambergAppTheme.TextView</item> <!-- Style of the TextViews -->
-
-        <!-- Support AppCompat -->
-        <item name="actionBarStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar</item> <!-- Style of the ActionBar -->
-    </style>
-
-    <style name="WeltkulturerbeBambergAppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <!--- Style of the ActionBar -->
     <!-- ======================= -->
     <!-- ======================= -->
-    <style name="WeltkulturerbeBambergAppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="WeltkulturerbeBambergAppTheme.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/PrimaryColor</item>
         <item name="android:displayOptions">showTitle</item>
         <item name="android:textColor">@color/white</item>
@@ -29,6 +21,14 @@
         <item name="background">@color/PrimaryColor</item>
         <item name="displayOptions">showTitle</item>
         <item name="titleTextStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar.TitleText</item>
+    </style>
+
+    <!-- Style of the ActionBar in the NavigationActivity -->
+    <style name="WeltkulturerbeBambergAppTheme.ActionBarNavigation" parent="WeltkulturerbeBambergAppTheme.ActionBar">
+        <item name="android:background">@android:color/transparent</item>
+
+        <!-- Support AppCompat -->
+        <item name="background">@drawable/actionbar_navigation_background</item>
     </style>
 
     <!-- Style of the Text of the ActionBar -->
