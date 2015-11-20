@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -154,7 +155,8 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void setUpActionBar() {
-        if (getSupportActionBar() == null)return;
+        Toolbar actionBar = (Toolbar) findViewById(R.id.actionbar);
+        setSupportActionBar(actionBar);
 
         // Use Custom ActionBar Layout and Display BackButton
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
@@ -206,6 +208,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Show Location on Maps
         mMap.setMyLocationEnabled(true);
+        mMap.setPadding(0, (int)getResources().getDimension(R.dimen.actionbar_height) + (int)getResources().getDimension(R.dimen.activity_margin), 0, 0);
     }
 
     //TODO Documentation
