@@ -21,9 +21,9 @@
         <View
             android:id="@+id/actionbar_background"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_navigation_height"
             android:layout_marginLeft="@dimen/actionbar_navigation_margin"
-            android:layout_marginTop="@dimen/actionbar_navigation_margin"
+            android:layout_marginTop="@dimen/actionbar_navigation_margin_top"
             android:layout_marginRight="@dimen/actionbar_navigation_margin"
             android:background="@drawable/actionbar_navigation_background"/>
 

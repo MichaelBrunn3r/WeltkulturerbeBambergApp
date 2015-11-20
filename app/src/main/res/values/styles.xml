@@ -6,6 +6,9 @@
     <style name="WeltkulturerbeBambergAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:buttonStyle">@style/WeltkulturerbeBambergAppTheme.Button</item> <!-- Style of the Buttons -->
         <item name="android:textViewStyle">@style/WeltkulturerbeBambergAppTheme.TextView</item> <!-- Style of the TextViews -->
+
+        <!-- Make the StatusBar Transparent -->
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <!--- Style of the ActionBar -->
