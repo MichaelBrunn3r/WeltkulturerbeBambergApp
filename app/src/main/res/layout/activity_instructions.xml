@@ -7,26 +7,36 @@
     app:contentInsetStart="0dp"
     tools:context="com.github.wksb.wkebapp.activity.InstructionsActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
+        android:paddingTop="@dimen/actionbar_padding_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tv_instruc_title"
         android:text="@string/tv_instruc_title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_above="@+id/tv_instruc_instructions"
+        android:layout_below="@+id/actionbar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_instruc_instructions"
         android:text="@string/tv_instruc_instructions"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -34,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
 
         <Button
             android:layout_width="wrap_content"

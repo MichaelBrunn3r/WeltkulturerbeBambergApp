@@ -7,6 +7,15 @@
     app:contentInsetStart="0dp"
     tools:context="com.github.wksb.wkebapp.activity.ScoreActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
+        android:paddingTop="@dimen/actionbar_padding_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

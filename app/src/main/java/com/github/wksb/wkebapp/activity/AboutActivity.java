@@ -3,6 +3,7 @@ package com.github.wksb.wkebapp.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.github.wksb.wkebapp.R;
 
@@ -18,7 +19,8 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void setUpActionBar() {
-        if (getSupportActionBar() == null)return;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.actionbar);
+        setSupportActionBar(toolbar);
 
         // Use Custom ActionBar Layout and Display BackButton
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);

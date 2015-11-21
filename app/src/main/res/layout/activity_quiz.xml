@@ -5,16 +5,26 @@
     android:layout_height="match_parent"
     tools:context="com.github.wksb.wkebapp.activity.QuizActivity" >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
+        android:paddingTop="@dimen/actionbar_padding_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="------------------"
         android:id="@+id/tv_quiz_station"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_vertical" />
+        android:layout_above="@+id/tv_quiz_question"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/actionbar"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="fill_parent"
