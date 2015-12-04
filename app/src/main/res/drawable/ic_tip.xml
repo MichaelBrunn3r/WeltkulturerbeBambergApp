@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector
-    android:height="48dp"
-    android:width="48dp"
-    android:viewportHeight="24.0"
-    android:viewportWidth="24.0"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
 
     <path
-        android:name="lamp"
-        android:fillColor="@color/PrimaryColor"
-        android:pathData="m 12,6.375 c -3.322443,-2.52e-4 -6.015879,2.6723915 -6.015625,5.969186 4.055e-4,2.185796 1.0486,4.196542 2.9833985,5.24145 l -0.018555,4.856747 6.0000005,0 -0.0059,-4.856747 C 16.88231,16.543549 18.01308,14.532255 18.015625,12.344186 18.015879,9.0473915 15.322443,6.374748 12,6.375 Z"/>
-
+        android:fillColor="@color/TextAndIconsColor"
+        android:pathData="M9 21c0 .55 .45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55 .45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85 .6 V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" />
 </vector>

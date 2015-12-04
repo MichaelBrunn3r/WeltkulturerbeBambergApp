@@ -3,12 +3,12 @@
     <dimen name="activity_margin">16dp</dimen>
 
     <!-- Dimensions for the ActionBar -->
-    <dimen name="actionbar_height">72dp</dimen> <!-- Statusbar Heigth + ActionBar Height -->
+    <dimen name="actionbar_height">80dp</dimen> <!-- Statusbar Heigth + ActionBar Height -->
     <dimen name="actionbar_navigation_height">56dp</dimen>
     <dimen name="actionbar_padding_top">@dimen/statusbar_height</dimen>
-    <dimen name="actionbar_navigation_margin">10dp</dimen>
-    <dimen name="actionbar_navigation_margin_top">26dp</dimen> <!-- Statusbar Heigth + Margin -->
+    <dimen name="actionbar_navigation_margin">@dimen/activity_margin</dimen>
+    <dimen name="actionbar_navigation_margin_top">34dp</dimen> <!-- Statusbar Heigth + Margin -->
 
     <dimen name="shape_corner_radius">4dp</dimen>
-    <dimen name="statusbar_height">16dp</dimen>
+    <dimen name="statusbar_height">24dp</dimen>
 </resources>

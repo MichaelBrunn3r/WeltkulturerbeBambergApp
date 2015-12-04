@@ -28,9 +28,8 @@ public class QuizActivity extends AppCompatActivity {
     private Quiz mCurrentQuiz;
 
     // Definition of the different Views represented inside the Layout
-    private TextView mTv_quiz_station;
+    private TextView mTv_title;
     private TextView mTv_quiz_question;
-    private Button mBtn_quiz_more;
 
     // Definition of the Buttons of the Quiz. These Buttons are not represented inside the Layout
     private Button mBtn_quiz_solution;
@@ -52,9 +51,7 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         // Initialise the Views
-        mTv_quiz_station = (TextView) findViewById(R.id.tv_quiz_station);
         mTv_quiz_question = (TextView) findViewById(R.id.tv_quiz_question);
-        mBtn_quiz_more = (Button) findViewById(R.id.btn_quiz_more);
 
         // Set up the ActionBar
         setUpActionBar();
@@ -72,6 +69,7 @@ public class QuizActivity extends AppCompatActivity {
 
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
+        mTv_title = (TextView) findViewById(R.id.actionbar_title);
     }
 
     /**
@@ -82,7 +80,7 @@ public class QuizActivity extends AppCompatActivity {
         mCurrentQuiz = getQuizByID(getQuizIDFromIntent());
 
         // Set the Text of the Station to the location of the current Quiz
-        mTv_quiz_station.setText(mCurrentQuiz.getLocation());
+        mTv_title.setText(mCurrentQuiz.getLocation());
 
         //Set the Text of the Question TextView to the question of the current Quiz
         mTv_quiz_question.setText(mCurrentQuiz.getQuestion());
@@ -160,9 +158,6 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        mBtn_quiz_more.setClickable(true);
-        mBtn_quiz_more.setVisibility(View.VISIBLE);
-
         if (mCurrentQuiz.getQuizId() == getSharedPreferences("TOUR", MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", -1)) {
             getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("PROGRESS", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1)+1).commit();
         }
@@ -180,9 +175,6 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer1.setClickable(false);
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
-
-        mBtn_quiz_more.setClickable(true);
-        mBtn_quiz_more.setVisibility(View.VISIBLE);
 
         if (mCurrentQuiz.getQuizId() == getSharedPreferences("TOUR", MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", -1)) {
             getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("PROGRESS", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1)+1).commit();
