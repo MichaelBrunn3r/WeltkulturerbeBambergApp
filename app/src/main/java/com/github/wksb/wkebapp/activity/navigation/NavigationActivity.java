@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.QuizActivity;
@@ -67,7 +66,7 @@ public class NavigationActivity extends AppCompatActivity {
         setUpDrawer();
 
         // Set Tour in progress
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", true).commit();
+        Route.setProgressState(this, true);
     }
 
     @Override
@@ -78,10 +77,10 @@ public class NavigationActivity extends AppCompatActivity {
         if (mMap == null) setUpMap();
         if (mRoute == null) setUpRoute();
 
-        mRoute.getRouteSegmentAt(getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1) - 1).init(this, mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
+        mRoute.getRouteSegmentAt(Route.getProgress(this) - 1).init(this, mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
 
         // TODO Improve this
-        mActionBarTitle.setText(String.format("Progress: %d / %d", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 0), mRoute.getRouteSegments().size()));
+        mActionBarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
     }
 
     @Override
@@ -235,10 +234,10 @@ public class NavigationActivity extends AppCompatActivity {
         // Query Arguments
         String[] projection = {RoutesTable.COLUMN_ROUTE_SEGMENT_ID, RoutesTable.COLUMN_ROUTE_SEGMENT_POSITION};
         String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
-        String[] selectionArgs = {getSharedPreferences("TOUR", MODE_PRIVATE).getString("ROUTE_NAME", "")};
+        String[] selectionArgs = {Route.getName(this)};
 
         // Give the Route a Name
-        mRoute = new Route(getSharedPreferences("TOUR", MODE_PRIVATE).getString("ROUTE_NAME", ""));
+        mRoute = new Route(Route.getName(this));
 
         // Query for Route Segments
         Cursor routeSegments = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,

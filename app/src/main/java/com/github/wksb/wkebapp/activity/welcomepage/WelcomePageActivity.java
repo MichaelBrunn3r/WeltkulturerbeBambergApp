@@ -10,13 +10,12 @@ import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.RouteSegmentsAsyncTaskLoader;
 import com.github.wksb.wkebapp.RoutesAsyncTaskLoader;
 import com.github.wksb.wkebapp.WaypointsAsyncTaskLoader;
+import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.QuizzesAsyncTaskLoader;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 /**
@@ -56,7 +55,7 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onStart() {
         super.onStart();
-        if (getSharedPreferences("TOUR", MODE_PRIVATE).getBoolean("IS_IN_PROGRESS", false)) {
+        if (Route.isInProgress(this)) {
             setActivityState(new TourInProgress(this));
         } else {
             setActivityState(new NoTourInProgress(this));

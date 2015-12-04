@@ -48,7 +48,7 @@ public class RouteSegment {
         if (toWaypoint == null) toWaypoint = new Waypoint(activity, toWaypointID);
 
         // Set the current Quiz to the Quiz of the current destination Waypoint
-        activity.getSharedPreferences("TOUR", Activity.MODE_PRIVATE).edit().putInt("CURRENT_QUIZ_ID", toWaypoint.getQuizID()).commit();
+        Route.setCurrentQuizId(activity, toWaypoint.getQuizID());
 
         // Clear the Map from all Markers, polylines, overlays, etc.
         map.clear();
@@ -96,6 +96,7 @@ public class RouteSegment {
         int expirationTime = -1; // The time in milliseconds it takes this proximity alert to expire (-1 = no expiration)
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, 0, proximityAlert, PendingIntent.FLAG_UPDATE_CURRENT); // TODO Previous Proximity Alerts have to be removed
 
+        // TODO Security Error
         locationManager.addProximityAlert(toWaypoint.getLatitude(), toWaypoint.getLongitude(), detectionRadius, expirationTime, pendingIntent);
     }
 
@@ -123,7 +124,7 @@ public class RouteSegment {
 
         PolylineOptions polyline = new PolylineOptions();
         polyline.addAll(points);
-        polyline.color(activity.getResources().getColor(R.color.PrimaryColor));
+        polyline.color(activity.getResources().getColor(R.color.PrimaryColor)); // TODO Deprecated Method
         polyline.width(25);
         polyline.geodesic(true);
 

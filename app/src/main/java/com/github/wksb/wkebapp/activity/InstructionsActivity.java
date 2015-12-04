@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
+import com.github.wksb.wkebapp.activity.navigation.Route;
 
 /**
  * This activity shows a greeting and instructions how to use the World-heritage-Application.
@@ -39,20 +40,9 @@ public class InstructionsActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
     }
 
-    /**
-     * Reset the previous Tour
-     */
-    private void resetPreviousTour() {
-        // Reset SharedPreferences
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", false).commit();
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("PROGRESS", 1).commit();
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("CURRENT_QUIZ_ID", -1).commit();
-        getSharedPreferences("TOUR", MODE_PRIVATE).edit().putString("ROUTE_NAME", null).commit();
-    }
-
     //TODO Documentation
     public void onBtnClickShortRoute(View view) {
-        resetPreviousTour();
+        Route.reset(this);
 
         getSharedPreferences("TOUR", MODE_PRIVATE).edit().putString("ROUTE_NAME", "short").commit();
         Intent startShortRoute = new Intent(this, NavigationActivity.class);
@@ -61,7 +51,7 @@ public class InstructionsActivity extends AppCompatActivity {
 
     //TODO Documentation
     public void onBtnClickLongRoute(View view) {
-        resetPreviousTour();
+        Route.reset(this);
 
         getSharedPreferences("TOUR", MODE_PRIVATE).edit().putString("ROUTE_NAME", "long").commit();
         Intent startLongRoute = new Intent(this, NavigationActivity.class);
