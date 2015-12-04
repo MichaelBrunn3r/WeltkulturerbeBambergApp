@@ -11,6 +11,7 @@ import android.view.View;
 import android.content.Intent;
 
 import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.QuizzesTable;
 
@@ -158,8 +159,8 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == getSharedPreferences("TOUR", MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", -1)) {
-            getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("PROGRESS", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1)+1).commit();
+        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
+            Route.setProgress(this, Route.getProgress(this) + 1);
         }
     }
 
@@ -176,8 +177,8 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == getSharedPreferences("TOUR", MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", -1)) {
-            getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("PROGRESS", getSharedPreferences("TOUR", MODE_PRIVATE).getInt("PROGRESS", 1)+1).commit();
+        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
+            Route.setProgress(this, Route.getProgress(this) + 1);
         }
     }
 
