@@ -10,7 +10,10 @@
       {"position":6, "segment-id":6},
       {"position":7, "segment-id":7},
       {"position":8, "segment-id":8}
-    ]},
+      ]
+     , "description" : "GÄRTNER to REGNITZARM to UNIVERSITÄT to MARTIN to OBERE to ELISA to DOM to RESIDENZ to HOFHALTUNG to GETREU"
+    },
+
     {"name": "short", "route-segments":[
       {"position":0, "segment-id":1},
       {"position":1, "segment-id":2},
@@ -19,6 +22,8 @@
       {"position":4, "segment-id":5},
       {"position":5, "segment-id":6},
       {"position":6, "segment-id":7}
-    ]}
+      ]
+     , "description" : "REGNITZARM to UNIVERSITÄT to MARTIN to OBERE to ELISA to DOM to RESIDENZ to HOFHALTUNG"
+    }
   ]
 }
