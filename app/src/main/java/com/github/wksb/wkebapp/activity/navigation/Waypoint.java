@@ -76,12 +76,28 @@ public class Waypoint {
         return mQuizId;
     }
 
+    /**
+     * Get the Id of this Waypoint
+     * @return The Id of this Waypoint
+     */
     public int getId() {
         return mId;
     }
 
+    /**
+     * Get the {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     * @return The {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     */
     public WaypointState getState() {
         return mState;
+    }
+
+    /**
+     * Set the {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     * @param state The new {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     */
+    public void setState(WaypointState state) {
+        mState = state;
     }
 
     public enum WaypointState {
