@@ -2,6 +2,7 @@ package com.github.wksb.wkebapp.activity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +56,11 @@ public class InformationActivity extends AppCompatActivity {
 
         // Set up the Information
         setUpInformation();
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpTo(this, getParentActivityIntent()); // Navigate to Parent Activity
     }
 
     private void setUpActionBar() {
