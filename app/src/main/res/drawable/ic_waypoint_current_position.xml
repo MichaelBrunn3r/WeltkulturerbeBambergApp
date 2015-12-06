@@ -12,6 +12,6 @@
 
     <path
         android:name="inner_circle"
-        android:fillColor="@color/PrimaryColorDark"
+        android:fillColor="@color/AccentColor"
         android:pathData="M 12,8 c -2.21,0 -4,1.79 -4,4 0,2.21 1.79,4 4,4 2.21,0 4,-1.79 4,-4 0,-2.21 -1.79,-4 -4,-4 z"/>
 </vector>
