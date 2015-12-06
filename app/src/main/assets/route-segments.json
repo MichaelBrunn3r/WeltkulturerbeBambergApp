@@ -2,12 +2,12 @@
   "route-segments" : [
     {"description" : "GärtnerToRegnitzarm" ,    "segment-id" : 0, "start-waypoint-id" : 0, "end-waypoint-id" : 1, "kml-filename" : "route-polylines/fromGaertnerUndHaeckermuseumToLinkerRegnitzarm.json"},
     {"description" : "RegnitzarmToUniversität", "segment-id" : 1, "start-waypoint-id" : 1, "end-waypoint-id" : 2, "kml-filename" : "route-polylines/fromLinkerRegnitzarmToOttoFriedrichUniversitaetBamberg.json"},
-    {"description" : "UniversitätToMartin",     "segment-id" : 2, "start-waypoint-id" : 2, "end-waypoint-id" : 3, "kml-filename" : ""},
-    {"description" : "MartinToObere",           "segment-id" : 3, "start-waypoint-id" : 3, "end-waypoint-id" : 4, "kml-filename" : ""},
-    {"description" : "ObereToElisa",            "segment-id" : 4, "start-waypoint-id" : 4, "end-waypoint-id" : 5, "kml-filename" : ""},
-    {"description" : "ElisaToDom",              "segment-id" : 5, "start-waypoint-id" : 5, "end-waypoint-id" : 6, "kml-filename" : ""},
-    {"description" : "DomToResidenz",           "segment-id" : 6, "start-waypoint-id" : 6, "end-waypoint-id" : 7, "kml-filename" : ""},
-    {"description" : "ResidenzToHofhaltung",    "segment-id" : 7, "start-waypoint-id" : 7, "end-waypoint-id" : 8, "kml-filename" : ""},
-    {"description" : "HofhaltungToGetreu",      "segment-id" : 8, "start-waypoint-id" : 8, "end-waypoint-id" : 9, "kml-filename" : ""}
+    {"description" : "UniversitätToMartin",     "segment-id" : 2, "start-waypoint-id" : 2, "end-waypoint-id" : 3, "kml-filename" : "route-polylines/fromOttoFriedrichUniversitaetBambergToStMartin.json"},
+    {"description" : "MartinToObere",           "segment-id" : 3, "start-waypoint-id" : 3, "end-waypoint-id" : 4, "kml-filename" : "route-polylines/fromStMartinToObereBruecke.json"},
+    {"description" : "ObereToElisa",            "segment-id" : 4, "start-waypoint-id" : 4, "end-waypoint-id" : 5, "kml-filename" : "route-polylines/fromObereBrueckeToStElisabeth.json"},
+    {"description" : "ElisaToDom",              "segment-id" : 5, "start-waypoint-id" : 5, "end-waypoint-id" : 6, "kml-filename" : "route-polylines/fromStElisabethToBambergerDom.json"},
+    {"description" : "DomToResidenz",           "segment-id" : 6, "start-waypoint-id" : 6, "end-waypoint-id" : 7, "kml-filename" : "route-polylines/fromBambergerDomToNeueResidenz.json"},
+    {"description" : "ResidenzToHofhaltung",    "segment-id" : 7, "start-waypoint-id" : 7, "end-waypoint-id" : 8, "kml-filename" : "route-polylines/fromNeueResidenzToAlteHofhaltung.json"},
+    {"description" : "HofhaltungToGetreu",      "segment-id" : 8, "start-waypoint-id" : 8, "end-waypoint-id" : 9, "kml-filename" : "route-polylines/fromAlteHofhaltungToStGetreu.json"}
   ]
 }
