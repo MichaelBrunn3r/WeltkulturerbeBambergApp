@@ -10,15 +10,16 @@ import android.widget.TextView;
 import com.github.wksb.wkebapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Michael on 18.11.2015.
  */
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointViewHolder> {
 
-    private ArrayList<Waypoint> mWaypoints;
+    private List<Waypoint> mWaypoints;
 
-    public RouteAdapter(ArrayList<Waypoint> waypoints) {
+    public RouteAdapter(List<Waypoint> waypoints) {
         mWaypoints = waypoints;
     }
 
