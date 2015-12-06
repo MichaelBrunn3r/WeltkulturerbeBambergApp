@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 
+import com.github.wksb.wkebapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,6 +22,7 @@ public class RouteSegment {
     private int fromWaypointID;
     private int toWaypointID;
     private PolylineOptions polyline;
+    private boolean active = false;
 
     public RouteSegment(Route route, int fromWaypointID, int toWaypointID, PolylineOptions polyline) {
         this.route = route;
@@ -100,6 +102,13 @@ public class RouteSegment {
     }
 
     private void addPolylineToMap(GoogleMap map) {
+        if (active) {
+            polyline.color(getContext().getResources().getColor(R.color.PrimaryColor));
+        } else polyline.color(getContext().getResources().getColor(R.color.SecondaryTextColor));
         map.addPolyline(polyline);
+    }
+
+    public void setIsActive(boolean isActive) {
+        active = isActive;
     }
 }
