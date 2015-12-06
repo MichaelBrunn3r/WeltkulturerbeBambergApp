@@ -79,7 +79,7 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        NavUtils.navigateUpTo(this, getParentActivityIntent()); // Navigate to the Parent Activity
+        NavUtils.navigateUpFromSameTask(this); // Navigate to the Parent Activity
     }
 
 

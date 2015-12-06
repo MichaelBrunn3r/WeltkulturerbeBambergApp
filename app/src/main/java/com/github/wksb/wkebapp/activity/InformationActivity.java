@@ -60,7 +60,7 @@ public class InformationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        NavUtils.navigateUpTo(this, getParentActivityIntent()); // Navigate to Parent Activity
+        NavUtils.navigateUpFromSameTask(this); // Navigate to Parent Activity
     }
 
     private void setUpActionBar() {
