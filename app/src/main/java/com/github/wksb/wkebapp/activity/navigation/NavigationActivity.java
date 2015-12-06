@@ -25,8 +25,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity shows a GoogleMaps map on which a route between to waypoints is shown.
@@ -61,9 +69,6 @@ public class NavigationActivity extends AppCompatActivity {
         // Set up the Action Bar
         setUpActionBar();
 
-        // Set up the Navigation Drawer
-        setUpDrawer();
-
         // Set Tour in progress
         Route.setProgressState(this, true);
     }
@@ -76,7 +81,10 @@ public class NavigationActivity extends AppCompatActivity {
         if (mMap == null) setUpMap();
         if (mRoute == null) setUpRoute();
 
-        mRoute.getRouteSegmentAt(Route.getProgress(this) - 1).init(this, mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
+        // Set up the Navigation Drawer
+        setUpDrawer();
+
+        mRoute.renderOnMap(mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
 
         // TODO Improve this
         mActionBarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
@@ -153,7 +161,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { //TODO Don't use the BackStack
         // Close the DrawerLayout if it is opened
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
@@ -200,19 +208,10 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Set up the Recycler View inside the Navigation Drawer
         mRvRouteList = (RecyclerView) findViewById(R.id.rv_navigation_route);
-        mRvRouteList.setHasFixedSize(true);
+        mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
-        mRouteAdapter = new RouteAdapter(new ArrayList<Waypoint>());
+        mRouteAdapter = new RouteAdapter(mRoute.getWaypointsInOrder(Route.DESTINATION_TO_START));
         mRvRouteList.setAdapter(mRouteAdapter);
-
-
-        // Fill Adapter with dummy Data TODO remove this
-        mRouteAdapter.addWaypoint(new Waypoint(this, 0, Waypoint.WaypointState.NOT_VISITED), 0);
-        mRouteAdapter.addWaypoint(new Waypoint(this, 1, Waypoint.WaypointState.NOT_VISITED), 0);
-        mRouteAdapter.addWaypoint(new Waypoint(this, 2, Waypoint.WaypointState.NOT_VISITED), 0);
-        mRouteAdapter.addWaypoint(new Waypoint(this, 3, Waypoint.WaypointState.NOT_VISITED), 0);
-        mRouteAdapter.addWaypoint(new Waypoint(this, 4, Waypoint.WaypointState.NOT_VISITED), 0);
-        mRouteAdapter.addWaypoint(new Waypoint(this, 5, Waypoint.WaypointState.NOT_VISITED), 0);
     }
 
     /**
@@ -240,8 +239,8 @@ public class NavigationActivity extends AppCompatActivity {
         String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
         String[] selectionArgs = {Route.getName(this)};
 
-        // Give the Route a Name
-        mRoute = new Route(Route.getName(this));
+        // Create a new Route
+        mRoute = new Route(this);
 
         // Query for Route Segments
         Cursor routeSegments = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,
@@ -255,10 +254,38 @@ public class NavigationActivity extends AppCompatActivity {
             if (routeSegment.moveToNext()) {
                 int fromWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_START_WAYPOINT_ID));
                 int toWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_END_WAYPOINT_ID));
-                String filename = routeSegment.getString(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_KML_FILENAME));
+                String polylineFile = routeSegment.getString(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_KML_FILENAME));
+
+                List<LatLng> points = new ArrayList<>();
+
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj = parser.parse(new InputStreamReader(getAssets().open(polylineFile)));
+
+                    if (obj instanceof JSONObject) {
+                        JSONObject jsonObject = (JSONObject) obj;
+
+                        for (String coordinates : ((String)jsonObject.get("polyline")).split(",0.0")) {
+                            String longitude = coordinates.substring(0, coordinates.indexOf(","));
+                            String latitude = coordinates.substring(coordinates.indexOf(",") +1);
+
+                            LatLng point = new LatLng(Float.parseFloat(latitude), Float.parseFloat(longitude));
+                            points.add(point);
+                        }
+                    }
+                } catch (ParseException | IOException e) {
+                    e.printStackTrace();
+                }
+
+                PolylineOptions polyline = new PolylineOptions();
+
+                polyline.addAll(points);
+                polyline.color(getResources().getColor(R.color.PrimaryColor)); // TODO Deprecated Method
+                polyline.width(25);
+                polyline.geodesic(true);
 
                 // Add a new Route Segment to the current Route
-                mRoute.addRouteSegment(new RouteSegment(fromWaypointID, toWaypointID, filename));
+                mRoute.addRouteSegment(new RouteSegment(mRoute, fromWaypointID, toWaypointID, polyline));
             }
         }
     }
