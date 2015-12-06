@@ -3,6 +3,8 @@ package com.github.wksb.wkebapp.activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +18,8 @@ import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.QuizzesTable;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +30,16 @@ import java.util.ArrayList;
  */
 public class QuizActivity extends AppCompatActivity {
 
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({IS_IN_PROGRESS, NOT_IN_PROGRESS})
+    public @interface QUIZ_PROGRESS{}
+    /** A Quiz is in Progress */
+    public static final int IS_IN_PROGRESS = 1;
+    /** No Quiz is in Progress */
+    public static final int NOT_IN_PROGRESS = 2;
+
     /** The default Value if a Quiz is in Progress */
-    private static final boolean DEFAULT_IS_IN_PROGRESS = false;
+    private static final int DEFAULT_PROGRESS = NOT_IN_PROGRESS;
 
     // Current Quiz used in this Activity
     private Quiz mCurrentQuiz;
@@ -64,6 +76,12 @@ public class QuizActivity extends AppCompatActivity {
         // Set up the Quiz
         setUpQuiz();
     }
+
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpTo(this, getParentActivityIntent()); // Navigate to the Parent Activity
+    }
+
 
     private void setUpActionBar() {
         Toolbar actionbar = (Toolbar) findViewById(R.id.actionbar);
@@ -163,8 +181,9 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
-            Route.setProgress(this, Route.getProgress(this) + 1);
+        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
+            Route.setProgress(this, Route.getProgress(this) + 1); // Increment the current Progress by 1
+            setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 
         View rl_quiz = findViewById(R.id.rl_quiz);
@@ -191,8 +210,9 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
-            Route.setProgress(this, Route.getProgress(this) + 1);
+        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
+            Route.setProgress(this, Route.getProgress(this) + 1); // Increment the current Progress by 1
+            setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 
         View rl_quiz = findViewById(R.id.rl_quiz);
@@ -220,11 +240,11 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public static boolean isInProgress(Context context) {
-        return context.getSharedPreferences("TOUR", MODE_PRIVATE).getBoolean("QUIZ_IS_IN_PROGRESS", DEFAULT_IS_IN_PROGRESS);
+        return context.getSharedPreferences("TOUR", MODE_PRIVATE).getInt("QUIZ_IS_IN_PROGRESS", DEFAULT_PROGRESS) == IS_IN_PROGRESS;
     }
 
-    public static void setProgressState(Context context, boolean isInProgress) {
-        context.getSharedPreferences("TOUR", MODE_PRIVATE).edit().putBoolean("QUIZ_IS_IN_PROGRESS", isInProgress);
+    public static void setProgressState(Context context, @QUIZ_PROGRESS int isInProgress) {
+        context.getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("QUIZ_IS_IN_PROGRESS", isInProgress).commit();
     }
 
     /**
