@@ -10,6 +10,7 @@ import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.RouteSegmentsAsyncTaskLoader;
 import com.github.wksb.wkebapp.RoutesAsyncTaskLoader;
 import com.github.wksb.wkebapp.WaypointsAsyncTaskLoader;
+import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.QuizzesAsyncTaskLoader;
@@ -58,6 +59,8 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
         super.onStart();
         if (Route.isInProgress(this)) {
             setActivityState(new TourInProgress(this));
+        } else if (QuizActivity.isInProgress(this)) {
+            setActivityState(new QuizInProgress(this));
         } else {
             setActivityState(new NoTourInProgress(this));
         }
