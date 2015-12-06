@@ -247,6 +247,10 @@ public class QuizActivity extends AppCompatActivity {
         context.getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("QUIZ_IS_IN_PROGRESS", isInProgress).commit();
     }
 
+    public static void reset(Context context) {
+        setProgressState(context, DEFAULT_PROGRESS);
+    }
+
     /**
      * This class represents a Quiz with one question and four different answers. Only one answer is the solution
      */
