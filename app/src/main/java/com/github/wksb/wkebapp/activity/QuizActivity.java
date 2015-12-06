@@ -65,8 +65,8 @@ public class QuizActivity extends AppCompatActivity {
         Toolbar actionbar = (Toolbar) findViewById(R.id.actionbar);
         setSupportActionBar(actionbar);
 
-        // Use Custom ActionBar Layout and Display BackButton
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        // Display BackButton
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
