@@ -162,6 +162,16 @@ public class QuizActivity extends AppCompatActivity {
         if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
             Route.setProgress(this, Route.getProgress(this) + 1);
         }
+
+        View rl_quiz = findViewById(R.id.rl_quiz);
+        rl_quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizActivity.this, InformationActivity.class);
+                i.putExtra(InformationActivity.TAG_INFORMATION_ID, mCurrentQuiz.getInfoID());
+                startActivity(i);
+            }
+        });
     }
 
     /**
@@ -180,6 +190,16 @@ public class QuizActivity extends AppCompatActivity {
         if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) {
             Route.setProgress(this, Route.getProgress(this) + 1);
         }
+
+        View rl_quiz = findViewById(R.id.rl_quiz);
+        rl_quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizActivity.this, InformationActivity.class);
+                i.putExtra(InformationActivity.TAG_INFORMATION_ID, mCurrentQuiz.getInfoID());
+                startActivity(i);
+            }
+        });
     }
 
     // TODO Documentation
@@ -193,18 +213,6 @@ public class QuizActivity extends AppCompatActivity {
         {
             onWrongAnswerEntered(view);
         }
-    }
-
-    public void onBtnClickMore(View view)
-    {
-        Intent i = new Intent(this, InformationActivity.class);
-        i.putExtra(InformationActivity.TAG_INFORMATION_ID, mCurrentQuiz.getInfoID());
-        startActivity(i);
-    }
-
-    public void onBtnClickTipp(View view)
-    {
-        //Popup mit Tipp
     }
 
     /**
