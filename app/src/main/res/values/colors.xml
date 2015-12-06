@@ -10,7 +10,7 @@
 
     <!-- Text Color -->
     <color name="PrimaryTextColor">#212121</color>
-    <color name="SecondaryTextColor">#727272</color>
+    <color name="SecondaryTextColor">#c3c3c3</color>
 
     <color name="AccentColor">#FFC107</color>
     <color name="DividerColor">#B6B6B6</color>
@@ -29,6 +29,6 @@
     <color name="red">#f44336</color>
     <color name="orange">#ff9800</color>
     <color name="green">#4caf50</color>
-    <color name="grey">#454545</color>
+    <color name="grey">#6d6d6d</color>
     <color name="black">#000000</color>
 </resources>
