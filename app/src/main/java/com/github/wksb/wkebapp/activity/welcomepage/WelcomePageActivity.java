@@ -57,10 +57,10 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onStart() {
         super.onStart();
-        if (Route.isInProgress(this)) {
-            setActivityState(new TourInProgress(this));
-        } else if (QuizActivity.isInProgress(this)) {
+        if (QuizActivity.isInProgress(this)) {
             setActivityState(new QuizInProgress(this));
+        } else if (Route.isInProgress(this)) {
+            setActivityState(new TourInProgress(this));
         } else {
             setActivityState(new NoTourInProgress(this));
         }
