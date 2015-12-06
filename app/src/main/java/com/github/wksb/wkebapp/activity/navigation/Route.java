@@ -1,8 +1,13 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.support.annotation.IntDef;
 
+import com.github.wksb.wkebapp.utilities.ListUtils;
+import com.google.android.gms.maps.GoogleMap;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +20,57 @@ import java.util.List;
  */
 public class Route {
 
+    // TODO Description. Used to only accept DESTINATION_TO_START and START_TO_DESTINATION as Parameters in Methods
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({DESTINATION_TO_START, START_TO_DESTINATION})
+    public @interface WaypointOrder{}
+
+    // Values used to determine the Order of th Waypoints
+    /** The Waypoints should be ordered from the Start to the Destination */
+    static final int START_TO_DESTINATION = 1;
+    /** The Waypoints should be ordered from the Destination to the Start */
+    static final int DESTINATION_TO_START = 2;
+
     // Default values
+    /** The default Value for the Name of the current Route */
     static final String DEFAULT_ROUTE_NAME = "NO_ROUTE";
-    static final int DEFAULT_ROUTE_PROGRESS = 1;
+    /** The default Value for the Progress of the current Route */
+    static final int DEFAULT_ROUTE_PROGRESS = 0;
+    /** Default for the boolean that determines if the current Route is in progress */
     static final boolean DEFAULT_IS_IN_PROGRESS = false;
+    /** The default Value for the Length of the current Route, measured in Waypoints */
     static final int DEFAULT_ROUTE_LENGTH = 0;
-    static final int DEFAULT_CURRENT_QUIZ_ID = -1;
+    /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
+    static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have a Quiz Id of -1
 
-    private final String name;
+    /** The Context of this Route */
+    private Context context;
+    /** The List of {@link RouteSegment}s in this Route */
     private final List<RouteSegment> routeSegmentsList;
+    /** This List is a central Collection of all {@link Waypoint}s that will be visited in the current Route.
+     * All {@link RouteSegment}s in the current Route use this List as a Reference to their {@link Waypoint}s */
+    private final List<Waypoint> waypointList;
+    /** This List contains the Ids of the {@link Waypoint}s that will be visited in the current Route, ordered from
+     * the Start to the Destination */
+    private final List<Integer> waypointOrderList;
 
-    public Route(String name) {
-        this.name = name;
+    public Route(Context context) {
+        this.context = context;
         this.routeSegmentsList = new ArrayList<>();
+        this.waypointList = new ArrayList<>();
+        this.waypointOrderList = new ArrayList<>();
+    }
+
+    /**
+     * Render this Route on a {@link GoogleMap}. All {@link RouteSegment}s that were visited up to this point will be
+     * rendered and the currently active {@link RouteSegment} will be highlighted
+     * @param googleMap The {@link GoogleMap} to render this Route on
+     */
+    public void renderOnMap(GoogleMap googleMap) {
+        for (int i=getProgress(context); i>=0; i--) {
+            getRouteSegmentAt(i).renderOnMap(googleMap);
+        }
+        getRouteSegmentAt(getProgress(context)).init(googleMap);
     }
 
     /**
@@ -36,14 +79,11 @@ public class Route {
      */
     public void addRouteSegment(RouteSegment routeSegment) {
         routeSegmentsList.add(routeSegment);
-    }
-
-    /**
-     * Get a List of the {@link RouteSegment}s of this Route
-     * @return A List containing all {@link RouteSegment}s of this Route
-     */
-    public List<RouteSegment> getRouteSegments() {
-        return this.routeSegmentsList;
+        for (int id : routeSegment.getWaypointIds()) {
+            Waypoint newWaypoint = new Waypoint(id);
+            newWaypoint.loadDataFromDatabase(context);
+            addWaypoint(newWaypoint);
+        }
     }
 
     /**
@@ -56,11 +96,81 @@ public class Route {
     }
 
     /**
-     * Get the the number of {@link RouteSegment} in this Route
-     * @return The number of {@link RouteSegment} in this Route
+     * Get a List of the {@link RouteSegment}s of this Route
+     * @return A List containing all {@link RouteSegment}s of this Route
      */
-    public int getRouteSegmentAmount() {
-        return this.routeSegmentsList.size();
+    public List<RouteSegment> getRouteSegments() {
+        return this.routeSegmentsList;
+    }
+
+    /**
+     * Add a {@link Waypoint} to the this Route. The {@link Waypoint}s should be visited in the Order in which
+     * they were added. If a {@link Waypoint} with the exact same Id already exists in this Route, the previously added
+     * {@link Waypoint} will be used instead
+     * @param newWaypoint
+     */
+    public void addWaypoint(Waypoint newWaypoint) {
+        // Add
+        if (waypointOrderList.isEmpty()) {
+            waypointOrderList.add(newWaypoint.getId());
+        } else if(ListUtils.getLast(waypointOrderList) == newWaypoint.getId()) {
+            // Only add the Id, if it doesn't match the Id of the last Id in th List (you can't go from a Waypoint to the exact same Waypoint again)
+            return;
+        } else {
+            waypointOrderList.add(newWaypoint.getId());
+        }
+
+        for (Waypoint waypoint : waypointList) {
+            if (waypoint.getId() == newWaypoint.getId()) return; // Return if a Waypoint with the exact same Id already exists
+        }
+        waypointList.add(newWaypoint);
+    }
+
+    /**
+     * Get the {@link Waypoint} with the passed Id. If the {@link Waypoint} is not visited in the current Route
+     * (--> is no Part of the current Route) this Method returns null
+     * @param id The Id of the {@link Waypoint} you want to get
+     * @return The {@link Waypoint} with the passed Id. If the {@link Waypoint} is not visited in the current Route
+     * (--> is no Part of the current Route) this Method returns null
+     */
+    public Waypoint getWaypointById(int id) {
+        for (Waypoint waypoint : waypointList) {
+            if (waypoint.getId() == id) return waypoint;
+        }
+        return null;
+    }
+
+    /** Get the {@link Waypoint}s that will be visited in this Route
+     * @return The List of {@link Waypoint}s that will be visited in this Route
+     */
+    public List<Waypoint> getWaypoints() {
+        return waypointList;
+    }
+
+    /** Get the {@link Waypoint}s that will be visited in this Route in a specific Order
+     * @param waypointOrder Determines in which Order the {@link Waypoint}s will be returned
+     * @return The List of {@link Waypoint}s that will be visited in this Route
+     */
+    public List<Waypoint> getWaypointsInOrder(@WaypointOrder int waypointOrder) {
+        List<Waypoint> result = new ArrayList<>(waypointList.size());
+        if (waypointOrder == START_TO_DESTINATION) {
+            for (int id : waypointOrderList) {
+                result.add(getWaypointById(id));
+            }
+        } else if (waypointOrder == DESTINATION_TO_START) {
+            for (int id : ListUtils.reversed(waypointOrderList)) {
+                result.add(getWaypointById(id));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the {@link Context} of this Route
+     * @return The {@link Context} of this Route
+     */
+    public Context getContext() {
+        return context;
     }
 
     /**
