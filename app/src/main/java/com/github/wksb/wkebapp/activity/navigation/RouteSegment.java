@@ -63,9 +63,8 @@ public class RouteSegment {
         // Zoom to the Route Segment on the Map
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                         new LatLng(
-                            (route.getWaypointById(fromWaypointID).getLatitude() + route.getWaypointById(toWaypointID).getLatitude()) / 2,
-                            (route.getWaypointById(fromWaypointID).getLongitude() + route.getWaypointById(toWaypointID).getLongitude()) / 2)
-                        , 14));
+                            route.getWaypointById(fromWaypointID).getLatitude(),
+                            route.getWaypointById(fromWaypointID).getLongitude()), 16));
     }
 
     /**
