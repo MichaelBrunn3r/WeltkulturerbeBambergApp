@@ -13,6 +13,7 @@ import com.github.wksb.wkebapp.WaypointsAsyncTaskLoader;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.QuizzesAsyncTaskLoader;
+import com.github.wksb.wkebapp.Settings;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,9 +47,9 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSharedPreferences("MISCELLANEOUS", MODE_PRIVATE).getBoolean("IS_FIRST_APP_LAUNCH", true)) {
+        if (Settings.isFirstAppLaunch(this)) {
             onFirstLaunch();
-            getSharedPreferences("MISCELLANEOUS", MODE_PRIVATE).edit().putBoolean("IS_FIRST_APP_LAUNCH", false).commit();
+            Settings.setIsFirstLaunch(this, false);
         }
     }
 
