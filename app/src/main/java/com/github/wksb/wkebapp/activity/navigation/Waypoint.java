@@ -1,6 +1,6 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
-import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
@@ -11,43 +11,45 @@ import com.github.wksb.wkebapp.database.WaypointsTable;
  */
 public class Waypoint {
 
-    private float latitude;
-    private float longitude;
-    private String name;
-    private int quizID;
-    private WaypointState state;
+    private float mLatitude;
+    private float mLongitude;
+    private String mName;
+    private int mQuizId;
+    private WaypointState mState;
+    private int mId;
 
-    public Waypoint(Activity activity, int waypointID) {
-        state = WaypointState.NOT_VISITED;
-        loadDataFromDatabase(activity, waypointID);
+    public Waypoint(int Id) {
+        mState = WaypointState.NOT_VISITED;
+        this.mId = Id;
     }
 
-    public Waypoint(Activity activity, int waypointID, WaypointState state) {
-        this.state = state;
-        loadDataFromDatabase(activity, waypointID);
+    public Waypoint(int waypointID, WaypointState state) {
+        this.mState = state;
+        this.mId = waypointID;
     }
 
-    private void loadDataFromDatabase(Activity activity, int waypointID) {
+    public void loadDataFromDatabase(Context context) {
         // The parameter for the SQLite query
         String[] projection = {WaypointsTable.COLUMN_LATITUDE, WaypointsTable.COLUMN_LONGITUDE, WaypointsTable.COLUMN_NAME, WaypointsTable.COLUMN_QUIZ_ID};
         String selection = WaypointsTable.COLUMN_WAYPOINT_ID + "=?";
-        String[] selectionArgs = {""+waypointID};
+        String[] selectionArgs = {"" + mId};
 
-        Cursor cursor = activity.getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_WAYPOINTS, projection, selection, selectionArgs, null);
+        Cursor cursor = context.getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_WAYPOINTS, projection, selection, selectionArgs, null);
         if (cursor.moveToNext()) {
-            latitude = cursor.getFloat(cursor.getColumnIndex(WaypointsTable.COLUMN_LATITUDE));
-            longitude = cursor.getFloat(cursor.getColumnIndex(WaypointsTable.COLUMN_LONGITUDE));
-            name = cursor.getString(cursor.getColumnIndex(WaypointsTable.COLUMN_NAME));
-            quizID = cursor.getInt(cursor.getColumnIndex(WaypointsTable.COLUMN_QUIZ_ID));
+            mLatitude = cursor.getFloat(cursor.getColumnIndex(WaypointsTable.COLUMN_LATITUDE));
+            mLongitude = cursor.getFloat(cursor.getColumnIndex(WaypointsTable.COLUMN_LONGITUDE));
+            mName = cursor.getString(cursor.getColumnIndex(WaypointsTable.COLUMN_NAME));
+            mQuizId = cursor.getInt(cursor.getColumnIndex(WaypointsTable.COLUMN_QUIZ_ID));
         }
+        cursor.close();
     }
 
     /**
-     * Get the Name of this Wapoint
+     * Get the Name of this Waypoint
      * @return The Name of this Waypoint
      */
     public String getName() {
-        return name;
+        return mName;
     }
 
     /**
@@ -55,7 +57,7 @@ public class Waypoint {
      * @return The Latitude of this Waypoint
      */
     public float getLatitude() {
-        return latitude;
+        return mLatitude;
     }
 
     /**
@@ -63,19 +65,23 @@ public class Waypoint {
      * @return The Waypoint of this Waypoint
      */
     public float getLongitude() {
-        return longitude;
+        return mLongitude;
     }
 
     /**
      * Get the ID of the Quiz about this Waypoint
      * @return The ID of the Quiz about this Waypoint
      */
-    public int getQuizID() {
-        return quizID;
+    public int getQuizId() {
+        return mQuizId;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public WaypointState getState() {
-        return state;
+        return mState;
     }
 
     public enum WaypointState {
