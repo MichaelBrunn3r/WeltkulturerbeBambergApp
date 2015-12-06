@@ -38,8 +38,6 @@ public class Route {
     static final int DEFAULT_ROUTE_PROGRESS = 0;
     /** Default for the boolean that determines if the current Route is in progress */
     static final boolean DEFAULT_IS_IN_PROGRESS = false;
-    /** The default Value for the Length of the current Route, measured in Waypoints */
-    static final int DEFAULT_ROUTE_LENGTH = 0;
     /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
     static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have a Quiz Id of -1
 
@@ -67,7 +65,7 @@ public class Route {
      * @param googleMap The {@link GoogleMap} to render this Route on
      */
     public void renderOnMap(GoogleMap googleMap) {
-        for (int i=getProgress(context); i>=0; i--) {
+        for (int i=0; i<=getProgress(context); i++) {
             getRouteSegmentAt(i).renderOnMap(googleMap);
         }
         getRouteSegmentAt(getProgress(context)).init(googleMap);
@@ -105,24 +103,13 @@ public class Route {
 
     /**
      * Add a {@link Waypoint} to the this Route. The {@link Waypoint}s should be visited in the Order in which
-     * they were added. If a {@link Waypoint} with the exact same Id already exists in this Route, the previously added
-     * {@link Waypoint} will be used instead
+     * they were added
      * @param newWaypoint
      */
     public void addWaypoint(Waypoint newWaypoint) {
-        // Add
-        if (waypointOrderList.isEmpty()) {
-            waypointOrderList.add(newWaypoint.getId());
-        } else if(ListUtils.getLast(waypointOrderList) == newWaypoint.getId()) {
-            // Only add the Id, if it doesn't match the Id of the last Id in th List (you can't go from a Waypoint to the exact same Waypoint again)
-            return;
-        } else {
-            waypointOrderList.add(newWaypoint.getId());
-        }
+        if (waypointOrderList.contains(newWaypoint.getId())) return;
 
-        for (Waypoint waypoint : waypointList) {
-            if (waypoint.getId() == newWaypoint.getId()) return; // Return if a Waypoint with the exact same Id already exists
-        }
+        waypointOrderList.add(newWaypoint.getId());
         waypointList.add(newWaypoint);
     }
 
@@ -138,6 +125,15 @@ public class Route {
             if (waypoint.getId() == id) return waypoint;
         }
         return null;
+    }
+
+    public Waypoint getWaypointAt(int position) {
+        int id = waypointOrderList.get(position);
+        return getWaypointById(id);
+    }
+
+    public int getIndexOfWaypoint(Waypoint waypoint) {
+        return waypointOrderList.indexOf(waypoint.getId());
     }
 
     /** Get the {@link Waypoint}s that will be visited in this Route
@@ -163,6 +159,22 @@ public class Route {
             }
         }
         return result;
+    }
+
+    public void syncWithProgress() {
+        for (Waypoint waypoint : getWaypoints()) {
+            if (waypointOrderList.indexOf(waypoint.getId()) < getProgress(getContext()))
+                waypoint.setState(Waypoint.WaypointState.VISITED);
+            else if (waypointOrderList.indexOf(waypoint.getId()) == getProgress(getContext()))
+                waypoint.setState(Waypoint.WaypointState.CURRENT_POSITION);
+        }
+
+        for (RouteSegment segment : getRouteSegments()) {
+            if (routeSegmentsList.indexOf(segment) < getProgress(getContext()))
+                segment.setIsActive(false);
+            else if (routeSegmentsList.indexOf(segment) == getProgress(getContext()))
+                segment.setIsActive(true);
+        }
     }
 
     /**
@@ -227,23 +239,12 @@ public class Route {
         return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("IS_IN_PROGRESS", DEFAULT_IS_IN_PROGRESS);
     }
 
-
     /**
-     * Set the length of the current Route. The length represents the RouteSegments in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
-     * @param length The length of the current Route
-     */
-    public static void setLength(Context context, int length) {
-        context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("ROUTE_LENGTH", length).commit();
-    }
-
-    /**
-     * Get the length of the current Route. The length represents the RouteSegments in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
+     * Get the length of the current Route
      * @return The length of the current Route
      */
-    public static int getLength(Context context) {
-        return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("ROUTE_LENGTH", DEFAULT_ROUTE_LENGTH);
+    public int getLength() {
+        return waypointOrderList.size();
     }
 
     /**
@@ -271,7 +272,6 @@ public class Route {
     public static void reset(Context context) {
         setProgress(context, DEFAULT_ROUTE_PROGRESS);
         setName(context, DEFAULT_ROUTE_NAME);
-        setLength(context, DEFAULT_ROUTE_LENGTH);
         setProgressState(context, DEFAULT_IS_IN_PROGRESS);
         setCurrentQuizId(context, DEFAULT_CURRENT_QUIZ_ID);
     }

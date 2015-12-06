@@ -1,5 +1,6 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
+import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +20,10 @@ import java.util.List;
  */
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointViewHolder> {
 
-    private List<Waypoint> mWaypoints;
+    private Route mRoute;
 
-    public RouteAdapter(List<Waypoint> waypoints) {
-        mWaypoints = waypoints;
+    public RouteAdapter(Route route) {
+        mRoute = route;
     }
 
     @Override
@@ -31,7 +34,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
 
     @Override
     public void onBindViewHolder(WaypointViewHolder holder, int position) {
-        switch (mWaypoints.get(position).getState()) {
+        Waypoint waypoint = mRoute.getWaypointAt(position);
+
+        switch (waypoint.getState()) {
             case VISITED:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
                 break;
@@ -41,26 +46,12 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
             default:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_not_visited);
         }
-        holder.mTvWaypointName.setText(mWaypoints.get(position).getName());
-    }
-
-    public void addWaypoint(Waypoint waypoint, int position) {
-        mWaypoints.add(position, waypoint);
-        notifyItemChanged(position);
-    }
-
-    public void removeWaypoint(Waypoint waypoint, int position) {
-        mWaypoints.remove(position);
-        notifyItemChanged(position);
+        holder.mTvWaypointName.setText(waypoint.getName());
     }
 
     @Override
     public int getItemCount() {
-        return mWaypoints.size();
-    }
-
-    public boolean isEmpty() {
-        return mWaypoints.size() == 0;
+        return mRoute.getLength();
     }
 
     class WaypointViewHolder extends RecyclerView.ViewHolder {

@@ -81,12 +81,16 @@ public class NavigationActivity extends AppCompatActivity {
         if (mMap == null) setUpMap();
         if (mRoute == null) setUpRoute();
 
+        // Synchronise the States of the Waypoints with the Progress of the Route
+        mRoute.syncWithProgress();
+
         // Set up the Navigation Drawer
         setUpDrawer();
 
-        mRoute.renderOnMap(mMap); // Load the n-th Segment in the current Route, depending on the progress. Load Segment 0 as default
+        mMap.clear();
+        mRoute.renderOnMap(mMap);
 
-        // TODO Improve this
+        // TODO Change the Design of the Progress Bar
         mActionBarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
     }
 
@@ -120,38 +124,47 @@ public class NavigationActivity extends AppCompatActivity {
                 // No Quiz
                 return true;
             case R.id.action_navigation_waypoint_2:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 3);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_3:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 8);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_4:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 9);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_5:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 7);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_6:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 4);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_7:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 5);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_8:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 1);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_9:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 6);
                 startActivity(startQuiz);
                 return true;
             case R.id.action_navigation_waypoint_10:
+                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 2);
                 startActivity(startQuiz);
                 return true;
@@ -210,7 +223,7 @@ public class NavigationActivity extends AppCompatActivity {
         mRvRouteList = (RecyclerView) findViewById(R.id.rv_navigation_route);
         mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
-        mRouteAdapter = new RouteAdapter(mRoute.getWaypointsInOrder(Route.DESTINATION_TO_START));
+        mRouteAdapter = new RouteAdapter(mRoute);
         mRvRouteList.setAdapter(mRouteAdapter);
     }
 
@@ -228,7 +241,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Show Location on Maps
         mMap.setMyLocationEnabled(true);
-        mMap.setPadding(0, (int)getResources().getDimension(R.dimen.actionbar_height) + (int)getResources().getDimension(R.dimen.activity_margin), 0, 0);
+        mMap.setPadding(0, (int) getResources().getDimension(R.dimen.actionbar_height) + (int) getResources().getDimension(R.dimen.activity_margin), 0, 0);
     }
 
     //TODO Documentation
