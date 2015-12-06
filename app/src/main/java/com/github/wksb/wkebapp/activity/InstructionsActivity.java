@@ -42,7 +42,7 @@ public class InstructionsActivity extends AppCompatActivity {
 
     //TODO Documentation
     public void onBtnClickShortRoute(View view) {
-        Route.reset(this);
+        resetPreviousTour();
 
         getSharedPreferences("TOUR", MODE_PRIVATE).edit().putString("ROUTE_NAME", "short").commit();
         Intent startShortRoute = new Intent(this, NavigationActivity.class);
@@ -51,10 +51,15 @@ public class InstructionsActivity extends AppCompatActivity {
 
     //TODO Documentation
     public void onBtnClickLongRoute(View view) {
-        Route.reset(this);
+        resetPreviousTour();
 
         getSharedPreferences("TOUR", MODE_PRIVATE).edit().putString("ROUTE_NAME", "long").commit();
         Intent startLongRoute = new Intent(this, NavigationActivity.class);
         startActivity(startLongRoute);
+    }
+
+    private void resetPreviousTour() {
+        Route.reset(this);
+        QuizActivity.reset(this);
     }
 }
