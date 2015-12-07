@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vector
+    android:height="48dp"
+    android:width="48dp"
+    android:viewportHeight="24.0"
+    android:viewportWidth="24.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:name="outer_circle"
+        android:fillColor="@color/PrimaryColor"
+        android:pathData="M 12,1.788 C 7.8545085,1.788 5.5015,4.6409492 5.5015,8.7864406 5.5015,14.410169 12,22.711865 12,22.711865 c 0,0 6.4985,-8.301696 6.4985,-13.9254244 C 18.4985,4.6409492 16.145492,1.788 12,1.788 Z m 0,9.676406 c -1.478237,0 -2.6779661,-1.199728 -2.6779661,-2.6779654 0,-1.4782372 1.1997291,-2.6779661 2.6779661,-2.6779661 1.478237,0 2.677966,1.1997289 2.677966,2.6779661 0,1.4782374 -1.199729,2.6779654 -2.677966,2.6779654 z"/>
+</vector>
