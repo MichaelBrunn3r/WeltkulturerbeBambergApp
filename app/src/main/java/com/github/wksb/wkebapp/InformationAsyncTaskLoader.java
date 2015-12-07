@@ -58,11 +58,11 @@ public class InformationAsyncTaskLoader extends AsyncTaskLoader {
                 JSONObject information = (JSONObject) informationArray.get(i);
 
                 long id = 0L;
-                String image = null;
+                String imagePath = null;
                 String infoText = "";
 
                 if (information.get("id") instanceof Long) id = (long) information.get("id");
-                if (information.get("image") instanceof String) image = (String) information.get("image");
+                if (information.get("image") instanceof String) imagePath = (String) information.get("image");
                 if (information.get("info-text") instanceof JSONArray) {
                     JSONArray infoTextArray = (JSONArray) information.get("info-text");
                     for (int k = 0; k < infoTextArray.size(); k++) {
@@ -72,7 +72,7 @@ public class InformationAsyncTaskLoader extends AsyncTaskLoader {
 
                 ContentValues values = new ContentValues();
                 values.put(InformationTable.COLUMN_INFORMATION_ID, id);
-                values.put(InformationTable.COLUMN_IMAGE, image);
+                values.put(InformationTable.COLUMN_IMAGE_PATH, imagePath);
                 values.put(InformationTable.COLUMN_INFO_TEXT, infoText);
 
                 getContext().getContentResolver().insert(WeltkulturerbeContentProvider.URI_TABLE_INFORMATION, values);
