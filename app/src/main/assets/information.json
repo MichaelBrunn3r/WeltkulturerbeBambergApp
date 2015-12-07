@@ -9,7 +9,7 @@
           "</l>",
         "</html>"
     ]},
-    {"id":1, "image":null, "info-text":[
+    {"id":1, "image":"img/neue_residenz.jpg", "info-text":[
         "<html>",
           "<l>",
             "Die Neue Residenz ist ein mehrflügeliges Gebäude.",
@@ -66,7 +66,7 @@
           "</l>",
         "</html>"
     ]},
-    {"id":6, "image":null, "info-text":[
+    {"id":6, "image":"img/dom.jpg", "info-text":[
         "<html>",
           "<l>Das 1012 unter  Kaiser Heinrich II fertiggestellte Gotteshaus brannte ebenso,",
             "wie der Nachfolgebau nieder. In dem bis heute überdauerten 3.",
