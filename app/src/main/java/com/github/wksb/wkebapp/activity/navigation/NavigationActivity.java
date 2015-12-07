@@ -226,6 +226,7 @@ public class NavigationActivity extends AppCompatActivity {
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
         mRouteAdapter = new RouteAdapter(mRoute);
         mRvRouteList.setAdapter(mRouteAdapter);
+        mRvRouteList.addItemDecoration(new DividerItemDecorator(this));
     }
 
     /**
