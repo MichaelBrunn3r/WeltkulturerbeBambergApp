@@ -52,7 +52,7 @@
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.navigation.NavigationActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
         </activity>
 
         <activity
