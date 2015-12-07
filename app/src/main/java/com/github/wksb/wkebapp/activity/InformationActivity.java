@@ -1,6 +1,9 @@
 package com.github.wksb.wkebapp.activity;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -14,6 +17,9 @@ import com.github.wksb.wkebapp.CustomHtmlTagHandler;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.InformationTable;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * This activity shows information about a world-heritage.
@@ -78,6 +84,7 @@ public class InformationActivity extends AppCompatActivity {
     private void setUpInformation(){
         mCurrentInformation = getInformationFromID(getInformationIDFromIntent());
         mTv_info_information.setText(Html.fromHtml(mCurrentInformation.getInfoText(), null, new CustomHtmlTagHandler()));
+        mIv_info_image.setImageBitmap(mCurrentInformation.getImage());
     }
 
     // TODO Documentation
@@ -87,37 +94,47 @@ public class InformationActivity extends AppCompatActivity {
 
     // TODO Documentation
     private Information getInformationFromID(int informationID) {
-        String[] projection = {InformationTable.COLUMN_INFORMATION_ID, InformationTable.COLUMN_IMAGE, InformationTable.COLUMN_INFO_TEXT};
+        String[] projection = {InformationTable.COLUMN_INFORMATION_ID, InformationTable.COLUMN_IMAGE_PATH, InformationTable.COLUMN_INFO_TEXT};
         String selection = InformationTable.COLUMN_INFORMATION_ID + "=?";
         String[] selectionArgs = {Integer.toString(informationID)};
 
         Cursor cursor = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_INFORMATION, projection, selection, selectionArgs, null);
         cursor.moveToFirst();
 
-        int image = cursor.getInt(cursor.getColumnIndex(InformationTable.COLUMN_IMAGE));
+        String imagePath = cursor.getString(cursor.getColumnIndex(InformationTable.COLUMN_IMAGE_PATH));
         String infoText = cursor.getString(cursor.getColumnIndex(InformationTable.COLUMN_INFO_TEXT));
 
-        return new Information(informationID, image, infoText);
+        return new Information(informationID, imagePath, infoText);
     }
 
     // TODO Documentation
     private class Information {
 
         private final int id;
-        private final int image;
+        private Bitmap image;
         private final String infoText;
 
-        public Information(int id, int image, String infoText) {
+        public Information(int id, String imagePath, String infoText) {
             this.id = id;
-            this.image = image;
             this.infoText = infoText;
+
+            try {
+                InputStream open = getAssets().open(imagePath);
+                image = BitmapFactory.decodeStream(open);
+            } catch (IOException | IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+
+            if (image == null) {
+                image = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_image);
+            }
         }
 
         public int getId() {
             return id;
         }
 
-        public int getImage() {
+        public Bitmap getImage() {
             return image;
         }
 
