@@ -16,19 +16,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="180dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="-------------------"
-        android:id="@+id/tv_quiz_question"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="28dp"
-        android:paddingRight="28dp"
-        android:layout_above="@+id/ll_quiz_answers"
-        android:layout_below="@+id/actionbar"
-        android:gravity="center"/>
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -91,4 +78,30 @@
                 android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ll_quiz_answers"
+        android:layout_below="@+id/actionbar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-------------------"
+            android:id="@+id/tv_quiz_question"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="28dp"
+            android:paddingRight="28dp"
+            android:layout_above="@+id/ll_quiz_answers"
+            android:layout_below="@+id/actionbar"
+            android:gravity="center"/>
+    </FrameLayout>
 </RelativeLayout>
