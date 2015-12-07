@@ -68,7 +68,7 @@ public class InformationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Use Custom ActionBar Layout and Display BackButton
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
