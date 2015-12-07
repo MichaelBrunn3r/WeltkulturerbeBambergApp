@@ -21,7 +21,7 @@ public final class InformationTable {
     /** Name of the Column containing the ID of each Information **/
     public static final String COLUMN_INFORMATION_ID = "information_id";
     /** Name of the Column containing the Image of each Information **/ //TODO How are images referenced/saved?
-    public static final String COLUMN_IMAGE = "image";
+    public static final String COLUMN_IMAGE_PATH = "image_path";
     /** Name of the Column containing the Text of each Information **/
     public static final String COLUMN_INFO_TEXT = "info_text";
 
@@ -38,7 +38,7 @@ public final class InformationTable {
             + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_INFORMATION_ID + " INTEGER NOT NULL,"
-            + COLUMN_IMAGE + " INTEGER,"
+            + COLUMN_IMAGE_PATH + " STRING,"
             + COLUMN_INFO_TEXT + " TEXT"
             + ");";
 
