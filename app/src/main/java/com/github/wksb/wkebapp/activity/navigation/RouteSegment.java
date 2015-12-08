@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 
 import com.github.wksb.wkebapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -17,6 +22,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
  * Created by Michael on 27.10.2015.
  */
 public class RouteSegment {
+
+    private static final int DEFAULT_CURRENT_DESTINATION_WAYPOINT_ID = -1;
 
     private Route route;
     private int fromWaypointID;
@@ -62,9 +69,9 @@ public class RouteSegment {
 
         // Zoom to the Route Segment on the Map
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(
-                            route.getWaypointById(fromWaypointID).getLatitude(),
-                            route.getWaypointById(fromWaypointID).getLongitude()), 16));
+                new LatLng(
+                        route.getWaypointById(fromWaypointID).getLatitude(),
+                        route.getWaypointById(fromWaypointID).getLongitude()), 16));
     }
 
     /**
@@ -75,9 +82,21 @@ public class RouteSegment {
         MarkerOptions fromWapointMarker = new MarkerOptions()
                 .title(route.getWaypointById(fromWaypointID).getName())
                 .position(new LatLng(route.getWaypointById(fromWaypointID).getLatitude(), route.getWaypointById(fromWaypointID).getLongitude()));
+
         MarkerOptions toWapointMarker = new MarkerOptions()
                 .title(route.getWaypointById(toWaypointID).getName())
                 .position(new LatLng(route.getWaypointById(toWaypointID).getLatitude(), route.getWaypointById(toWaypointID).getLongitude()));
+
+        // If this RouteSegment is active, change its Icon
+        if (active) {
+            Drawable iconDrawable = getContext().getResources().getDrawable(R.drawable.ic_marker_current_position);
+            Bitmap iconBitmap = Bitmap.createBitmap(iconDrawable.getIntrinsicWidth(), iconDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(iconBitmap);
+            iconDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            iconDrawable.draw(canvas);
+            toWapointMarker.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap));
+        }
+
         map.addMarker(fromWapointMarker);
         map.addMarker(toWapointMarker);
     }
