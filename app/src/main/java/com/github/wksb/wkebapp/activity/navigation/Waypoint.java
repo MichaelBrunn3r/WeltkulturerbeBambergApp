@@ -108,13 +108,13 @@ public class Waypoint {
         return mState == WaypointState.VISITED;
     }
 
-    public boolean isCurrentPosition() {
-        return mState == WaypointState.CURRENT_POSITION;
+    public boolean isCurrentDestination() {
+        return mState == WaypointState.CURRENT_DESTINATION;
     }
 
     public enum WaypointState {
         NOT_VISITED,
         VISITED,
-        CURRENT_POSITION
+        CURRENT_DESTINATION
     }
 }

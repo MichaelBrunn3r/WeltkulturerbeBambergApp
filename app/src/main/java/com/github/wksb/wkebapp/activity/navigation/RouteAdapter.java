@@ -1,6 +1,5 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
-import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Michael on 18.11.2015.
@@ -40,7 +34,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
             case VISITED:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
                 break;
-            case CURRENT_POSITION:
+            case CURRENT_DESTINATION:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_current_position);
                 break;
             default:
