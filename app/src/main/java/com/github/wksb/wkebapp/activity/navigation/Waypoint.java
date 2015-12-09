@@ -85,6 +85,14 @@ public class Waypoint {
     }
 
     /**
+     * Set the {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     * @param state The new {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
+     */
+    public void setState(WaypointState state) {
+        mState = state;
+    }
+
+    /**
      * Get the {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
      * @return The {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
      */
@@ -92,12 +100,16 @@ public class Waypoint {
         return mState;
     }
 
-    /**
-     * Set the {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
-     * @param state The new {@link com.github.wksb.wkebapp.activity.navigation.Waypoint.WaypointState} of this Waypoint
-     */
-    public void setState(WaypointState state) {
-        mState = state;
+    public boolean isNotVisited() {
+        return mState == WaypointState.NOT_VISITED;
+    }
+
+    public boolean isVisited() {
+        return mState == WaypointState.VISITED;
+    }
+
+    public boolean isCurrentPosition() {
+        return mState == WaypointState.CURRENT_POSITION;
     }
 
     public enum WaypointState {
