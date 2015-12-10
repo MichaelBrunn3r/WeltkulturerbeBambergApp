@@ -49,7 +49,7 @@
                 android:id="@+id/tv_info_information"
                 android:text="@string/tv_info_information"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                style="@style/WeltkulturerbeBambergAppTheme.TextView.Small"
+                style="@style/WeltkulturerbeBambergAppTheme.TextView"
                 android:padding="16dp" />
 
             <Button

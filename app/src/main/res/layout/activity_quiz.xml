@@ -102,6 +102,7 @@
             android:paddingRight="28dp"
             android:layout_above="@+id/ll_quiz_answers"
             android:layout_below="@+id/actionbar"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/WeltkulturerbeBambergAppTheme.TextView"/>
     </FrameLayout>
 </RelativeLayout>
