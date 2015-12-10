@@ -296,11 +296,11 @@ public class NavigationActivity extends AppCompatActivity {
 
                 polyline.addAll(points);
                 polyline.color(getResources().getColor(R.color.PrimaryColor)); // TODO Deprecated Method
-                polyline.width(25);
+                polyline.width(12);
                 polyline.geodesic(true);
 
                 // Add a new Route Segment to the current Route
-                mRoute.addRouteSegment(new RouteSegment(mRoute, fromWaypointID, toWaypointID, polyline));
+                mRoute.addRouteSegment(fromWaypointID, toWaypointID, polyline);
             }
         }
     }

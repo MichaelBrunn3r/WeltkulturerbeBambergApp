@@ -1,10 +1,27 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.support.annotation.IntDef;
 
+import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.utilities.ListUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -39,7 +56,7 @@ public class Route {
     /** Default for the boolean that determines if the current Route is in progress */
     static final boolean DEFAULT_IS_IN_PROGRESS = false;
     /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
-    static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have a Quiz Id of -1
+    static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have an Id of -1
 
     /** The Context of this Route */
     private Context context;
@@ -52,11 +69,18 @@ public class Route {
      * the Start to the Destination */
     private final List<Integer> waypointOrderList;
 
+    private List<Marker> mMarkerList;
+    private List<Polyline> mNavigationPolylineList;
+    private RouteSegment mActiveRouteSegment;
+    private Waypoint mCurrentDestinationWaypoint;
+
     public Route(Context context) {
         this.context = context;
         this.routeSegmentsList = new ArrayList<>();
         this.waypointList = new ArrayList<>();
         this.waypointOrderList = new ArrayList<>();
+        this.mMarkerList = new ArrayList<>();
+        this.mNavigationPolylineList = new ArrayList<>();
     }
 
     /**
@@ -65,32 +89,97 @@ public class Route {
      * @param googleMap The {@link GoogleMap} to render this Route on
      */
     public void renderOnMap(GoogleMap googleMap) {
-        for (int i=0; i<=getProgress(context); i++) {
-            getRouteSegmentAt(i).renderOnMap(googleMap);
+        renderMarkersOnMap(googleMap);
+        renderNavigationPolylinesOnMap(googleMap);
+
+        // Zoom to the Route Segment on the Map
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(
+                        mCurrentDestinationWaypoint.getLatitude(),
+                        mCurrentDestinationWaypoint.getLongitude()), 16));
+    }
+
+    private void renderMarkersOnMap(GoogleMap googleMap) {
+        // Remove all Markers of this Route the Map
+        for (Marker marker : mMarkerList) marker.remove();
+        mMarkerList.clear();
+
+        // Add the Markers to the Map
+        for (Waypoint waypoint : waypointList) {
+            if (!waypoint.isNotVisited()) { // Only add a Marker, if the Waypoint is visited or the current Position
+                MarkerOptions waypointMarker = new MarkerOptions()
+                        .title(waypoint.getName())
+                        .position(new LatLng(waypoint.getLatitude(), waypoint.getLongitude()));
+
+                // If the Waypoint is the current Position, give it a special Icon
+                if (waypoint.isCurrentDestination()) {
+                    Drawable iconDrawable = getContext().getResources().getDrawable(R.drawable.ic_marker_current_position);
+                    Bitmap iconBitmap = Bitmap.createBitmap(iconDrawable.getIntrinsicWidth(), iconDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(iconBitmap);
+                    iconDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    iconDrawable.draw(canvas);
+                    waypointMarker.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap));
+                }
+
+                mMarkerList.add(googleMap.addMarker(waypointMarker));
+            }
         }
-        getRouteSegmentAt(getProgress(context)).init(googleMap);
+    }
+
+    private void renderNavigationPolylinesOnMap(GoogleMap googleMap) {
+        // Remove all Polylines of this Route from the Map
+        for (Polyline polyline : mNavigationPolylineList) polyline.remove();
+        mNavigationPolylineList.clear();
+
+        // Add the Polylines to the Map
+        for (RouteSegment routeSegment : routeSegmentsList) {
+            if (routeSegment.isCompleted() || routeSegment.isActive()) {
+                PolylineOptions navigationPolyline = routeSegment.getNavigationPolyline();
+
+                // If the RouteSegment is active, the Color of the Polyline is the PrimaryColor, otherwise its Color is the SecondaryTextColor
+                if (routeSegment.isActive()) navigationPolyline.color(getContext().getResources().getColor(R.color.PrimaryColor));
+                else navigationPolyline.color(getContext().getResources().getColor(R.color.SecondaryTextColor));
+
+                // Finally add the Polyline to the Map
+                mNavigationPolylineList.add(googleMap.addPolyline(navigationPolyline));
+            }
+        }
+    }
+
+    private void addCurrentDestinationProximityAlert() {
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Activity.LOCATION_SERVICE);
+        Intent proximityAlert = new Intent();
+        proximityAlert.setAction("com.github.weltkulturschnitzelbamberg.weltkulturerbebambergapp.PROXIMITY_ALERT");
+        proximityAlert.putExtra("waypoint-name", mCurrentDestinationWaypoint.getName());
+        proximityAlert.putExtra("quiz-id", mCurrentDestinationWaypoint.getQuizId());
+
+        int detectionRadius = 40; // The radius around the central point in which to send an proximity alert
+        int expirationTime = -1; // The time in milliseconds it takes this proximity alert to expire (-1 = no expiration)
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, proximityAlert, PendingIntent.FLAG_UPDATE_CURRENT); // TODO Previous Proximity Alerts have to be removed
+
+        locationManager.addProximityAlert(mCurrentDestinationWaypoint.getLatitude(), mCurrentDestinationWaypoint.getLongitude(), detectionRadius, expirationTime, pendingIntent);
     }
 
     /**
      * Add a {@link RouteSegment} to this Route
-     * @param routeSegment The {@link RouteSegment} to be added
+     * @param fromWaypointId The Id of the Start {@link Waypoint}
+     * @param toWaypointId The Id of the Destination {@link Waypoint}
+     * @param polyline The Navigation {@link PolylineOptions} of the {@link RouteSegment}
      */
-    public void addRouteSegment(RouteSegment routeSegment) {
-        routeSegmentsList.add(routeSegment);
-        for (int id : routeSegment.getWaypointIds()) {
-            Waypoint newWaypoint = new Waypoint(id);
-            newWaypoint.loadDataFromDatabase(context);
-            addWaypoint(newWaypoint);
-        }
-    }
+    public void addRouteSegment(int fromWaypointId, int toWaypointId, PolylineOptions polyline) {
+        routeSegmentsList.add(new RouteSegment(this, fromWaypointId, toWaypointId, polyline));
 
-    /**
-     * Get the {@link RouteSegment} at a specific position in the List
-     * @param position The position of the {@link RouteSegment}
-     * @return The {@link RouteSegment} at the specific position
-     */
-    public RouteSegment getRouteSegmentAt(int position) {
-        return this.routeSegmentsList.get(position);
+        if (!waypointOrderList.contains(fromWaypointId)) {
+            Waypoint fromWaypoint = new Waypoint(fromWaypointId);
+            fromWaypoint.loadDataFromDatabase(getContext());
+            addWaypoint(fromWaypoint);
+        }
+
+        if (!waypointOrderList.contains(toWaypointId)) {
+            Waypoint toWaypoint = new Waypoint(toWaypointId);
+            toWaypoint.loadDataFromDatabase(getContext());
+            addWaypoint(toWaypoint);
+        }
     }
 
     /**
@@ -132,10 +221,6 @@ public class Route {
         return getWaypointById(id);
     }
 
-    public int getIndexOfWaypoint(Waypoint waypoint) {
-        return waypointOrderList.indexOf(waypoint.getId());
-    }
-
     /** Get the {@link Waypoint}s that will be visited in this Route
      * @return The List of {@link Waypoint}s that will be visited in this Route
      */
@@ -163,18 +248,25 @@ public class Route {
 
     public void syncWithProgress() {
         for (Waypoint waypoint : getWaypoints()) {
-            if (waypointOrderList.indexOf(waypoint.getId()) < getProgress(getContext()))
+            if (waypointOrderList.indexOf(waypoint.getId()) <= getProgress(getContext()))
                 waypoint.setState(Waypoint.WaypointState.VISITED);
-            else if (waypointOrderList.indexOf(waypoint.getId()) == getProgress(getContext()))
-                waypoint.setState(Waypoint.WaypointState.CURRENT_POSITION);
         }
 
         for (RouteSegment segment : getRouteSegments()) {
             if (routeSegmentsList.indexOf(segment) < getProgress(getContext()))
-                segment.setIsActive(false);
-            else if (routeSegmentsList.indexOf(segment) == getProgress(getContext()))
-                segment.setIsActive(true);
+                segment.setState(RouteSegment.RouteSegmentState.COMPLETED);
+            else if (routeSegmentsList.indexOf(segment) == getProgress(getContext())) {
+                segment.setState(RouteSegment.RouteSegmentState.ACTIVE);
+                mActiveRouteSegment = segment;
+            }
         }
+
+        mCurrentDestinationWaypoint = getWaypointById(mActiveRouteSegment.getDestinationWaypointId());
+        mCurrentDestinationWaypoint.setState(Waypoint.WaypointState.CURRENT_DESTINATION);
+        // Set the Id of the Quiz that has to be solved next to progress in this Route to the QuizId of the current Destination Waypoint
+        setCurrentQuizId(getContext(), mCurrentDestinationWaypoint.getQuizId());
+
+        addCurrentDestinationProximityAlert();
     }
 
     /**
