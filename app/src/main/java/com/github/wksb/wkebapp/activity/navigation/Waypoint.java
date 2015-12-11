@@ -2,6 +2,8 @@ package com.github.wksb.wkebapp.activity.navigation;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationManager;
 
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.WaypointsTable;
@@ -66,6 +68,18 @@ public class Waypoint {
      */
     public float getLongitude() {
         return mLongitude;
+    }
+
+    /**
+     * Get the {@link Location} of this Waypoint
+     * @return The {@link Location} of this Waypoint
+     */
+    public Location getLocation() {
+        Location location = new Location(LocationManager.GPS_PROVIDER);
+        location.setLatitude(mLatitude);
+        location.setLongitude(mLongitude);
+        // location.setAltitude(200); TODO Add Altitude for better Accuracy?
+        return location;
     }
 
     /**
