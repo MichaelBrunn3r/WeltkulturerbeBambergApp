@@ -9,4 +9,8 @@
     <string name="waypoint_1">Wegpunkt 1</string>
     <string name="waypoint_2">Wegpunkt 2</string>
     <string name="waypoint_3">Wegpunkt 3</string>
+
+    <!-- The Unit in which the Distance between the current Location and Waypoints will be shown -->
+    <string name="distance_unit">Meter</string>
+    <string name="distance_unit_one">Meter</string> <!-- Unit for a Single Unit of Distance (1 meter, 2 meters) -->
 </resources>
