@@ -224,7 +224,7 @@ public class NavigationActivity extends AppCompatActivity {
         mRvRouteList = (RecyclerView) findViewById(R.id.rv_navigation_route);
         mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
-        mRouteAdapter = new RouteAdapter(mRoute);
+        mRouteAdapter = new RouteAdapter(this, mRoute);
         mRvRouteList.setAdapter(mRouteAdapter);
         mRvRouteList.addItemDecoration(new DividerItemDecorator(this));
     }
