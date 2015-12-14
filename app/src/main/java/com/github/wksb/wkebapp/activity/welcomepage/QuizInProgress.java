@@ -7,7 +7,6 @@ import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.AboutActivity;
 import com.github.wksb.wkebapp.activity.InstructionsActivity;
 import com.github.wksb.wkebapp.activity.QuizActivity;
-import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 
 /**
@@ -24,9 +23,9 @@ public class QuizInProgress implements WelcomePageActivityState {
     @Override
     public void onActivityStart() {
         welcomePageActivity.setContentView(R.layout.activity_welcome_page_app);
-        welcomePageActivity.findViewById(R.id.btn_welcome_start).setVisibility(View.INVISIBLE);
-        welcomePageActivity.findViewById(R.id.btn_welcome_restart).setVisibility(View.VISIBLE);
-        welcomePageActivity.findViewById(R.id.btn_welcome_continue).setVisibility(View.VISIBLE);
+        welcomePageActivity.findViewById(R.id.button_welcome_start).setVisibility(View.INVISIBLE);
+        welcomePageActivity.findViewById(R.id.button_welcome_restart).setVisibility(View.VISIBLE);
+        welcomePageActivity.findViewById(R.id.button_welcome_continue).setVisibility(View.VISIBLE);
     }
 
     @Override

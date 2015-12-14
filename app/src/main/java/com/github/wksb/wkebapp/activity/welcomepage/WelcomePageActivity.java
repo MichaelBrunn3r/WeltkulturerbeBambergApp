@@ -68,7 +68,7 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
         activityState.onActivityStart();
 
         //TODO Remove or improve
-        ((TextView)findViewById(R.id.tv_welcome_title)).setTypeface(Typeface.createFromAsset(getAssets(), "fonts/hanged_letters.ttf"));
+        ((TextView)findViewById(R.id.textview_welcome_header)).setTypeface(Typeface.createFromAsset(getAssets(), "fonts/hanged_letters.ttf"));
     }
 
     /**

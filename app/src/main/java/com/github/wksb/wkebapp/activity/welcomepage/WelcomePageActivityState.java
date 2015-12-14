@@ -1,6 +1,5 @@
 package com.github.wksb.wkebapp.activity.welcomepage;
 
-import android.os.Bundle;
 import android.view.View;
 
 /**
@@ -24,25 +23,25 @@ public interface WelcomePageActivityState {
     void initState();
 
     /**
-     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#btn_welcome_start} gets clicked
+     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_start} gets clicked
      * @param view The view calling this method
      */
     void onBtnClickedStart(View view);
 
     /**
-     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#btn_welcome_about} gets clicked
+     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_about} gets clicked
      * @param view The view calling this method
      */
     void onBtnClickedAbout(View view);
 
     /**
-     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#btn_welcome_continue} gets clicked
+     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_continue} gets clicked
      * @param view The view calling this method
      */
     void onBtnClickedContinue(View view);
 
     /**
-     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#btn_welcome_start} gets clicked
+     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_start} gets clicked
      * @param view The view calling this method
      */
     void onBtnClickedRestartTour(View view);

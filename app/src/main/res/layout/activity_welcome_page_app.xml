@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_welcome_title"
-        android:id="@+id/tv_welcome_title"
+        android:id="@+id/textview_welcome_header"
         style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.TextView"
         android:gravity="center"
         android:layout_alignParentStart="true"
@@ -30,10 +30,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_continue"
-        android:id="@+id/btn_welcome_continue"
+        android:id="@+id/button_welcome_continue"
         android:onClick="onBtnClickedContinue"
         style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
-        android:layout_above="@+id/btn_welcome_restart"
+        android:layout_above="@+id/button_welcome_restart"
         android:layout_alignParentStart="true"
         android:visibility="visible"/>
 
@@ -41,7 +41,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_restart_tour"
-        android:id="@+id/btn_welcome_restart"
+        android:id="@+id/button_welcome_restart"
         android:onClick="onBtnClickedRestartTour"
         style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
         android:layout_centerVertical="true"
@@ -52,10 +52,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_about"
-        android:id="@+id/btn_welcome_about"
+        android:id="@+id/button_welcome_about"
         android:onClick="onBtnClickedAbout"
         style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
-        android:layout_below="@+id/btn_welcome_restart"
+        android:layout_below="@+id/button_welcome_restart"
         android:layout_alignParentStart="true"/>
 
     <Button
@@ -63,7 +63,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_start"
-        android:id="@+id/btn_welcome_start"
+        android:id="@+id/button_welcome_start"
         android:onClick="onBtnClickedStart"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
