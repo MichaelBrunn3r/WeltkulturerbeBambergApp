@@ -199,7 +199,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void setUpDrawer() {
         // Set up the Navigation Drawer
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.navlayout_navigation);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout_navigation_drawer);
 
         // Configure Drawer Toggle Button in Action Bar
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.waypoint_1, R.string.waypoint_2) {
@@ -221,7 +221,7 @@ public class NavigationActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
 
         // Set up the Recycler View inside the Navigation Drawer
-        mRvRouteList = (RecyclerView) findViewById(R.id.rv_navigation_route);
+        mRvRouteList = (RecyclerView) findViewById(R.id.recyclerview_navigation_navigationdrawer_route);
         mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
         mRouteAdapter = new RouteAdapter(this, mRoute);
