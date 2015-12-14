@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tv_score_score"
-        android:id="@+id/tv_score_score"
+        android:id="@+id/textview_score_score"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="#fffafafa"
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/tv_score_title"
-        android:id="@+id/tv_score_title"
-        android:layout_above="@+id/tv_score_score"
+        android:id="@+id/textview_score_header"
+        android:layout_above="@+id/textview_score_score"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 
@@ -41,9 +41,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_score_back_to_start"
-        android:id="@+id/btn_score_back_to_start"
+        android:id="@+id/button_score_back_to_start"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:nestedScrollingEnabled="false"
         android:onClick="onBtnClickBackToStart" />
 </RelativeLayout>
