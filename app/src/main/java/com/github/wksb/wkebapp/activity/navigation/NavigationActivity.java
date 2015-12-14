@@ -234,7 +234,7 @@ public class NavigationActivity extends AppCompatActivity {
      */
     private void setUpMap() {
         // Get the Map Fragment
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googlemap_navigation_map))
                 .getMap();
 
         // Move Camera to Bamberg
