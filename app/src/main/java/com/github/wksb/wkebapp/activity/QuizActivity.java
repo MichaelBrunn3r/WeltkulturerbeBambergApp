@@ -45,7 +45,7 @@ public class QuizActivity extends AppCompatActivity {
     private Quiz mCurrentQuiz;
 
     // Definition of the different Views represented inside the Layout
-    private TextView mTv_title;
+    private TextView mTextViewActionbarTitle;
     private TextView mTv_quiz_question;
 
     // Definition of the Buttons of the Quiz. These Buttons are not represented inside the Layout
@@ -92,7 +92,7 @@ public class QuizActivity extends AppCompatActivity {
 
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
-        mTv_title = (TextView) findViewById(R.id.actionbar_title);
+        mTextViewActionbarTitle = (TextView) findViewById(R.id.textview_actionbar_title);
     }
 
     /**
@@ -103,7 +103,7 @@ public class QuizActivity extends AppCompatActivity {
         mCurrentQuiz = getQuizByID(getQuizIDFromIntent());
 
         // Set the Text of the Station to the location of the current Quiz
-        mTv_title.setText(mCurrentQuiz.getLocation());
+        mTextViewActionbarTitle.setText(mCurrentQuiz.getLocation());
 
         //Set the Text of the Question TextView to the question of the current Quiz
         mTv_quiz_question.setText(mCurrentQuiz.getQuestion());

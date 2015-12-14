@@ -48,7 +48,7 @@ import java.util.List;
 public class NavigationActivity extends AppCompatActivity {
 
     // Title of the ActionBar
-    private TextView mActionBarTitle;
+    private TextView mTextViewActionbarTitle;
 
     // The Google Maps Fragment
     private GoogleMap mMap;
@@ -92,7 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
         mRoute.renderOnMap(mMap);
 
         // TODO Change the Design of the Progress Bar
-        mActionBarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
+        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
     }
 
     @Override
@@ -194,7 +194,7 @@ public class NavigationActivity extends AppCompatActivity {
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
 
-        mActionBarTitle = (TextView) findViewById(R.id.actionbar_title);
+        mTextViewActionbarTitle = (TextView) findViewById(R.id.textview_actionbar_title);
     }
 
     private void setUpDrawer() {
