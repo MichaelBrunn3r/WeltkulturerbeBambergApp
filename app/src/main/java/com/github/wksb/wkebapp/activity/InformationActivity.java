@@ -3,7 +3,6 @@ package com.github.wksb.wkebapp.activity;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -36,8 +35,8 @@ public class InformationActivity extends AppCompatActivity {
     private Information mCurrentInformation; // TODO Documentation
 
     // Definition of the different Views represented inside the Layout
-    private ImageView mIv_info_image; // TODO Documentation
-    private TextView mTv_info_information; // TODO Documentation
+    private ImageView mImageViewImage; // TODO Documentation
+    private TextView mTextViewInformation; // TODO Documentation
 
     // Definition of the Tags used in Intents send to this Activity
     public static final String TAG_PACKAGE = QuizActivity.class.getPackage().getName(); // TODO Documentation
@@ -54,8 +53,8 @@ public class InformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_information);
 
         // Initialise the Views
-        mIv_info_image = (ImageView) findViewById(R.id.iv_info_image);
-        mTv_info_information = (TextView) findViewById(R.id.tv_info_information);
+        mImageViewImage = (ImageView) findViewById(R.id.imageview_info_image);
+        mTextViewInformation = (TextView) findViewById(R.id.textview_info_information);
 
         // Set up the ActionBar
         setUpActionBar();
@@ -83,8 +82,8 @@ public class InformationActivity extends AppCompatActivity {
     // TODO Documentation
     private void setUpInformation(){
         mCurrentInformation = getInformationFromID(getInformationIDFromIntent());
-        mTv_info_information.setText(Html.fromHtml(mCurrentInformation.getInfoText(), null, new CustomHtmlTagHandler()));
-        mIv_info_image.setImageBitmap(mCurrentInformation.getImage());
+        mTextViewInformation.setText(Html.fromHtml(mCurrentInformation.getInfoText(), null, new CustomHtmlTagHandler()));
+        mImageViewImage.setImageBitmap(mCurrentInformation.getImage());
     }
 
     // TODO Documentation
