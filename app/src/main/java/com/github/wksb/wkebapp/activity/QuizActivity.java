@@ -68,7 +68,7 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         // Initialise the Views
-        mTv_quiz_question = (TextView) findViewById(R.id.tv_quiz_question);
+        mTv_quiz_question = (TextView) findViewById(R.id.textview_quiz_question);
 
         // Set up the ActionBar
         setUpActionBar();
@@ -117,10 +117,10 @@ public class QuizActivity extends AppCompatActivity {
 
         // Shuffel the Button IDs of the Quiz Buttons
         List<Integer> btnIds = new ArrayList<>();
-        btnIds.add(R.id.btn_quiz_answer1);
-        btnIds.add(R.id.btn_quiz_answer2);
-        btnIds.add(R.id.btn_quiz_answer3);
-        btnIds.add(R.id.btn_quiz_answer4);
+        btnIds.add(R.id.button_quiz_answer1);
+        btnIds.add(R.id.button_quiz_answer2);
+        btnIds.add(R.id.button_quiz_answer3);
+        btnIds.add(R.id.button_quiz_answer4);
         Collections.shuffle(btnIds);
 
         // Assign the Quiz Buttons in the Layout to their representations in the Activity
@@ -186,7 +186,7 @@ public class QuizActivity extends AppCompatActivity {
             setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 
-        View rl_quiz = findViewById(R.id.rl_quiz);
+        View rl_quiz = findViewById(R.id.relativelayout_quiz_root);
         rl_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,7 +215,7 @@ public class QuizActivity extends AppCompatActivity {
             setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 
-        View rl_quiz = findViewById(R.id.rl_quiz);
+        View rl_quiz = findViewById(R.id.relativelayout_quiz_root);
         rl_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

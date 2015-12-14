@@ -1,7 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rl_quiz"
+    android:id="@+id/relativelayout_quiz_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.github.wksb.wkebapp.activity.QuizActivity"
@@ -16,11 +16,34 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/linearlayout_quiz_answers"
+        android:layout_below="@+id/actionbar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-------------------"
+            android:id="@+id/textview_quiz_question"
+            android:paddingLeft="28dp"
+            android:paddingRight="28dp"
+            android:gravity="center"
+            style="@style/WeltkulturerbeBambergAppTheme.TextView"/>
+    </FrameLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/ll_quiz_answers"
+        android:id="@+id/linearlayout_quiz_answers"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
@@ -30,12 +53,12 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:id="@+id/ll_quiz_answers_left">
+            android:id="@+id/linearlayout_quiz_answers_left">
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="---"
-                android:id="@+id/btn_quiz_answer1"
+                android:id="@+id/button_quiz_answer1"
                 android:layout_weight="1"
                 style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
                 android:onClick="onBtnClickAnswer"
@@ -44,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="---"
-                android:id="@+id/btn_quiz_answer2"
+                android:id="@+id/button_quiz_answer2"
                 android:layout_weight="1"
                 style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
                 android:onClick="onBtnClickAnswer"
@@ -57,12 +80,12 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:id="@+id/ll_quiz_answers_right">
+            android:id="@+id/linearlayout_quiz_answers_right">
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="---"
-                android:id="@+id/btn_quiz_answer3"
+                android:id="@+id/button_quiz_answer3"
                 android:layout_weight="1"
                 style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
                 android:onClick="onBtnClickAnswer"
@@ -71,38 +94,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="---"
-                android:id="@+id/btn_quiz_answer4"
+                android:id="@+id/button_quiz_answer4"
                 android:layout_weight="1"
                 style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
                 android:onClick="onBtnClickAnswer"
                 android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/ll_quiz_answers"
-        android:layout_below="@+id/actionbar">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="-------------------"
-            android:id="@+id/tv_quiz_question"
-            android:layout_alignParentStart="true"
-            android:paddingLeft="28dp"
-            android:paddingRight="28dp"
-            android:layout_above="@+id/ll_quiz_answers"
-            android:layout_below="@+id/actionbar"
-            android:gravity="center"
-            style="@style/WeltkulturerbeBambergAppTheme.TextView"/>
-    </FrameLayout>
 </RelativeLayout>
