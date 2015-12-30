@@ -14,7 +14,8 @@
         android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:paddingTop="@dimen/actionbar_padding_top"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
                 android:id="@+id/textview_info_information"
                 android:text="@string/tv_info_information"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                style="@style/WeltkulturerbeBambergAppTheme.TextView"
+                style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"
                 android:padding="16dp" />
 
         </LinearLayout>

@@ -5,19 +5,21 @@
     <color name="PrimaryColorDark">#1976D2</color>
     <color name="PrimaryColorLight">#BBDEFB</color>
 
-    <!-- Text and Icon Color on top of Primary Color -->
+    <!-- Text and Icon Colors -->
     <color name="TextAndIconsColor">#FFFFFF</color>
+    <color name="BackgroundTextAndIconsColor">#212121</color>
+    <color name="BackgroundTextAndIconsColorLight">#c3c3c3</color>
 
-    <!-- Text Color -->
-    <color name="PrimaryTextColor">#212121</color>
-    <color name="SecondaryTextColor">#c3c3c3</color>
-
+    <!-- Accent Color -->
     <color name="AccentColor">#FFC107</color>
+
+    <!-- Background Color -->
     <color name="BackgroundColor">#fff3f3f3</color>
 
+    <!-- Overlay Color -->
+    <color name="OverlayColor">#44000000</color>
 
-
-    <!-- light blue -->
+    <!-- Colors -->
     <color name="light_blue">#2196f3</color>
     <color name="light_blue_darker">#1e88e5</color>
     <color name="light_blue_darkest">#0d47a1</color>

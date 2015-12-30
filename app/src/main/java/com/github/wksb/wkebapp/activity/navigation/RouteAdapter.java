@@ -55,15 +55,15 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
         switch (waypoint.getState()) {
             case VISITED:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
-                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.PrimaryTextColor)); // Set the Text Color of the WaypointName to the PrimaryTextColor (Black?) if the Waypoint was already visited
+                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint was already visited
                 break;
             case CURRENT_DESTINATION:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_current_position);
-                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.PrimaryTextColor)); // Set the Text Color of the WaypointName to the PrimaryTextColor (Black?) if the Waypoint is the current Destination
+                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint is the current Destination
                 break;
             case NOT_VISITED:
                 holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_not_visited);
-                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.SecondaryTextColor)); // Set the Text Color of the WaypointName to the SecondaryTextColor (Grey?) if the Waypoint was not yet visited
+                holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColorLight)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColorLight if the Waypoint was not yet visited
                 break;
         }
 

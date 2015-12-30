@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tv_welcome_title"
         android:id="@+id/textview_welcome_header"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.TextView"
+        style="@style/WeltkulturerbeBambergAppTheme.TextView.Overlay"
         android:gravity="center"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"/>
@@ -32,7 +32,7 @@
         android:text="@string/btn_welcome_continue"
         android:id="@+id/button_welcome_continue"
         android:onClick="onBtnClickedContinue"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        style="@style/WeltkulturerbeBambergAppTheme.Button.Overlay"
         android:layout_above="@+id/button_welcome_restart"
         android:layout_alignParentStart="true"
         android:visibility="visible"/>
@@ -43,7 +43,7 @@
         android:text="@string/btn_welcome_restart_tour"
         android:id="@+id/button_welcome_restart"
         android:onClick="onBtnClickedRestartTour"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        style="@style/WeltkulturerbeBambergAppTheme.Button.Overlay"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
         android:visibility="visible"/>
@@ -54,12 +54,12 @@
         android:text="@string/btn_welcome_about"
         android:id="@+id/button_welcome_about"
         android:onClick="onBtnClickedAbout"
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        style="@style/WeltkulturerbeBambergAppTheme.Button.Overlay"
         android:layout_below="@+id/button_welcome_restart"
         android:layout_alignParentStart="true"/>
 
     <Button
-        style="@style/WeltkulturerbeBambergAppTheme.WelcomePage.Button"
+        style="@style/WeltkulturerbeBambergAppTheme.Button.Overlay"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_welcome_start"

@@ -32,13 +32,15 @@
             android:singleLine="true"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
-            android:marqueeRepeatLimit="1"/>
+            android:marqueeRepeatLimit="1"
+            style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
 
         <TextView
             android:id="@+id/row_waypoint_distance"
             android:text="0m"
-            style="@style/WeltkulturerbeBambergAppTheme.TextView.Small"
+            style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/BackgroundTextAndIconsColorLight"/>
     </LinearLayout>
 </RelativeLayout>

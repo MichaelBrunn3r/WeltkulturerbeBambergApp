@@ -14,7 +14,8 @@
         android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:paddingTop="@dimen/actionbar_padding_top"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
             android:paddingLeft="28dp"
             android:paddingRight="28dp"
             android:gravity="center"
-            style="@style/WeltkulturerbeBambergAppTheme.TextView"/>
+            style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
     </FrameLayout>
 
     <LinearLayout
@@ -60,7 +61,7 @@
                 android:text="---"
                 android:id="@+id/button_quiz_answer1"
                 android:layout_weight="1"
-                style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
                 android:onClick="onBtnClickAnswer"
                 android:gravity="center_vertical|center_horizontal" />
             <Button
@@ -69,7 +70,7 @@
                 android:text="---"
                 android:id="@+id/button_quiz_answer2"
                 android:layout_weight="1"
-                style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
                 android:onClick="onBtnClickAnswer"
                 android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>
@@ -87,7 +88,7 @@
                 android:text="---"
                 android:id="@+id/button_quiz_answer3"
                 android:layout_weight="1"
-                style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
                 android:onClick="onBtnClickAnswer"
                 android:gravity="center_vertical|center_horizontal" />
             <Button
@@ -96,7 +97,7 @@
                 android:text="---"
                 android:id="@+id/button_quiz_answer4"
                 android:layout_weight="1"
-                style="@style/WeltkulturerbeBambergAppTheme.ButtonQuiz"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
                 android:onClick="onBtnClickAnswer"
                 android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>

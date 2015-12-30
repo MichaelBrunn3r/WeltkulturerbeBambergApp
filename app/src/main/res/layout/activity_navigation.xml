@@ -15,9 +15,10 @@
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_navigation_height"
-        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBarNavigation"
         android:layout_marginLeft="@dimen/actionbar_navigation_margin"
         android:layout_marginTop="@dimen/actionbar_navigation_margin_top"
         android:layout_marginRight="@dimen/actionbar_navigation_margin"
-        android:gravity="center"/>
+        android:gravity="center"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar.Navigation"
+        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
 </FrameLayout>

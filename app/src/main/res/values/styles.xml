@@ -1,24 +1,26 @@
 <resources>
-
     <!-- Theme of the Application. -->
-    <!-- ========================= -->
-    <!-- ========================= -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>> -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>> -->
     <style name="WeltkulturerbeBambergAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:buttonStyle">@style/WeltkulturerbeBambergAppTheme.Button</item> <!-- Style of the Buttons -->
-        <item name="android:textViewStyle">@style/WeltkulturerbeBambergAppTheme.TextView</item> <!-- Style of the TextViews -->
+        <item name="android:buttonStyle">@style/WeltkulturerbeBambergAppTheme.Button.TransparentBackground</item> <!-- Style of the Buttons -->
+        <item name="android:textViewStyle">@style/WeltkulturerbeBambergAppTheme.TextView.TransparentBackground</item> <!-- Style of the TextViews -->
 
         <!-- Make the StatusBar Transparent -->
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+    <!-- ========================= -->
+    <!-- ========================= -->
 
-    <!--- Style of the ActionBar -->
-    <!-- ======================= -->
-    <!-- ======================= -->
+
+
+    <!--- Styles of the ActionBar -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>> -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>> -->
     <style name="WeltkulturerbeBambergAppTheme.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/PrimaryColor</item>
         <item name="android:displayOptions">showTitle</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:titleTextStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar.TitleText</item>
+        <item name="android:textColor">@color/TextAndIconsColor</item>
 
         <!-- Support AppCompat -->
         <item name="background">@color/PrimaryColor</item>
@@ -26,80 +28,67 @@
         <item name="titleTextStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar.TitleText</item>
     </style>
 
-    <!-- Style of the ActionBar in the NavigationActivity -->
-    <style name="WeltkulturerbeBambergAppTheme.ActionBarNavigation" parent="WeltkulturerbeBambergAppTheme.ActionBar">
+    <style name="WeltkulturerbeBambergAppTheme.ActionBar.Navigation" parent="WeltkulturerbeBambergAppTheme.ActionBar">
         <item name="android:background">@android:color/transparent</item>
 
         <!-- Support AppCompat -->
         <item name="background">@drawable/actionbar_navigation_background</item>
     </style>
-
-    <!-- Style of the Text of the ActionBar -->
+    <!-- ========================= -->
+    <!-- ========================= -->
     <style name="WeltkulturerbeBambergAppTheme.ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/TextAndIconsColor</item>
     </style>
 
-    <!-- Style of TextViews in the ActionBar -->
-    <style name="WeltkulturerbeBambergAppTheme.ActionBar.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/TextAndIconsColor</item>
-    </style>
 
-    <!-- Style of the Buttons -->
-    <!-- ==================== -->
-    <!-- ==================== -->
-    <style name="WeltkulturerbeBambergAppTheme.Button" parent="android:Widget.Holo.Light.Button">
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@color/TextAndIconsColor</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
 
-    <style name="WeltkulturerbeBambergAppTheme.Button.Inverted" parent="WeltkulturerbeBambergAppTheme.Button">
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@color/TextAndIconsColor</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <!-- Style of the Text Views -->
-    <!-- ======================= -->
-    <!-- ======================= -->
+    <!-- Styles of the TextViews -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>> -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>> -->
     <style name="WeltkulturerbeBambergAppTheme.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/PrimaryTextColor</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
-    </style>
-
-    <style name="WeltkulturerbeBambergAppTheme.TextView.Small" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/SecondaryTextColor</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
-    </style>
-
-
-
-    <!-- Styles for the the Quiz Activity -->
-    <!-- ================================= -->
-    <!-- ================================= -->
-    <style name="WeltkulturerbeBambergAppTheme.ButtonQuiz" parent="android:Widget.Holo.Light.Button">
-        <item name="android:background">@drawable/button_quiz</item>
         <item name="android:textColor">@color/TextAndIconsColor</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:background">@color/PrimaryColor</item>
     </style>
 
-    <!-- Styles for the the WelcomePage Activity -->
-    <!-- ======================================= -->
-    <!-- ======================================= -->
-    <style name="WeltkulturerbeBambergAppTheme.WelcomePage.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/white</item>
+    <style name="WeltkulturerbeBambergAppTheme.TextView.TransparentBackground" parent="WeltkulturerbeBambergAppTheme.TextView">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.TextView.OnBackground" parent="WeltkulturerbeBambergAppTheme.TextView.TransparentBackground">
+        <item name="android:textColor">@color/BackgroundTextAndIconsColor</item>
+    </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.TextView.Overlay" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/TextAndIconsColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">80sp</item>
     </style>
+    <!-- ======================= -->
+    <!-- ======================= -->
 
-    <style name="WeltkulturerbeBambergAppTheme.WelcomePage.Button" parent="android:Widget.Holo.Light.Button">
-        <item name="android:background">#44000000</item>
+
+
+    <!-- Styles of the Buttons -->
+    <!-- >>>>>>>>>>>>>>>>>>>>> -->
+    <!-- >>>>>>>>>>>>>>>>>>>>> -->
+    <style name="WeltkulturerbeBambergAppTheme.Button" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@color/PrimaryColor</item>
+        <item name="android:textColor">@color/TextAndIconsColor</item>
+    </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.Button.TransparentBackground" parent="WeltkulturerbeBambergAppTheme.Button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/TextAndIconsColor</item>
+    </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.Button.OnBackground" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/BackgroundTextAndIconsColor</item>
+    </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.Button.Overlay" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@color/OverlayColor</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
     </style>
 </resources>

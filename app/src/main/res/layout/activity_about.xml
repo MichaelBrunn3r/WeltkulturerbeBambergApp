@@ -14,7 +14,8 @@
         android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:paddingTop="@dimen/actionbar_padding_top"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,6 +26,7 @@
         android:layout_below="@+id/actionbar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center"/>
+        android:gravity="center"
+        style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
 
 </RelativeLayout>

@@ -138,7 +138,7 @@ public class Route {
 
                 // If the RouteSegment is active, the Color of the Polyline is the PrimaryColor, otherwise its Color is the SecondaryTextColor
                 if (routeSegment.isActive()) navigationPolyline.color(getContext().getResources().getColor(R.color.PrimaryColor));
-                else navigationPolyline.color(getContext().getResources().getColor(R.color.SecondaryTextColor));
+                else navigationPolyline.color(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColorLight));
 
                 // Finally add the Polyline to the Map
                 mNavigationPolylineList.add(googleMap.addPolyline(navigationPolyline));
