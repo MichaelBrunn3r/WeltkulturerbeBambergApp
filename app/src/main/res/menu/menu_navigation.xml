@@ -42,4 +42,12 @@
         android:id="@+id/action_navigation_waypoint_10"
         android:title="St. Getreu"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_show_collapsableview"
+        android:title="Show Collapsable View"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_collapse_collapsableview"
+        android:title="Collapse Collapsable View"
+        app:showAsAction="never" />
 </menu>

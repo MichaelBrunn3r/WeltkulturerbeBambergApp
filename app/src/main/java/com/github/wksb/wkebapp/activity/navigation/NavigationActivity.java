@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.wksb.wkebapp.Edge;
 import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.CollapsableView;
 import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.RouteSegmentsTable;
@@ -62,6 +64,8 @@ public class NavigationActivity extends AppCompatActivity {
     private RouteAdapter mRouteAdapter;
     private ActionBarDrawerToggle mDrawerToggle;  // Button in ActionBar toggling the DrawerLayout
 
+    private CollapsableView mStartQuiz;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +76,8 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Set Tour in progress
         Route.setProgressState(this, true);
+
+        mStartQuiz = (CollapsableView)findViewById(R.id.collapsableview_navigation_start_quiz);
     }
 
     @Override
@@ -168,6 +174,12 @@ public class NavigationActivity extends AppCompatActivity {
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 2);
                 startActivity(startQuiz);
+                return true;
+            case R.id.action_show_collapsableview:
+                mStartQuiz.show(Edge.BOTTOM);
+                return true;
+            case R.id.action_collapse_collapsableview:
+                mStartQuiz.collapse();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

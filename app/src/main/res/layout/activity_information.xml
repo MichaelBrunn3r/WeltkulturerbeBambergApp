@@ -13,9 +13,9 @@
         android:layout_height="@dimen/actionbar_height"
         android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:paddingTop="@dimen/actionbar_padding_top"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
+        android:layout_alignParentStart="true"/>
 
     <ScrollView
         android:layout_width="wrap_content"

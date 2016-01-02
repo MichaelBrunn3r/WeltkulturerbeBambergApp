@@ -42,6 +42,15 @@
 
 
 
+    <!--- Styles of different Views -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>>> -->
+    <!-- >>>>>>>>>>>>>>>>>>>>>>>>>> -->
+    <style name="WeltkulturerbeBambergAppTheme.View" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/PrimaryColor</item>
+    </style>
+    <!-- ========================== -->
+    <!-- ========================== -->
+
     <!-- Styles of the TextViews -->
     <!-- >>>>>>>>>>>>>>>>>>>>>>> -->
     <!-- >>>>>>>>>>>>>>>>>>>>>>> -->
