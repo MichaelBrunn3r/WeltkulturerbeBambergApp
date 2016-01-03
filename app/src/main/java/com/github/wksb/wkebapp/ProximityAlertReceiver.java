@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.github.wksb.wkebapp.activity.QuizActivity;
+import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 
@@ -22,18 +24,10 @@ public class ProximityAlertReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean entering = intent.getBooleanExtra(LocationManager.KEY_PROXIMITY_ENTERING, false);
-
         if (entering) {
-            DebugUtils.toast(context, "Im entering " + intent.getStringExtra(TAG_WAYPOINT_NAME));
-            if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.getCurrentQuizId(context)) {
-                QuizActivity.setProgressState(context, QuizActivity.IS_IN_PROGRESS);
-
-                Intent startQuizActivity = new Intent(context, QuizActivity.class);
-                startQuizActivity.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId(context));
-                context.startActivity(startQuizActivity);
-            }
-        } else {
-            DebugUtils.toast(context, "Im doing something funny :D");
+            Intent notifyArrivedAtWaypoint = new Intent(NavigationActivity.ACTION_ARRIVED_AT_WAYPOINT);
+            notifyArrivedAtWaypoint.putExtra(NavigationActivity.TAG_QUIZ_ID, intent.getIntExtra(TAG_QUIZ_ID, -1));
+            LocalBroadcastManager.getInstance(context).sendBroadcast(notifyArrivedAtWaypoint);
         }
     }
 }
