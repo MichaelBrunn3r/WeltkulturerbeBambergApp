@@ -2,4 +2,7 @@
 <resources>
 
     <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="textview_navigation_start_quiz_text">Du bist am Wegpunkt %1$s angekommen. Um in dieser Führung voranzuschreiten kannst du ein Quiz über diesen Wegpunkt lösen. Willst du das Quiz jetzt oder lieber später lösen?</string>
+    <string name="button_navigation_start_quiz_later">Später starten</string>
+    <string name="button_navigation_start_quiz_now">Jetzt starten</string>
 </resources>
