@@ -42,7 +42,6 @@ public class SlideTransition extends Visibility {
         }
 
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setStartDelay(getDuration() < 0 ? SLIDE_IN_DURATION_DEFAULT : getDuration() / 2);
         animator.setDuration(getDuration() < 0 ? SLIDE_IN_DURATION_DEFAULT : getDuration()/2);
         return animator;
     }
