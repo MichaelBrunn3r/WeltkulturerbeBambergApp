@@ -1,9 +1,13 @@
 package com.github.wksb.wkebapp.activity.navigation;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,9 +28,9 @@ import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.RouteSegmentsTable;
 import com.github.wksb.wkebapp.database.RoutesTable;
+import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -49,6 +53,9 @@ import java.util.List;
  */
 
 public class NavigationActivity extends AppCompatActivity {
+
+    public static final String ACTION_ARRIVED_AT_WAYPOINT = "com.github.wksb.wkebapp.ARRIVED_AT_WAYPOINT";
+    public static final String TAG_QUIZ_ID = "quiz_id";
 
     // Title of the ActionBar
     private TextView mTextViewActionbarTitle;
@@ -103,6 +110,22 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Register the ArrivedAtWaypointReceiver to receive
+        LocalBroadcastManager.getInstance(this).registerReceiver(ArrivedAtWaypointReceiver,
+                new IntentFilter(ACTION_ARRIVED_AT_WAYPOINT));
+    }
+
+    @Override
+    protected void onPause() {
+        // Unregister the ArrivedAtWaypointReceiver since the Activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(ArrivedAtWaypointReceiver);
+        super.onPause();
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
@@ -134,47 +157,47 @@ public class NavigationActivity extends AppCompatActivity {
             case R.id.action_navigation_waypoint_2:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 3);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_3:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 8);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_4:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 9);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_5:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 7);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_6:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 4);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_7:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 5);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_8:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 1);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_9:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 6);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_10:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
                 Route.setProgress(this, 2);
-                mStartQuiz.show(Edge.BOTTOM);
+                mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -249,7 +272,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Show Location on Maps
         mMap.setMyLocationEnabled(true);
-        mMap.setPadding(0, (int) getResources().getDimension(R.dimen.actionbar_height) + (int) getResources().getDimension(R.dimen.activity_margin), 0, 0);
+        mMap.setPadding(0, (int) getResources().getDimension(R.dimen.actionbar_height) + (int) getResources().getDimension(R.dimen.default_screen_padding), 0, 0);
     }
 
     //TODO Documentation
@@ -312,7 +335,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void onBtnClickedStartQuizLater(View view) {
-        mStartQuiz.collapse();
+        mStartQuiz.collapse(Edge.BOTTOM);
     }
 
     public void onBtnClickedStartQuizNow(View view) {
@@ -320,4 +343,15 @@ public class NavigationActivity extends AppCompatActivity {
         startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId(this));
         startActivity(startCurrentQuiz);
     }
+
+    private BroadcastReceiver ArrivedAtWaypointReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            DebugUtils.toast(NavigationActivity.this, "YAY :D");
+            if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.getCurrentQuizId(NavigationActivity.this)) {
+                QuizActivity.setProgressState(NavigationActivity.this, QuizActivity.IS_IN_PROGRESS);
+                mStartQuiz.show(Edge.BOTTOM, 1000); // Since there is the Possibility that the NavigationActivity is currently starting, add a Delay to the Animation
+            }
+        }
+    };
 }
