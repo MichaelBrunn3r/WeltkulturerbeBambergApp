@@ -28,8 +28,7 @@
             android:label="@string/title_activity_welcomepage"
             android:screenOrientation="portrait"
             android:clearTaskOnLaunch="true"
-            android:launchMode="singleTask"
-            >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -94,6 +93,7 @@
         <!-- Content Provider -->
 
         <provider
+            android:exported="false"
             android:name=".contentprovider.WeltkulturerbeContentProvider"
             android:authorities="com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider" >
         </provider>
@@ -101,9 +101,7 @@
         <!-- Broadcast Receiver -->
 
         <receiver
-            android:name=".ProximityAlertReceiver"
-            android:enabled="true"
-            android:exported="true" >
+            android:name="ProximityAlertReceiver">
             <intent-filter>
                 <action android:name="com.github.wksb.wkebapp.PROXIMITY_ALERT" />
             </intent-filter>
