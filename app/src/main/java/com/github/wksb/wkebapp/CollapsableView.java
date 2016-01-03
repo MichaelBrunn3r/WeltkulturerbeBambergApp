@@ -41,11 +41,12 @@ public class CollapsableView extends LinearLayout {
     }
 
 
-    public void show(Edge slideEdge) {
+    public void show(Edge slideEdge, int startDelay) {
         if(mState == CollapsableViewState.INVISIBLE || mState == CollapsableViewState.COLLAPSED) {
             Scene inflated = Scene.getSceneForLayout(this, mLayoutInflatedId, getContext());
 
             SlideTransition inflateTransition = new SlideTransition(slideEdge);
+            inflateTransition.setStartDelay(startDelay);
             inflateTransition.setDuration(500);
 
             TransitionManager.go(inflated, inflateTransition);
