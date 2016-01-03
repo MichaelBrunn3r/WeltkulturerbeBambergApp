@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/textview_navigation_start_quiz_text"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
         android:gravity="left"
         android:id="@+id/textView"
-        android:layout_marginTop="@dimen/activity_margin"/>
+        android:paddingLeft="@dimen/default_screen_padding"
+        android:paddingTop="@dimen/default_screen_padding"
+        android:paddingRight="@dimen/default_screen_padding"/>
 
     <LinearLayout
         android:orientation="horizontal"
