@@ -55,7 +55,7 @@ public class CollapsableView extends LinearLayout {
         }
     }
 
-    public void collapse() {
+    public void collapse(Edge slideEge) {
         if (mState == CollapsableViewState.INFLATED) {
             Scene collapsed = Scene.getSceneForLayout(this, mLayoutCollapsedId, getContext());
 
@@ -63,7 +63,7 @@ public class CollapsableView extends LinearLayout {
 
             ChangeBounds changeBounds = new ChangeBounds();
             changeBounds.addTarget(this);
-            SlideTransition slideTransition = new SlideTransition(Edge.BOTTOM);
+            SlideTransition slideTransition = new SlideTransition(slideEge);
 
             collapseTransition.addTransition(changeBounds);
             collapseTransition.addTransition(slideTransition);
