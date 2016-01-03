@@ -26,6 +26,7 @@ import com.github.wksb.wkebapp.database.RouteSegmentsTable;
 import com.github.wksb.wkebapp.database.RoutesTable;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -132,54 +133,48 @@ public class NavigationActivity extends AppCompatActivity {
                 return true;
             case R.id.action_navigation_waypoint_2:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 3);
-                startActivity(startQuiz);
+                Route.setProgress(this, 3);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_3:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 8);
-                startActivity(startQuiz);
+                Route.setProgress(this, 8);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_4:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 9);
-                startActivity(startQuiz);
+                Route.setProgress(this, 9);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_5:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 7);
-                startActivity(startQuiz);
+                Route.setProgress(this, 7);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_6:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 4);
-                startActivity(startQuiz);
+                Route.setProgress(this, 4);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_7:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 5);
-                startActivity(startQuiz);
+                Route.setProgress(this, 5);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_8:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 1);
-                startActivity(startQuiz);
+                Route.setProgress(this, 1);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_9:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 6);
-                startActivity(startQuiz);
+                Route.setProgress(this, 6);
+                mStartQuiz.show(Edge.BOTTOM);
                 return true;
             case R.id.action_navigation_waypoint_10:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                startQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, 2);
-                startActivity(startQuiz);
-                return true;
-            case R.id.action_show_collapsableview:
+                Route.setProgress(this, 2);
                 mStartQuiz.show(Edge.BOTTOM);
-                return true;
-            case R.id.action_collapse_collapsableview:
-                mStartQuiz.collapse();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -248,10 +243,9 @@ public class NavigationActivity extends AppCompatActivity {
         // Get the Map Fragment
         mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googlemap_navigation_map))
                 .getMap();
-
-        // Move Camera to Bamberg
+        // Move the Camera to Bamberg
         LatLng BAMBERG = new LatLng(49.898814, 10.890764);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BAMBERG, 12f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BAMBERG, 12f)); // Move Camera to Bamberg
 
         // Show Location on Maps
         mMap.setMyLocationEnabled(true);
@@ -315,5 +309,15 @@ public class NavigationActivity extends AppCompatActivity {
                 mRoute.addRouteSegment(fromWaypointID, toWaypointID, polyline);
             }
         }
+    }
+
+    public void onBtnClickedStartQuizLater(View view) {
+        mStartQuiz.collapse();
+    }
+
+    public void onBtnClickedStartQuizNow(View view) {
+        Intent startCurrentQuiz = new Intent(this, QuizActivity.class);
+        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId(this));
+        startActivity(startCurrentQuiz);
     }
 }
