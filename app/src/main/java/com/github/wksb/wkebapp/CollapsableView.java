@@ -1,14 +1,16 @@
 package com.github.wksb.wkebapp;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.transition.ChangeBounds;
 import android.transition.Scene;
+import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * Created by Michael on 30.12.2015.
@@ -34,44 +36,22 @@ public class CollapsableView extends LinearLayout {
             attributesArray.recycle();
         }
 
-        setVisibility(View.INVISIBLE);
+        setVisibility(GONE);
         setState(CollapsableViewState.INVISIBLE);
-
-        removeAllViews();
-        addView(((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(mLayoutInflatedId, null));
-        requestLayout();
     }
 
 
     public void show(Edge slideEdge) {
-        if (mState == CollapsableViewState.INVISIBLE) {
-            removeAllViews();
-            addView(((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(mLayoutInflatedId, null));
-            requestLayout();
+        if(mState == CollapsableViewState.INVISIBLE || mState == CollapsableViewState.COLLAPSED) {
+            Scene inflated = Scene.getSceneForLayout(this, mLayoutInflatedId, getContext());
 
-            setVisibility(View.VISIBLE);
+            SlideTransition inflateTransition = new SlideTransition(slideEdge);
+            inflateTransition.setDuration(500);
+
+            TransitionManager.go(inflated, inflateTransition);
+
+            setVisibility(VISIBLE);
             setState(CollapsableViewState.INFLATED);
-
-            int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
-            int screenWidth = getContext().getResources().getDisplayMetrics().widthPixels;
-
-            ObjectAnimator animator = null;
-
-            if (slideEdge == Edge.TOP) {
-                animator = ObjectAnimator.ofFloat(this, View.Y, getY());
-                setY(-getHeight());
-            } else if (slideEdge == Edge.BOTTOM) {
-                animator = ObjectAnimator.ofFloat(this, View.Y, getY());
-                setY(screenHeight);
-            } else if (slideEdge == Edge.LEFT) {
-                animator = ObjectAnimator.ofFloat(this, View.X, getX());
-                setX(-getWidth());
-            } else if (slideEdge == Edge.RIGHT) {
-                animator = ObjectAnimator.ofFloat(this, View.X, getX());
-                setX(screenWidth);
-            }
-
-            animator.start();
         }
     }
 
@@ -79,7 +59,20 @@ public class CollapsableView extends LinearLayout {
         if (mState == CollapsableViewState.INFLATED) {
             Scene collapsed = Scene.getSceneForLayout(this, mLayoutCollapsedId, getContext());
 
-            TransitionManager.go(collapsed, new SlideTransition(Edge.BOTTOM));
+            TransitionSet collapseTransition = new TransitionSet();
+
+            ChangeBounds changeBounds = new ChangeBounds();
+            changeBounds.addTarget(this);
+            SlideTransition slideTransition = new SlideTransition(Edge.BOTTOM);
+
+            collapseTransition.addTransition(changeBounds);
+            collapseTransition.addTransition(slideTransition);
+            collapseTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
+            collapseTransition.setDuration(1000);
+
+            TransitionManager.go(collapsed, collapseTransition);
+
+            setState(CollapsableViewState.COLLAPSED);
         }
     }
 
