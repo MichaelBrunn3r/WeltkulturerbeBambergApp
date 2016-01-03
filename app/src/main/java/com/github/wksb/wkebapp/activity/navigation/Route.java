@@ -4,15 +4,14 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.support.annotation.IntDef;
 
+import com.github.wksb.wkebapp.ProximityAlertReceiver;
 import com.github.wksb.wkebapp.R;
-import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.utilities.ListUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -149,9 +148,9 @@ public class Route {
     private void addCurrentDestinationProximityAlert() {
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Activity.LOCATION_SERVICE);
         Intent proximityAlert = new Intent();
-        proximityAlert.setAction("com.github.weltkulturschnitzelbamberg.weltkulturerbebambergapp.PROXIMITY_ALERT");
-        proximityAlert.putExtra("waypoint-name", mCurrentDestinationWaypoint.getName());
-        proximityAlert.putExtra("quiz-id", mCurrentDestinationWaypoint.getQuizId());
+        proximityAlert.setAction(ProximityAlertReceiver.ACTION_PROXIMITY_ALERT);
+        proximityAlert.putExtra(ProximityAlertReceiver.TAG_WAYPOINT_NAME, mCurrentDestinationWaypoint.getName());
+        proximityAlert.putExtra(ProximityAlertReceiver.TAG_QUIZ_ID, mCurrentDestinationWaypoint.getQuizId());
 
         int detectionRadius = 40; // The radius around the central point in which to send an proximity alert
         int expirationTime = -1; // The time in milliseconds it takes this proximity alert to expire (-1 = no expiration)
