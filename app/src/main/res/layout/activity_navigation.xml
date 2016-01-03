@@ -19,6 +19,6 @@
         android:layout_marginTop="@dimen/actionbar_navigation_margin_top"
         android:layout_marginRight="@dimen/actionbar_navigation_margin"
         android:gravity="center"
-        style="@style/WeltkulturerbeBambergAppTheme.ActionBar.Navigation"
-        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar.TransparentBackground"
+        android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar.TransparentBackground"/>
 </FrameLayout>

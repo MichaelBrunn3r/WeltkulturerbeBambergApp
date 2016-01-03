@@ -28,12 +28,11 @@
         <item name="titleTextStyle">@style/WeltkulturerbeBambergAppTheme.ActionBar.TitleText</item>
     </style>
 
-    <style name="WeltkulturerbeBambergAppTheme.ActionBar.Navigation" parent="WeltkulturerbeBambergAppTheme.ActionBar">
+    <style name="WeltkulturerbeBambergAppTheme.ActionBar.TransparentBackground" parent="WeltkulturerbeBambergAppTheme.ActionBar">
         <item name="android:background">@android:color/transparent</item>
-
-        <!-- Support AppCompat -->
-        <item name="background">@drawable/actionbar_navigation_background</item>
+        <item name="android:colorBackground">@color/PrimaryColor</item>
     </style>
+
     <!-- ========================= -->
     <!-- ========================= -->
     <style name="WeltkulturerbeBambergAppTheme.ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
@@ -48,8 +47,13 @@
     <style name="WeltkulturerbeBambergAppTheme.View" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/PrimaryColor</item>
     </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.LinearLayout" parent="WeltkulturerbeBambergAppTheme.View">
+    </style>
     <!-- ========================== -->
     <!-- ========================== -->
+
+
 
     <!-- Styles of the TextViews -->
     <!-- >>>>>>>>>>>>>>>>>>>>>>> -->
@@ -62,6 +66,7 @@
 
     <style name="WeltkulturerbeBambergAppTheme.TextView.TransparentBackground" parent="WeltkulturerbeBambergAppTheme.TextView">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
     </style>
 
     <style name="WeltkulturerbeBambergAppTheme.TextView.OnBackground" parent="WeltkulturerbeBambergAppTheme.TextView.TransparentBackground">
