@@ -56,6 +56,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     public static final String ACTION_ARRIVED_AT_WAYPOINT = "com.github.wksb.wkebapp.ARRIVED_AT_WAYPOINT";
     public static final String TAG_QUIZ_ID = "quiz_id";
+    public static final String TAG_WAYPOINT_NAME = "wapoint_name";
 
     // Title of the ActionBar
     private TextView mTextViewActionbarTitle;
@@ -347,10 +348,10 @@ public class NavigationActivity extends AppCompatActivity {
     private BroadcastReceiver ArrivedAtWaypointReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            DebugUtils.toast(NavigationActivity.this, "YAY :D");
             if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.getCurrentQuizId(NavigationActivity.this)) {
                 QuizActivity.setProgressState(NavigationActivity.this, QuizActivity.IS_IN_PROGRESS);
                 mStartQuiz.show(Edge.BOTTOM, 1000); // Since there is the Possibility that the NavigationActivity is currently starting, add a Delay to the Animation
+                ((TextView)mStartQuiz.findViewById(R.id.textview_navigation_start_quiz_text)).setText(String.format(getResources().getString(R.string.textview_navigation_start_quiz_text), intent.getStringExtra(TAG_WAYPOINT_NAME)));
             }
         }
     };

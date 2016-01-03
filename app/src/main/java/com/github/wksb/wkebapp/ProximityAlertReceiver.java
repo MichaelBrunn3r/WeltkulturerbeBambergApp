@@ -27,6 +27,7 @@ public class ProximityAlertReceiver extends BroadcastReceiver{
         if (entering) {
             Intent notifyArrivedAtWaypoint = new Intent(NavigationActivity.ACTION_ARRIVED_AT_WAYPOINT);
             notifyArrivedAtWaypoint.putExtra(NavigationActivity.TAG_QUIZ_ID, intent.getIntExtra(TAG_QUIZ_ID, -1));
+            notifyArrivedAtWaypoint.putExtra(NavigationActivity.TAG_WAYPOINT_NAME, intent.getStringExtra(TAG_WAYPOINT_NAME));
             LocalBroadcastManager.getInstance(context).sendBroadcast(notifyArrivedAtWaypoint);
         }
     }

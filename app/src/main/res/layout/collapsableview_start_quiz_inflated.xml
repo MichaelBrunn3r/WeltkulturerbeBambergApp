@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/textview_navigation_start_quiz_text"
         android:gravity="left"
-        android:id="@+id/textView"
+        android:id="@+id/textview_navigation_start_quiz_text"
         android:paddingLeft="@dimen/default_screen_padding"
         android:paddingTop="@dimen/default_screen_padding"
         android:paddingRight="@dimen/default_screen_padding"/>
@@ -21,7 +21,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textview_navigation_start_quiz_text"
         android:layout_alignParentStart="true">
 
         <Button
