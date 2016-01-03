@@ -16,8 +16,8 @@ public class SlideTransition extends Visibility {
 
     private Edge mSlideEdge;
 
-    private static final int SLIDE_OUT_DURATION = 400;
-    private static final int SLIDE_IN_DURATION = 400;
+    private static final int SLIDE_OUT_DURATION_DEFAULT = 400;
+    private static final int SLIDE_IN_DURATION_DEFAULT = 400;
 
     public SlideTransition(Edge slideEdge) {
         mSlideEdge = slideEdge;
@@ -25,9 +25,6 @@ public class SlideTransition extends Visibility {
 
     @Override
     public Animator onAppear(ViewGroup sceneRoot, View view, TransitionValues startValues, TransitionValues endValues) {
-        int screenHeight = view.getContext().getResources().getDisplayMetrics().heightPixels;
-        int screenWidth = view.getContext().getResources().getDisplayMetrics().widthPixels;
-
         ObjectAnimator animator = null;
 
         if (mSlideEdge == Edge.BOTTOM) {
@@ -41,22 +38,17 @@ public class SlideTransition extends Visibility {
             view.setX(0-view.getWidth());
         } else if (mSlideEdge == Edge.RIGHT) {
             animator = ObjectAnimator.ofFloat(view, View.X, view.getX());
-            view.setX(screenWidth);
+            view.setX(sceneRoot.getRight());
         }
 
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setDuration(SLIDE_IN_DURATION);
+        animator.setStartDelay(getDuration() < 0 ? SLIDE_IN_DURATION_DEFAULT : getDuration() / 2);
+        animator.setDuration(getDuration() < 0 ? SLIDE_IN_DURATION_DEFAULT : getDuration()/2);
         return animator;
     }
 
     @Override
     public Animator onDisappear(ViewGroup sceneRoot, View view, TransitionValues startValues, TransitionValues endValues) {
-        int[] locationOnScree = {0,0};
-        view.getLocationOnScreen(locationOnScree);
-
-        int screenHeight = view.getContext().getResources().getDisplayMetrics().heightPixels;
-        int screenWidth = view.getContext().getResources().getDisplayMetrics().widthPixels;
-
         ObjectAnimator animator = null;
 
         if (mSlideEdge == Edge.BOTTOM) {
@@ -66,10 +58,10 @@ public class SlideTransition extends Visibility {
         } else if (mSlideEdge == Edge.LEFT) {
             animator = ObjectAnimator.ofFloat(view, View.X, -view.getWidth());
         } else if (mSlideEdge == Edge.RIGHT) {
-            animator = ObjectAnimator.ofFloat(view, View.X, screenWidth);
+            animator = ObjectAnimator.ofFloat(view, View.X, sceneRoot.getRight());
         }
-
-        animator.setDuration(SLIDE_OUT_DURATION);
+        
+        animator.setDuration(getDuration() < 0 ? SLIDE_OUT_DURATION_DEFAULT : getDuration()/2);
         return animator;
     }
 }
