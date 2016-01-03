@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_activity_navigation">NavigationActivity</string>
-    <string name="textview_navigation_start_quiz_text">You arrived at the Waypoint %1$s. To progress in this Tour you can solve the Quiz about this Waypoint. Do you want to start the Quiz now or later?</string>
+    <string name="textview_navigation_start_quiz_text">You arrived at the Waypoint %s. To progress in this Tour you can solve the Quiz about this Waypoint. Do you want to start the Quiz now or later?</string>
     <string name="button_navigation_start_quiz_later">Start Later</string>
     <string name="button_navigation_start_quiz_now">Start Now</string>
 </resources>
