@@ -259,6 +259,10 @@ public class Route {
         return result;
     }
 
+    public Waypoint getCurrentDestinationWaypoint() {
+        return mCurrentDestinationWaypoint;
+    }
+
     public void syncWithProgress() {
         for (Waypoint waypoint : getWaypoints()) {
             if (waypointOrderList.indexOf(waypoint.getId()) <= getProgress())
