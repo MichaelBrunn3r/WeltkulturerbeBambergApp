@@ -64,9 +64,6 @@ public class NavigationActivity extends AppCompatActivity {
     // The Google Maps Fragment
     private GoogleMap mMap;
 
-    // This Object contains the current Route with all its RouteSegments
-    private Route mRoute;
-
     // Components of the Navigation Drawer
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRvRouteList;
@@ -84,7 +81,7 @@ public class NavigationActivity extends AppCompatActivity {
         setUpActionBar();
 
         // Set Tour in progress
-        Route.setProgressState(this, true);
+        Route.get().setProgressState(true);
 
         mStartQuiz = (CollapsableView)findViewById(R.id.collapsableview_navigation_start_quiz);
     }
@@ -95,19 +92,19 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Set up Route and Map if they don't exist
         if (mMap == null) setUpMap();
-        if (mRoute == null) setUpRoute();
+        setUpRoute(); // TODO Route gets Set Up on every onStart() Call
 
         // Synchronise the States of the Waypoints with the Progress of the Route
-        mRoute.syncWithProgress();
+        Route.get().syncWithProgress();
 
         // Set up the Navigation Drawer
         setUpDrawer();
 
         mMap.clear();
-        mRoute.renderOnMap(mMap);
+        Route.get().renderOnMap(mMap);
 
         // TODO Change the Design of the Progress Bar
-        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(this), mRoute.getRouteSegments().size()));
+        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.get().getProgress(), Route.get().getRouteSegments().size()));
     }
 
     @Override
@@ -150,54 +147,53 @@ public class NavigationActivity extends AppCompatActivity {
             return true;
         }
 
-        Intent startQuiz = new Intent(this, QuizActivity.class);
         switch (item.getItemId()) {
             case R.id.action_navigation_waypoint_1:
                 // No Quiz
                 return true;
             case R.id.action_navigation_waypoint_2:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 3);
+                Route.get().setProgress(3);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_3:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 8);
+                Route.get().setProgress(8);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_4:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 9);
+                Route.get().setProgress(9);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_5:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 7);
+                Route.get().setProgress(7);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_6:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 4);
+                Route.get().setProgress(4);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_7:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 5);
+                Route.get().setProgress(5);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_8:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 1);
+                Route.get().setProgress(1);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_9:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 6);
+                Route.get().setProgress(6);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             case R.id.action_navigation_waypoint_10:
                 QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.setProgress(this, 2);
+                Route.get().setProgress(2);
                 mStartQuiz.show(Edge.BOTTOM, 0);
                 return true;
             default:
@@ -219,11 +215,15 @@ public class NavigationActivity extends AppCompatActivity {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionbar);
         setSupportActionBar(actionBar);
 
-        // Use Custom ActionBar Layout and Display BackButton
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        if (getSupportActionBar() != null) {
+            // Use Custom ActionBar Layout and Display BackButton
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
 
-        // Set Custom ActionBar Layout
-        getSupportActionBar().setCustomView(R.layout.actionbar_title);
+            // Set Custom ActionBar Layout
+            getSupportActionBar().setCustomView(R.layout.actionbar_title);
+        } else {
+            DebugUtils.toast(this, "Error while loading the SupportActionbar");
+        }
 
         mTextViewActionbarTitle = (TextView) findViewById(R.id.textview_actionbar_title);
     }
@@ -255,7 +255,7 @@ public class NavigationActivity extends AppCompatActivity {
         mRvRouteList = (RecyclerView) findViewById(R.id.recyclerview_navigation_navigationdrawer_route);
         mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
-        mRouteAdapter = new RouteAdapter(this, mRoute);
+        mRouteAdapter = new RouteAdapter(this);
         mRvRouteList.setAdapter(mRouteAdapter);
         mRvRouteList.addItemDecoration(new DividerItemDecorator(this));
     }
@@ -278,24 +278,30 @@ public class NavigationActivity extends AppCompatActivity {
 
     //TODO Documentation
     private void setUpRoute() {
-
         // Query Arguments
         String[] projection = {RoutesTable.COLUMN_ROUTE_SEGMENT_ID, RoutesTable.COLUMN_ROUTE_SEGMENT_POSITION};
         String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
-        String[] selectionArgs = {Route.getName(this)};
-
-        // Create a new Route
-        mRoute = new Route(this);
+        String[] selectionArgs = {Route.get().getName()};
 
         // Query for Route Segments
         Cursor routeSegments = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,
                 projection, selection, selectionArgs, null);
+
+        if (routeSegments == null) {
+            DebugUtils.toast(this, "Route could not be loaded. Error while loading Data from SQLDatabase");
+            return;
+        }
         while (routeSegments.moveToNext()) {
             projection = new String[]{RouteSegmentsTable.COLUMN_START_WAYPOINT_ID, RouteSegmentsTable.COLUMN_END_WAYPOINT_ID, RouteSegmentsTable.COLUMN_KML_FILENAME};
             selection = RouteSegmentsTable.COLUMN_SEGMENT_ID + "=?";
             selectionArgs = new String[]{""+routeSegments.getInt(routeSegments.getColumnIndex(RoutesTable.COLUMN_ROUTE_SEGMENT_ID))};
 
             Cursor routeSegment = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTE_SEGMENTS, projection, selection, selectionArgs, null);
+
+            if (routeSegment == null) {
+                DebugUtils.toast(this, "Route could not be loaded. Error while loading Data from SQLDatabase");
+                return;
+            }
             if (routeSegment.moveToNext()) {
                 int fromWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_START_WAYPOINT_ID));
                 int toWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_END_WAYPOINT_ID));
@@ -325,14 +331,16 @@ public class NavigationActivity extends AppCompatActivity {
                 PolylineOptions polyline = new PolylineOptions();
 
                 polyline.addAll(points);
-                polyline.color(getResources().getColor(R.color.PrimaryColor)); // TODO Deprecated Method
+                polyline.color(getResources().getColor(R.color.PrimaryColor));
                 polyline.width(12);
                 polyline.geodesic(true);
 
                 // Add a new Route Segment to the current Route
-                mRoute.addRouteSegment(fromWaypointID, toWaypointID, polyline);
+                Route.get().addRouteSegment(fromWaypointID, toWaypointID, polyline);
             }
+            routeSegment.close(); // Free Cursor after Usage
         }
+        routeSegments.close(); // Free Cursor after Usage
     }
 
     public void onBtnClickedStartQuizLater(View view) {
@@ -341,14 +349,14 @@ public class NavigationActivity extends AppCompatActivity {
 
     public void onBtnClickedStartQuizNow(View view) {
         Intent startCurrentQuiz = new Intent(this, QuizActivity.class);
-        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId(this));
+        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.get().getCurrentQuizId());
         startActivity(startCurrentQuiz);
     }
 
     private BroadcastReceiver ArrivedAtWaypointReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.getCurrentQuizId(NavigationActivity.this)) {
+            if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.get().getCurrentQuizId()) {
                 QuizActivity.setProgressState(NavigationActivity.this, QuizActivity.IS_IN_PROGRESS);
                 mStartQuiz.show(Edge.BOTTOM, 1000); // Since there is the Possibility that the NavigationActivity is currently starting, add a Delay to the Animation
                 ((TextView)mStartQuiz.findViewById(R.id.textview_navigation_start_quiz_text)).setText(String.format(getResources().getString(R.string.textview_navigation_start_quiz_text), intent.getStringExtra(TAG_WAYPOINT_NAME)));

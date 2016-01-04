@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.support.annotation.IntDef;
 
+import com.github.wksb.wkebapp.App;
 import com.github.wksb.wkebapp.ProximityAlertReceiver;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.utilities.ListUtils;
@@ -36,6 +37,8 @@ import java.util.List;
  */
 public class Route {
 
+    private static Route SingletonInstance;
+
     // TODO Description. Used to only accept DESTINATION_TO_START and START_TO_DESTINATION as Parameters in Methods
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DESTINATION_TO_START, START_TO_DESTINATION})
@@ -57,8 +60,6 @@ public class Route {
     /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
     static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have an Id of -1
 
-    /** The Context of this Route */
-    private Context context;
     /** The List of {@link RouteSegment}s in this Route */
     private final List<RouteSegment> routeSegmentsList;
     /** This List is a central Collection of all {@link Waypoint}s that will be visited in the current Route.
@@ -73,8 +74,17 @@ public class Route {
     private RouteSegment mActiveRouteSegment;
     private Waypoint mCurrentDestinationWaypoint;
 
-    public Route(Context context) {
-        this.context = context;
+    public static Route get() {
+        if (SingletonInstance == null) SingletonInstance = getSynchronised();
+        return SingletonInstance;
+    }
+
+    private static synchronized Route getSynchronised() {
+        if (SingletonInstance == null) SingletonInstance = new Route();
+        return SingletonInstance;
+    }
+
+    private Route() {
         this.routeSegmentsList = new ArrayList<>();
         this.waypointList = new ArrayList<>();
         this.waypointOrderList = new ArrayList<>();
@@ -112,7 +122,7 @@ public class Route {
 
                 // If the Waypoint is the current Position, give it a special Icon
                 if (waypoint.isCurrentDestination()) {
-                    Drawable iconDrawable = getContext().getResources().getDrawable(R.drawable.ic_marker_current_position);
+                    Drawable iconDrawable = App.get().getResources().getDrawable(R.drawable.ic_marker_current_position);
                     Bitmap iconBitmap = Bitmap.createBitmap(iconDrawable.getIntrinsicWidth(), iconDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(iconBitmap);
                     iconDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -136,8 +146,8 @@ public class Route {
                 PolylineOptions navigationPolyline = routeSegment.getNavigationPolyline();
 
                 // If the RouteSegment is active, the Color of the Polyline is the PrimaryColor, otherwise its Color is the SecondaryTextColor
-                if (routeSegment.isActive()) navigationPolyline.color(getContext().getResources().getColor(R.color.PrimaryColor));
-                else navigationPolyline.color(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColorLight));
+                if (routeSegment.isActive()) navigationPolyline.color(App.get().getResources().getColor(R.color.PrimaryColor));
+                else navigationPolyline.color(App.get().getResources().getColor(R.color.BackgroundTextAndIconsColorLight));
 
                 // Finally add the Polyline to the Map
                 mNavigationPolylineList.add(googleMap.addPolyline(navigationPolyline));
@@ -146,7 +156,7 @@ public class Route {
     }
 
     private void addCurrentDestinationProximityAlert() {
-        LocationManager locationManager = (LocationManager) getContext().getSystemService(Activity.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) App.get().getSystemService(Activity.LOCATION_SERVICE);
         Intent proximityAlert = new Intent();
         proximityAlert.setAction(ProximityAlertReceiver.ACTION_PROXIMITY_ALERT);
         proximityAlert.putExtra(ProximityAlertReceiver.TAG_WAYPOINT_NAME, mCurrentDestinationWaypoint.getName());
@@ -154,7 +164,7 @@ public class Route {
 
         int detectionRadius = 40; // The radius around the central point in which to send an proximity alert
         int expirationTime = -1; // The time in milliseconds it takes this proximity alert to expire (-1 = no expiration)
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, proximityAlert, PendingIntent.FLAG_UPDATE_CURRENT); // TODO Previous Proximity Alerts have to be removed
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(App.get(), 0, proximityAlert, PendingIntent.FLAG_UPDATE_CURRENT); // TODO Previous Proximity Alerts have to be removed
 
         locationManager.addProximityAlert(mCurrentDestinationWaypoint.getLatitude(), mCurrentDestinationWaypoint.getLongitude(), detectionRadius, expirationTime, pendingIntent);
     }
@@ -170,13 +180,13 @@ public class Route {
 
         if (!waypointOrderList.contains(fromWaypointId)) {
             Waypoint fromWaypoint = new Waypoint(fromWaypointId);
-            fromWaypoint.loadDataFromDatabase(getContext());
+            fromWaypoint.loadDataFromDatabase(App.get());
             addWaypoint(fromWaypoint);
         }
 
         if (!waypointOrderList.contains(toWaypointId)) {
             Waypoint toWaypoint = new Waypoint(toWaypointId);
-            toWaypoint.loadDataFromDatabase(getContext());
+            toWaypoint.loadDataFromDatabase(App.get());
             addWaypoint(toWaypoint);
         }
     }
@@ -247,14 +257,14 @@ public class Route {
 
     public void syncWithProgress() {
         for (Waypoint waypoint : getWaypoints()) {
-            if (waypointOrderList.indexOf(waypoint.getId()) <= getProgress(getContext()))
+            if (waypointOrderList.indexOf(waypoint.getId()) <= getProgress())
                 waypoint.setState(Waypoint.WaypointState.VISITED);
         }
 
         for (RouteSegment segment : getRouteSegments()) {
-            if (routeSegmentsList.indexOf(segment) < getProgress(getContext()))
+            if (routeSegmentsList.indexOf(segment) < getProgress())
                 segment.setState(RouteSegment.RouteSegmentState.COMPLETED);
-            else if (routeSegmentsList.indexOf(segment) == getProgress(getContext())) {
+            else if (routeSegmentsList.indexOf(segment) == getProgress()) {
                 segment.setState(RouteSegment.RouteSegmentState.ACTIVE);
                 mActiveRouteSegment = segment;
             }
@@ -263,7 +273,7 @@ public class Route {
         mCurrentDestinationWaypoint = getWaypointById(mActiveRouteSegment.getDestinationWaypointId());
         mCurrentDestinationWaypoint.setState(Waypoint.WaypointState.CURRENT_DESTINATION);
         // Set the Id of the Quiz that has to be solved next to progress in this Route to the QuizId of the current Destination Waypoint
-        setCurrentQuizId(getContext(), mCurrentDestinationWaypoint.getQuizId());
+        setCurrentQuizId(mCurrentDestinationWaypoint.getQuizId());
 
         addCurrentDestinationProximityAlert();
     }
@@ -273,61 +283,59 @@ public class Route {
      * @return The {@link Context} of this Route
      */
     public Context getContext() {
-        return context;
+        return App.get();
     }
 
     /**
      * Set the Users' Progress in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @param progress The Progress of the User
      */
-    public static void setProgress(Context context, int progress) {
-        context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", progress).commit();
+    public void setProgress(int progress) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", progress).commit();
+    }
+
+    public void addProgress(int progress) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", getProgress() + progress).commit();
     }
 
     /**
      * Get the Users' Progress in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @return The Users' Progress in the current Route
      */
-    public static int getProgress(Context context) {
-        return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("PROGRESS", DEFAULT_ROUTE_PROGRESS);
+    public int getProgress() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("PROGRESS", DEFAULT_ROUTE_PROGRESS);
     }
 
     /**
      * Set the Name of the current Name. The name will be used in the SQL Query, so make sure it matches exactly the Name of an existing Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @param name The Name of the current Route
      */
-    public static void setName(Context context, String name) {
-        context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putString("ROUTE_NAME", name).commit();
+    public void setName(String name) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putString("ROUTE_NAME", name).commit();
     }
 
     /**
      * Get the Name of the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @return The Name of the current Route
      */
-    public static String getName(Context context) {
-        return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getString("ROUTE_NAME", DEFAULT_ROUTE_NAME);
+    public String getName() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getString("ROUTE_NAME", DEFAULT_ROUTE_NAME);
     }
 
     /**
      * Set the State for the current Route. The Route can be either in Progress or not
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @param isInProgress The State of the current Route
      */
-    public static void setProgressState(Context context, boolean isInProgress) {
-        context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", isInProgress).commit();
+    public void setProgressState(boolean isInProgress) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", isInProgress).commit();
     }
 
     /**
      * Check if the current Route is in Progress
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @return true if the current Route is in Progress, false otherwise
      */
-    public static boolean isInProgress(Context context) {
-        return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("IS_IN_PROGRESS", DEFAULT_IS_IN_PROGRESS);
+    public boolean isInProgress() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("IS_IN_PROGRESS", DEFAULT_IS_IN_PROGRESS);
     }
 
     /**
@@ -340,30 +348,27 @@ public class Route {
 
     /**
      * Set the QuizId of the Quiz that has to be solved next to make Progress in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @param quizId The QuizId of the Quiz that has to be solved next to make Progress in the current Route
      */
-    public static void setCurrentQuizId(Context context, int quizId) {
-        context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("CURRENT_QUIZ_ID", quizId).commit();
+    public void setCurrentQuizId(int quizId) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("CURRENT_QUIZ_ID", quizId).commit();
     }
 
     /**
      * Get the QuizId of the Quiz that has to be solved next to make Progress in the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      * @return
      */
-    public static int getCurrentQuizId(Context context) {
-        return context.getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", DEFAULT_CURRENT_QUIZ_ID);
+    public int getCurrentQuizId() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", DEFAULT_CURRENT_QUIZ_ID);
     }
 
     /**
      * Reset the current Route
-     * @param context The Context associated with the SharedPreferences containing the Progress
      */
-    public static void reset(Context context) {
-        setProgress(context, DEFAULT_ROUTE_PROGRESS);
-        setName(context, DEFAULT_ROUTE_NAME);
-        setProgressState(context, DEFAULT_IS_IN_PROGRESS);
-        setCurrentQuizId(context, DEFAULT_CURRENT_QUIZ_ID);
+    public void reset() {
+        setProgress(DEFAULT_ROUTE_PROGRESS);
+        setName(DEFAULT_ROUTE_NAME);
+        setProgressState(DEFAULT_IS_IN_PROGRESS);
+        setCurrentQuizId(DEFAULT_CURRENT_QUIZ_ID);
     }
 }

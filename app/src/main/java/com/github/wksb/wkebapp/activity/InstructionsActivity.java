@@ -59,7 +59,7 @@ public class InstructionsActivity extends AppCompatActivity {
     }
 
     private void resetPreviousTour() {
-        Route.reset(this);
+        Route.get().reset();
         QuizActivity.reset(this);
     }
 }

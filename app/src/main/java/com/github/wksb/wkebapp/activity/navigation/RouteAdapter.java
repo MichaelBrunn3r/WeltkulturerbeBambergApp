@@ -28,11 +28,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
     private final static int MINIMUM_TIME_BETWEEN_UPDATE = 3000; // In Milliseconds
     private final static int MINIMUM_DISTANCECHANGE_FOR_UPDATE = 1; // In Meter
 
-    private Route mRoute;
     private Context mContext;
 
-    public RouteAdapter(Context context, Route route) {
-        mRoute = route;
+    public RouteAdapter(Context context) {
         mContext = context;
 
         // Subscribe to Location Updates
@@ -49,7 +47,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
 
     @Override
     public void onBindViewHolder(WaypointViewHolder holder, int position) {
-        Waypoint waypoint = mRoute.getWaypointAt(position);
+        Waypoint waypoint = Route.get().getWaypointAt(position);
 
         // Set the Icon of the WaypointViewHolder, depending on the state of the Waypoint
         switch (waypoint.getState()) {
@@ -105,7 +103,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
 
     @Override
     public int getItemCount() {
-        return mRoute.getLength();
+        return Route.get().getLength();
     }
 
     public Context getContext() {

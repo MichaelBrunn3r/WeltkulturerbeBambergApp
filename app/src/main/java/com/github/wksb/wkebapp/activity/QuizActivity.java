@@ -183,8 +183,8 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
-            Route.setProgress(this, Route.getProgress(this) + 1); // Increment the current Progress by 1
+        if (mCurrentQuiz.getQuizId() == Route.get().getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
+            Route.get().addProgress(1); // Increment the current Progress by 1
             setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 
@@ -212,8 +212,8 @@ public class QuizActivity extends AppCompatActivity {
         mBtn_quiz_wrongAnswer2.setClickable(false);
         mBtn_quiz_wrongAnswer3.setClickable(false);
 
-        if (mCurrentQuiz.getQuizId() == Route.getCurrentQuizId(this)) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
-            Route.setProgress(this, Route.getProgress(this) + 1); // Increment the current Progress by 1
+        if (mCurrentQuiz.getQuizId() == Route.get().getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
+            Route.get().addProgress(1); // Increment the current Progress by 1
             setProgressState(this, NOT_IN_PROGRESS); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
         }
 

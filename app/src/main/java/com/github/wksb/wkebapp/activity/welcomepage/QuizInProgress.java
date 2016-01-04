@@ -47,7 +47,7 @@ public class QuizInProgress implements WelcomePageActivityState {
     @Override
     public void onBtnClickedContinue(View view) {
         Intent startCurrentQuiz = new Intent(welcomePageActivity, QuizActivity.class);
-        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId(welcomePageActivity));
+        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.get().getCurrentQuizId());
         welcomePageActivity.startActivity(startCurrentQuiz);
     }
 

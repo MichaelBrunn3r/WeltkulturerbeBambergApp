@@ -59,7 +59,7 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
         super.onStart();
         if (QuizActivity.isInProgress(this)) {
             setActivityState(new QuizInProgress(this));
-        } else if (Route.isInProgress(this)) {
+        } else if (Route.get().isInProgress()) {
             setActivityState(new TourInProgress(this));
         } else {
             setActivityState(new NoTourInProgress(this));
