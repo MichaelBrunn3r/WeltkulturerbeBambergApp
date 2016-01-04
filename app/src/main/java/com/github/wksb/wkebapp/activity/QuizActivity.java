@@ -60,7 +60,7 @@ public class QuizActivity extends AppCompatActivity {
     /** This TAG tags the ID of the Quiz, which is to be loaded, within an Intent send to this Activity*/
     public static final String TAG_QUIZ_ID = TAG_PACKAGE + "quiz_id";
     /** FLAG for the Quiz ID within an Intent send to this Activity, tagged with the TAG {@link QuizActivity#TAG_QUIZ_ID}, which indicates a Quiz with this ID doesn't exist*/
-    public static final int FLAG_QUIZ_ID_ERROR = -1;
+    public static final int FLAG_NO_QUIZ_ID_PASSED = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,11 +137,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Get the QuizId from the Starting Intent of this Activity
      * @return returns IntExtra with the Quiz ID from the starting Intent
      */
     private int getQuizIDFromIntent(){
-        return getIntent().getIntExtra(TAG_QUIZ_ID, FLAG_QUIZ_ID_ERROR);
+        int quizId = getIntent().getIntExtra(TAG_QUIZ_ID, FLAG_NO_QUIZ_ID_PASSED);
+        if (quizId == FLAG_NO_QUIZ_ID_PASSED) throw new IllegalArgumentException("No QuizID in Starting Intent");
+        return quizId;
     }
 
     /**
