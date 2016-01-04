@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.github.wksb.wkebapp.Edge;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.CollapsableView;
-import com.github.wksb.wkebapp.activity.QuizActivity;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.RouteSegmentsTable;
 import com.github.wksb.wkebapp.database.RoutesTable;
@@ -92,7 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Set up Route and Map if they don't exist
         if (mMap == null) setUpMap();
-        setUpRoute(); // TODO Route gets Set Up on every onStart() Call
+        if (Route.get().isEmpty()) setUpRoute();
 
         // Synchronise the States of the Waypoints with the Progress of the Route
         Route.get().syncWithProgress();
