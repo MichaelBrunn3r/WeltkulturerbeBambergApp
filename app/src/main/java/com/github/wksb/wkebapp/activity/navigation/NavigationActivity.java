@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.wksb.wkebapp.Edge;
+import com.github.wksb.wkebapp.ProximityAlertReceiver;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.CollapsableView;
 import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
@@ -148,53 +150,15 @@ public class NavigationActivity extends AppCompatActivity {
         }
 
         switch (item.getItemId()) {
-            case R.id.action_navigation_waypoint_1:
-                // No Quiz
-                return true;
-            case R.id.action_navigation_waypoint_2:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(3);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_3:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(8);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_4:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(9);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_5:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(7);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_6:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(4);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_7:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(5);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_8:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(1);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_9:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(6);
-                mStartQuiz.show(Edge.BOTTOM, 0);
-                return true;
-            case R.id.action_navigation_waypoint_10:
-                QuizActivity.setProgressState(this, QuizActivity.IS_IN_PROGRESS);
-                Route.get().setProgress(2);
-                mStartQuiz.show(Edge.BOTTOM, 0);
+            case R.id.action_start_next_quiz:
+
+                Intent proximityAlert = new Intent();
+                proximityAlert.setAction(ProximityAlertReceiver.ACTION_PROXIMITY_ALERT);
+                proximityAlert.putExtra(ProximityAlertReceiver.TAG_WAYPOINT_NAME, Route.get().getCurrentDestinationWaypoint().getName());
+                proximityAlert.putExtra(ProximityAlertReceiver.TAG_QUIZ_ID, Route.get().getCurrentDestinationWaypoint().getQuizId());
+                proximityAlert.putExtra(LocationManager.KEY_PROXIMITY_ENTERING, true);
+
+                sendBroadcast(proximityAlert);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
