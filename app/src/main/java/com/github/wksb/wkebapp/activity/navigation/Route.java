@@ -92,6 +92,10 @@ public class Route {
         this.mNavigationPolylineList = new ArrayList<>();
     }
 
+    public boolean isEmpty() {
+        return routeSegmentsList.size() < 1;
+    }
+
     /**
      * Render this Route on a {@link GoogleMap}. All {@link RouteSegment}s that were visited up to this point will be
      * rendered and the currently active {@link RouteSegment} will be highlighted
@@ -370,5 +374,13 @@ public class Route {
         setName(DEFAULT_ROUTE_NAME);
         setProgressState(DEFAULT_IS_IN_PROGRESS);
         setCurrentQuizId(DEFAULT_CURRENT_QUIZ_ID);
+
+        routeSegmentsList.clear();
+        waypointList.clear();
+        mMarkerList.clear();
+        mNavigationPolylineList.clear();
+        mActiveRouteSegment = null;
+        mCurrentDestinationWaypoint = null;
+        waypointOrderList.clear();
     }
 }
