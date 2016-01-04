@@ -231,12 +231,9 @@ public class QuizActivity extends AppCompatActivity {
     // TODO Documentation
     public void onBtnClickAnswer(View view)
     {
-        if(view.getId() == mBtn_quiz_solution.getId())
-        {
+        if (mCurrentQuiz.isRightAnswer((String)((Button)view).getText())) {
             onRightAnswerEntered(view);
-        }
-        else
-        {
+        } else {
             onWrongAnswerEntered(view);
         }
     }
@@ -272,6 +269,10 @@ public class QuizActivity extends AppCompatActivity {
             this.solution = solution;
             this.infoID = infoID;
             this.wrongAnswers = new ArrayList<>(Arrays.asList(wrong_answers));
+        }
+
+        public boolean isRightAnswer(String answer) {
+            return answer.equalsIgnoreCase(solution);
         }
 
         public int getQuizId(){
