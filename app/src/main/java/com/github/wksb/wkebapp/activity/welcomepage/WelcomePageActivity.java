@@ -10,7 +10,7 @@ import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.RouteSegmentsAsyncTaskLoader;
 import com.github.wksb.wkebapp.RoutesAsyncTaskLoader;
 import com.github.wksb.wkebapp.WaypointsAsyncTaskLoader;
-import com.github.wksb.wkebapp.activity.QuizActivity;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.QuizzesAsyncTaskLoader;
@@ -78,7 +78,6 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     public void setActivityState(WelcomePageActivityState state) {
         activityState = state;
         activityState.initState(); // Initialise state
-        DebugUtils.toast(this, "State changed to: " + state.getClass().getSimpleName());
     }
 
     /**

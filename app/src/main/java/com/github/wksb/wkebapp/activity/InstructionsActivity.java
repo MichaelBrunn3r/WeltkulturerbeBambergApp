@@ -10,6 +10,7 @@ import android.view.View;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 
 /**
  * This activity shows a greeting and instructions how to use the World-heritage-Application.

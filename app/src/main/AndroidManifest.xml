@@ -74,7 +74,7 @@
                 android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
         </activity>
         <activity
-            android:name=".activity.QuizActivity"
+            android:name=".activity.quiz.QuizActivity"
             android:label="@string/title_activity_quiz"
             android:screenOrientation="portrait" >
             <meta-data

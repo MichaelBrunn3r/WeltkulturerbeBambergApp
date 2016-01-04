@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.wksb.wkebapp.CustomHtmlTagHandler;
 import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
 import com.github.wksb.wkebapp.database.InformationTable;
 

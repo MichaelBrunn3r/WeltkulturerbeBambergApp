@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.github.wksb.wkebapp.activity.QuizActivity;
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
-import com.github.wksb.wkebapp.activity.navigation.Route;
-import com.github.wksb.wkebapp.utilities.DebugUtils;
 
 //TODO Documentation
 /**

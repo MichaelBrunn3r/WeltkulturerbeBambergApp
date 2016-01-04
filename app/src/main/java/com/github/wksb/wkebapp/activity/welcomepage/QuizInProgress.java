@@ -6,7 +6,7 @@ import android.view.View;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.AboutActivity;
 import com.github.wksb.wkebapp.activity.InstructionsActivity;
-import com.github.wksb.wkebapp.activity.QuizActivity;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 
 /**
