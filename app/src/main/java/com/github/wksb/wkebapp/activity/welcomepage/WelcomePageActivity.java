@@ -57,7 +57,7 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onStart() {
         super.onStart();
-        if (QuizActivity.isInProgress(this)) {
+        if (QuizActivity.nextQuizIsInUnlocked()) {
             setActivityState(new QuizInProgress(this));
         } else if (Route.get().isInProgress()) {
             setActivityState(new TourInProgress(this));
