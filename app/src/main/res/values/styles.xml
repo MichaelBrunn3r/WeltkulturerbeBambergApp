@@ -78,6 +78,12 @@
         <item name="android:textColor">@color/TextAndIconsColor</item>
         <item name="android:background">@color/OverlayColor</item>
     </style>
+
+    <style name="WeltkulturerbeBambergAppTheme.TextView.BigHeader" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textSize">80sp</item>
+        <item name="android:textColor">@color/TextAndIconsColor</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
     <!-- ======================= -->
     <!-- ======================= -->
 
