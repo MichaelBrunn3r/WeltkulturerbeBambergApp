@@ -82,9 +82,6 @@ public class NavigationActivity extends AppCompatActivity {
         // Set up the Action Bar
         setUpActionBar();
 
-        // Set Tour in progress
-        Route.get().setProgressState(true);
-
         mStartQuiz = (CollapsableView)findViewById(R.id.collapsableview_navigation_start_quiz);
     }
 
@@ -94,10 +91,8 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Set up Route and Map if they don't exist
         if (mMap == null) setUpMap();
-        if (Route.get().isEmpty()) setUpRoute();
 
-        // Synchronise the States of the Waypoints with the Progress of the Route
-        Route.get().syncWithProgress();
+        if (!Route.get().isInitialised()) Route.get().init();
 
         // Set up the Navigation Drawer
         setUpDrawer();
@@ -240,73 +235,6 @@ public class NavigationActivity extends AppCompatActivity {
         mMap.setPadding(0, (int) getResources().getDimension(R.dimen.actionbar_height) + (int) getResources().getDimension(R.dimen.default_screen_padding), 0, 0);
     }
 
-    //TODO Documentation
-    private void setUpRoute() {
-        // Query Arguments
-        String[] projection = {RoutesTable.COLUMN_ROUTE_SEGMENT_ID, RoutesTable.COLUMN_ROUTE_SEGMENT_POSITION};
-        String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
-        String[] selectionArgs = {Route.get().getName()};
-
-        // Query for Route Segments
-        Cursor routeSegments = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,
-                projection, selection, selectionArgs, null);
-
-        if (routeSegments == null) {
-            DebugUtils.toast(this, "Route could not be loaded. Error while loading Data from SQLDatabase");
-            return;
-        }
-        while (routeSegments.moveToNext()) {
-            projection = new String[]{RouteSegmentsTable.COLUMN_START_WAYPOINT_ID, RouteSegmentsTable.COLUMN_END_WAYPOINT_ID, RouteSegmentsTable.COLUMN_KML_FILENAME};
-            selection = RouteSegmentsTable.COLUMN_SEGMENT_ID + "=?";
-            selectionArgs = new String[]{""+routeSegments.getInt(routeSegments.getColumnIndex(RoutesTable.COLUMN_ROUTE_SEGMENT_ID))};
-
-            Cursor routeSegment = getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTE_SEGMENTS, projection, selection, selectionArgs, null);
-
-            if (routeSegment == null) {
-                DebugUtils.toast(this, "Route could not be loaded. Error while loading Data from SQLDatabase");
-                return;
-            }
-            if (routeSegment.moveToNext()) {
-                int fromWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_START_WAYPOINT_ID));
-                int toWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_END_WAYPOINT_ID));
-                String polylineFile = routeSegment.getString(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_KML_FILENAME));
-
-                List<LatLng> points = new ArrayList<>();
-
-                try {
-                    JSONParser parser = new JSONParser();
-                    Object obj = parser.parse(new InputStreamReader(getAssets().open(polylineFile)));
-
-                    if (obj instanceof JSONObject) {
-                        JSONObject jsonObject = (JSONObject) obj;
-
-                        for (String coordinates : ((String)jsonObject.get("polyline")).split(",0.0")) {
-                            String longitude = coordinates.substring(0, coordinates.indexOf(","));
-                            String latitude = coordinates.substring(coordinates.indexOf(",") +1);
-
-                            LatLng point = new LatLng(Float.parseFloat(latitude), Float.parseFloat(longitude));
-                            points.add(point);
-                        }
-                    }
-                } catch (ParseException | IOException e) {
-                    e.printStackTrace();
-                }
-
-                PolylineOptions polyline = new PolylineOptions();
-
-                polyline.addAll(points);
-                polyline.color(getResources().getColor(R.color.PrimaryColor));
-                polyline.width(12);
-                polyline.geodesic(true);
-
-                // Add a new Route Segment to the current Route
-                Route.get().addRouteSegment(fromWaypointID, toWaypointID, polyline);
-            }
-            routeSegment.close(); // Free Cursor after Usage
-        }
-        routeSegments.close(); // Free Cursor after Usage
-    }
-
     public void onBtnClickedStartQuizLater(View view) {
         mStartQuiz.collapse(Edge.BOTTOM);
     }
@@ -321,7 +249,7 @@ public class NavigationActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getIntExtra(TAG_QUIZ_ID, -1) == Route.get().getCurrentQuizId()) {
-                QuizActivity.setProgressState(NavigationActivity.this, QuizActivity.IS_IN_PROGRESS);
+                QuizActivity.setNextQuizLockState(QuizActivity.QUIZ_UNLOCKED);
                 mStartQuiz.show(Edge.BOTTOM, 1000); // Since there is the Possibility that the NavigationActivity is currently starting, add a Delay to the Animation
                 ((TextView)mStartQuiz.findViewById(R.id.textview_navigation_start_quiz_text)).setText(String.format(getResources().getString(R.string.textview_navigation_start_quiz_text), intent.getStringExtra(TAG_WAYPOINT_NAME)));
             }

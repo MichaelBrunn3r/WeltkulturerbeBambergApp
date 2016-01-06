@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,10 @@ import android.support.annotation.IntDef;
 import com.github.wksb.wkebapp.App;
 import com.github.wksb.wkebapp.ProximityAlertReceiver;
 import com.github.wksb.wkebapp.R;
+import com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider;
+import com.github.wksb.wkebapp.database.RouteSegmentsTable;
+import com.github.wksb.wkebapp.database.RoutesTable;
+import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.github.wksb.wkebapp.utilities.ListUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +28,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -69,6 +80,8 @@ public class Route {
      * the Start to the Destination */
     private final List<Integer> waypointOrderList;
 
+    private boolean isInitialised = false;
+
     private List<Marker> mMarkerList;
     private List<Polyline> mNavigationPolylineList;
     private RouteSegment mActiveRouteSegment;
@@ -92,8 +105,8 @@ public class Route {
         this.mNavigationPolylineList = new ArrayList<>();
     }
 
-    public boolean isEmpty() {
-        return routeSegmentsList.size() < 1;
+    public boolean isInitialised() {
+        return isInitialised;
     }
 
     /**
@@ -278,12 +291,15 @@ public class Route {
             }
         }
 
-        mCurrentDestinationWaypoint = getWaypointById(mActiveRouteSegment.getDestinationWaypointId());
-        mCurrentDestinationWaypoint.setState(Waypoint.WaypointState.CURRENT_DESTINATION);
-        // Set the Id of the Quiz that has to be solved next to progress in this Route to the QuizId of the current Destination Waypoint
-        setCurrentQuizId(mCurrentDestinationWaypoint.getQuizId());
+        if (mActiveRouteSegment != null) {
+            mCurrentDestinationWaypoint = getWaypointById(mActiveRouteSegment.getDestinationWaypointId());
+            mCurrentDestinationWaypoint.setState(Waypoint.WaypointState.CURRENT_DESTINATION);
 
-        addCurrentDestinationProximityAlert();
+            // Set the Id of the Quiz that has to be solved next to progress in this Route to the QuizId of the current Destination Waypoint
+            setCurrentQuizId(mCurrentDestinationWaypoint.getQuizId());
+
+            addCurrentDestinationProximityAlert();
+        } else  mCurrentDestinationWaypoint = null;
     }
 
     /**
@@ -372,6 +388,80 @@ public class Route {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", DEFAULT_CURRENT_QUIZ_ID);
     }
 
+    public void init() {
+        if (!isInitialised()) {
+            // Query Arguments
+            String[] projection = {RoutesTable.COLUMN_ROUTE_SEGMENT_ID, RoutesTable.COLUMN_ROUTE_SEGMENT_POSITION};
+            String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
+            String[] selectionArgs = {Route.get().getName()};
+
+            // Query for Route Segments
+            Cursor routeSegments = App.get().getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,
+                    projection, selection, selectionArgs, null);
+
+            if (routeSegments == null) {
+                DebugUtils.toast(App.get(), "Route could not be loaded. Error while loading Data from SQLDatabase");
+                return;
+            }
+            while (routeSegments.moveToNext()) {
+                projection = new String[]{RouteSegmentsTable.COLUMN_START_WAYPOINT_ID, RouteSegmentsTable.COLUMN_END_WAYPOINT_ID, RouteSegmentsTable.COLUMN_KML_FILENAME};
+                selection = RouteSegmentsTable.COLUMN_SEGMENT_ID + "=?";
+                selectionArgs = new String[]{""+routeSegments.getInt(routeSegments.getColumnIndex(RoutesTable.COLUMN_ROUTE_SEGMENT_ID))};
+
+                Cursor routeSegment = App.get().getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTE_SEGMENTS, projection, selection, selectionArgs, null);
+
+                if (routeSegment == null) {
+                    DebugUtils.toast(App.get(), "Route could not be loaded. Error while loading Data from SQLDatabase");
+                    return;
+                }
+                if (routeSegment.moveToNext()) {
+                    int fromWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_START_WAYPOINT_ID));
+                    int toWaypointID = routeSegment.getInt(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_END_WAYPOINT_ID));
+                    String polylineFile = routeSegment.getString(routeSegment.getColumnIndex(RouteSegmentsTable.COLUMN_KML_FILENAME));
+
+                    List<LatLng> points = new ArrayList<>();
+
+                    try {
+                        JSONParser parser = new JSONParser();
+                        Object obj = parser.parse(new InputStreamReader(App.get().getAssets().open(polylineFile)));
+
+                        if (obj instanceof JSONObject) {
+                            JSONObject jsonObject = (JSONObject) obj;
+
+                            for (String coordinates : ((String)jsonObject.get("polyline")).split(",0.0")) {
+                                String longitude = coordinates.substring(0, coordinates.indexOf(","));
+                                String latitude = coordinates.substring(coordinates.indexOf(",") +1);
+
+                                LatLng point = new LatLng(Float.parseFloat(latitude), Float.parseFloat(longitude));
+                                points.add(point);
+                            }
+                        }
+                    } catch (ParseException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    PolylineOptions polyline = new PolylineOptions();
+
+                    polyline.addAll(points);
+                    polyline.color(App.get().getResources().getColor(R.color.PrimaryColor));
+                    polyline.width(12);
+                    polyline.geodesic(true);
+
+                    // Add a new Route Segment to the current Route
+                    addRouteSegment(fromWaypointID, toWaypointID, polyline);
+                }
+                routeSegment.close(); // Free Cursor after Usage
+            }
+            routeSegments.close(); // Free Cursor after Usage
+        }
+        syncWithProgress();
+
+        // Set Tour in progress
+        setProgressState(true);
+
+        isInitialised = true;
+    }
+
     /**
      * Reset the current Route
      */
@@ -388,5 +478,7 @@ public class Route {
         mActiveRouteSegment = null;
         mCurrentDestinationWaypoint = null;
         waypointOrderList.clear();
+
+        isInitialised = false;
     }
 }
