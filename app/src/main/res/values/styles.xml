@@ -74,9 +74,9 @@
     </style>
 
     <style name="WeltkulturerbeBambergAppTheme.TextView.Overlay" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
         <item name="android:textColor">@color/TextAndIconsColor</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">80sp</item>
+        <item name="android:background">@color/OverlayColor</item>
     </style>
     <!-- ======================= -->
     <!-- ======================= -->

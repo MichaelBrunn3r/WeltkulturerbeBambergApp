@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/framelayout_quiz_image_frame"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/imageview_quiz_background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dummy_image"/>
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView_quiz_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/framelayout_quiz_image_frame"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textview_quiz_information_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_info_information"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:padding="16dp"
+                style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

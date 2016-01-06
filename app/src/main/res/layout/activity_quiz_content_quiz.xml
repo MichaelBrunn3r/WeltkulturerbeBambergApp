@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/framelayout_quiz_image_frame"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/imageview_quiz_background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dummy_image"/>
+
+        <TextView
+            android:id="@+id/textview_quiz_question"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="---"
+            android:layout_gravity="center"
+            style="@style/WeltkulturerbeBambergAppTheme.TextView.Overlay"
+            android:gravity="center"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/linearlayout_quiz_answers"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/framelayout_quiz_image_frame">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/linearlayout_quiz_answers_left">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="---"
+                android:id="@+id/button_quiz_answer1"
+                android:layout_weight="1"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
+                android:onClick="onBtnClickedAnswer"
+                android:gravity="center_vertical|center_horizontal" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="---"
+                android:id="@+id/button_quiz_answer2"
+                android:layout_weight="1"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
+                android:onClick="onBtnClickedAnswer"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/linearlayout_quiz_answers_right">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="---"
+                android:id="@+id/button_quiz_answer3"
+                android:layout_weight="1"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
+                android:onClick="onBtnClickedAnswer"
+                android:gravity="center_vertical|center_horizontal" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="---"
+                android:id="@+id/button_quiz_answer4"
+                android:layout_weight="1"
+                style="@style/WeltkulturerbeBambergAppTheme.Button"
+                android:onClick="onBtnClickedAnswer"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
