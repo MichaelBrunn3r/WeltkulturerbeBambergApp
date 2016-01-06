@@ -300,10 +300,12 @@ public class Route {
      */
     public void setProgress(int progress) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", progress).commit();
+        syncWithProgress();
     }
 
     public void addProgress(int progress) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", getProgress() + progress).commit();
+        syncWithProgress();
     }
 
     /**
