@@ -155,7 +155,7 @@ public class QuizActivity extends AppCompatActivity {
             // Set Custom ActionBar Layout
             getSupportActionBar().setCustomView(R.layout.actionbar_title);
         } else {
-            DebugUtils.toast(this, "Error while loading the SupportActionbar");
+            DebugUtils.toast("Error while loading the SupportActionbar");
         }
     }
 

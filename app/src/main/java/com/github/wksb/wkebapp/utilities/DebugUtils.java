@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.wksb.wkebapp.App;
 import com.github.wksb.wkebapp.BuildConfig;
 
 /**
@@ -17,9 +18,9 @@ public final class DebugUtils {
 
     private static final String tag = "DEBUG";
 
-    public static void toast(Context context, String message) {
+    public static void toast(String message) {
         if (isDebugMode()) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.get(), message, Toast.LENGTH_SHORT).show();
             log(">>" + message + "<<");
         }
     }

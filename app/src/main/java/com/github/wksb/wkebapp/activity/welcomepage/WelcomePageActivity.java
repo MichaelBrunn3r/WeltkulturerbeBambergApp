@@ -97,23 +97,23 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
         switch (id) {
             case ROUTES_LOADER_ID:
                 // Return new RoutesAsyncTaskLoader to load routes in the database
-                DebugUtils.toast(this, "Loading Routes in Database ...");
+                DebugUtils.toast("Loading Routes in Database ...");
                 return new RoutesAsyncTaskLoader(this);
             case QUIZZES_LOADER_ID:
                 // Return new QuizzesAsyncTaskLoader to load quizzes in the database
-                DebugUtils.toast(this, "Loading Quizzes in Database ...");
+                DebugUtils.toast("Loading Quizzes in Database ...");
                 return new QuizzesAsyncTaskLoader(this);
             case WAYPOINTS_LOADER_ID:
                 // Return new WaypointsAsyncTaskLoader to load waypoints in the database
-                DebugUtils.toast(this, "Loading Waypoints in Database ...");
+                DebugUtils.toast("Loading Waypoints in Database ...");
                 return new WaypointsAsyncTaskLoader(this);
             case INFORMATION_LOADER_ID:
                 // Return new InformationAsyncTaskLoader to load the information about the waypoints in the database
-                DebugUtils.toast(this, "Loading Information about the Waypoints in the Database ...");
+                DebugUtils.toast("Loading Information about the Waypoints in the Database ...");
                 return new InformationAsyncTaskLoader(this);
             case ROUTE_SEGMENTS_LOADER_ID:
                 // Return new RouteSegmentsAsyncTaskLoader to load the rout-segments
-                DebugUtils.toast(this, "Loading Route Segments in Database ...");
+                DebugUtils.toast("Loading Route Segments in Database ...");
                 return new RouteSegmentsAsyncTaskLoader(this);
             default:
                 // There is no such Loader ID -> throw Exception
@@ -130,23 +130,23 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     public void onLoadFinished(Loader loader, Object data) {
         switch (loader.getId()) {
             case ROUTES_LOADER_ID:
-                DebugUtils.toast(this, "Routes loaded");
+                DebugUtils.toast("Routes loaded");
                 getLoaderManager().destroyLoader(ROUTES_LOADER_ID);
                 break;
             case QUIZZES_LOADER_ID:
-                DebugUtils.toast(this, "Quizzes loaded");
+                DebugUtils.toast("Quizzes loaded");
                 getLoaderManager().destroyLoader(QUIZZES_LOADER_ID);
                 break;
             case WAYPOINTS_LOADER_ID:
-                DebugUtils.toast(this, "Waypoints loaded");
+                DebugUtils.toast("Waypoints loaded");
                 getLoaderManager().destroyLoader(WAYPOINTS_LOADER_ID);
                 break;
             case INFORMATION_LOADER_ID:
-                DebugUtils.toast(this, "Information about Waypoints loaded");
+                DebugUtils.toast("Information about Waypoints loaded");
                 getLoaderManager().destroyLoader(INFORMATION_LOADER_ID);
                 break;
             case ROUTE_SEGMENTS_LOADER_ID:
-                DebugUtils.toast(this, "Route Segments loaded");
+                DebugUtils.toast("Route Segments loaded");
                 getLoaderManager().destroyLoader(ROUTE_SEGMENTS_LOADER_ID);
                 break;
         }

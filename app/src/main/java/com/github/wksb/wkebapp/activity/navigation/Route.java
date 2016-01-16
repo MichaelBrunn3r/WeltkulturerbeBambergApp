@@ -400,7 +400,7 @@ public class Route {
                     projection, selection, selectionArgs, null);
 
             if (routeSegments == null) {
-                DebugUtils.toast(App.get(), "Route could not be loaded. Error while loading Data from SQLDatabase");
+                DebugUtils.toast("Route could not be loaded. Error while loading Data from SQLDatabase");
                 return;
             }
             while (routeSegments.moveToNext()) {
@@ -411,7 +411,7 @@ public class Route {
                 Cursor routeSegment = App.get().getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTE_SEGMENTS, projection, selection, selectionArgs, null);
 
                 if (routeSegment == null) {
-                    DebugUtils.toast(App.get(), "Route could not be loaded. Error while loading Data from SQLDatabase");
+                    DebugUtils.toast("Route could not be loaded. Error while loading Data from SQLDatabase");
                     return;
                 }
                 if (routeSegment.moveToNext()) {
