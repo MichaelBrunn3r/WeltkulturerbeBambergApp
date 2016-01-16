@@ -61,32 +61,35 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RowViewHolde
         // Save the State of the Waypoint in the ViewHolder
         holder.setWaypointState(waypoint.getState());
 
+        Location lastKnownLocation = ((LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        int distance = -1;
+        if (lastKnownLocation != null) {
+            distance = Math.round(lastKnownLocation.distanceTo(waypoint.getLocation())); // The Distance between the current Position and the Waypoint
+        }
+
         // Set the Icon of the RowViewHolder, depending on the state of the Waypoint
         switch (waypoint.getState()) {
             case VISITED:
                 holder.populateWaypointStateIcon(R.drawable.ic_waypoint_visited);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint was already visited
+                holder.populateWaypointName(waypoint.getName()); // Set the Name of the Waypoint
                 break;
             case CURRENT_DESTINATION:
                 holder.populateWaypointStateIcon(R.drawable.ic_waypoint_current_position);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint is the current Destination
+                holder.populateWaypointName(waypoint.getName()); // Set the Name of the Waypoint
                 break;
             case NOT_VISITED:
                 holder.populateWaypointStateIcon(R.drawable.ic_waypoint_not_visited);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColorLight)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColorLight if the Waypoint was not yet visited
+                holder.populateWaypointName(getContext().getResources().getString(R.string.textview_navigation_waypoint_name_placeholder)); // Waypoint was not visited, yet, so don't show its Name
+
+                distance = -1;
                 break;
         }
 
-        // Set the WaypointName TextViews Text to the Name of the Waypoint
-        holder.populateWaypointName(waypoint.getName());
-
         // Set the Text of the DistanceToWaypoint
-        Location lastKnownLocation = ((LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (lastKnownLocation != null) {
-            int distance = Math.round(lastKnownLocation.distanceTo(waypoint.getLocation())); // The Distance between the current Position and the Waypoint
-            if (distance > 1) holder.mTvDistanceToWaypoint.setText(distance + " " + getContext().getResources().getString(R.string.distance_unit));
-            else holder.mTvDistanceToWaypoint.setText(distance + " " + getContext().getResources().getString(R.string.distance_unit_one));
-        }
+        holder.populateDistanceToWaypoint(distance);
     }
 
     @Override
@@ -124,10 +127,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RowViewHolde
 
     public void addOnItemClickedListener(OnItemClickedListener listener) {
         mOnItemClickListener.add(listener);
-    }
-
-    public void removeOnItemClickedListener(OnItemClickedListener listener) {
-        mOnItemClickListener.remove(mOnItemClickListener.indexOf(listener));
     }
 
     public void notifyItemClicked(RowViewHolder item) {
@@ -171,11 +170,20 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RowViewHolde
         }
 
         public void populateWaypointStateIcon(int imageResource) {
-            mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
+            mIvWaypointStateIcon.setImageResource(imageResource);
         }
 
         public void populateWaypointName(String waypointName) {
             mTvWaypointName.setText(waypointName);
+        }
+
+        public void populateDistanceToWaypoint(int distance) {
+            if (distance > 1)
+                mTvDistanceToWaypoint.setText(String.format(getContext().getResources().getString(R.string.textview_navigation_distance), distance, getContext().getResources().getString(R.string.distance_unit)));
+            else if (distance < 0)
+                mTvDistanceToWaypoint.setText(getContext().getResources().getString(R.string.textview_navigation_distance_placeholder));
+            else
+                mTvDistanceToWaypoint.setText(String.format(getContext().getResources().getString(R.string.textview_navigation_distance), distance, getContext().getResources().getString(R.string.distance_unit_one)));
         }
 
         @Override
