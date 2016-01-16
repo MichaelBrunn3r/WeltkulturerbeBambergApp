@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
 
+import java.util.ArrayList;
+
 /**
  * This Adapter provides a binding from the Waypoints in the current Route to views that are displayed within the {@link RecyclerView} in the {@link NavigationActivity}.
  *
@@ -22,7 +24,7 @@ import com.github.wksb.wkebapp.R;
  * @since 2015-06-04
  */
 
-public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointViewHolder> implements LocationListener{
+public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RowViewHolder> implements LocationListener{
 
     // Specifiers for the Location Update Subscription
     private final static int MINIMUM_TIME_BETWEEN_UPDATE = 3000; // In Milliseconds
@@ -30,43 +32,53 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
 
     private Context mContext;
 
+    private ArrayList<OnItemClickedListener> mOnItemClickListener;
+
     public RouteAdapter(Context context) {
         mContext = context;
 
         // Subscribe to Location Updates
         LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINIMUM_TIME_BETWEEN_UPDATE, MINIMUM_DISTANCECHANGE_FOR_UPDATE, this);
+
+        mOnItemClickListener = new ArrayList<>(5);
     }
 
     @Override
-    public WaypointViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //  Inflate the ViewHolder
+    public RowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //  Inflate the RowViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_waypoint, parent, false);
-        return new WaypointViewHolder(view);
+        return new RowViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(WaypointViewHolder holder, int position) {
+    public void onBindViewHolder(RowViewHolder holder, int position) {
         Waypoint waypoint = Route.get().getWaypointAt(position);
 
-        // Set the Icon of the WaypointViewHolder, depending on the state of the Waypoint
+        // Save the Id of the Waypoint in the View Holder
+        holder.setWaypointId(waypoint.getId());
+
+        // Save the State of the Waypoint in the ViewHolder
+        holder.setWaypointState(waypoint.getState());
+
+        // Set the Icon of the RowViewHolder, depending on the state of the Waypoint
         switch (waypoint.getState()) {
             case VISITED:
-                holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
+                holder.populateWaypointStateIcon(R.drawable.ic_waypoint_visited);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint was already visited
                 break;
             case CURRENT_DESTINATION:
-                holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_current_position);
+                holder.populateWaypointStateIcon(R.drawable.ic_waypoint_current_position);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColor)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColor if the Waypoint is the current Destination
                 break;
             case NOT_VISITED:
-                holder.mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_not_visited);
+                holder.populateWaypointStateIcon(R.drawable.ic_waypoint_not_visited);
                 holder.mTvWaypointName.setTextColor(getContext().getResources().getColor(R.color.BackgroundTextAndIconsColorLight)); // Set the Text Color of the WaypointName to the BackgroundTextAndIconsColorLight if the Waypoint was not yet visited
                 break;
         }
 
         // Set the WaypointName TextViews Text to the Name of the Waypoint
-        holder.mTvWaypointName.setText(waypoint.getName());
+        holder.populateWaypointName(waypoint.getName());
 
         // Set the Text of the DistanceToWaypoint
         Location lastKnownLocation = ((LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -110,30 +122,78 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.WaypointView
         return mContext;
     }
 
-    class WaypointViewHolder extends RecyclerView.ViewHolder {
+    public void addOnItemClickedListener(OnItemClickedListener listener) {
+        mOnItemClickListener.add(listener);
+    }
 
-        public ImageView mIvWaypointStateIcon;
-        public TextView mTvWaypointName;
-        public TextView mTvDistanceToWaypoint;
+    public void removeOnItemClickedListener(OnItemClickedListener listener) {
+        mOnItemClickListener.remove(mOnItemClickListener.indexOf(listener));
+    }
 
-        public WaypointViewHolder(View view) {
+    public void notifyItemClicked(RowViewHolder item) {
+        for (OnItemClickedListener listener : mOnItemClickListener) {
+            listener.onClick(item);
+        }
+    }
+
+    class RowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        private ImageView mIvWaypointStateIcon;
+        private TextView mTvWaypointName;
+        private TextView mTvDistanceToWaypoint;
+
+        private int mWaypointId;
+        private Waypoint.WaypointState mWaypointState;
+
+        public RowViewHolder(View view) {
             super(view);
             mIvWaypointStateIcon = (ImageView) view.findViewById(R.id.row_waypoint_icon);
             mTvWaypointName = (TextView) view.findViewById(R.id.row_waypoint_name);
             mTvDistanceToWaypoint = (TextView) view.findViewById(R.id.row_waypoint_distance);
 
-            // Enable marquee TextScrolling of the Waypoint Name when clicking on it
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Set Waypoint Name TextView selected to enable text scrolling (marquee)
-                    if (mTvWaypointName.isSelected()) {
-                        mTvWaypointName.setSelected(false);
-                    } else {
-                        mTvWaypointName.setSelected(true);
-                    }
-                }
-            });
+            view.setOnClickListener(this);
         }
+
+        public void setWaypointId(int waypointId) {
+            mWaypointId = waypointId;
+        }
+
+        public int getWaypointId() {
+            return mWaypointId;
+        }
+
+        public void setWaypointState(Waypoint.WaypointState waypointState) {
+            mWaypointState = waypointState;
+        }
+
+        public Waypoint.WaypointState getWaypointState() {
+            return mWaypointState;
+        }
+
+        public void populateWaypointStateIcon(int imageResource) {
+            mIvWaypointStateIcon.setImageResource(R.drawable.ic_waypoint_visited);
+        }
+
+        public void populateWaypointName(String waypointName) {
+            mTvWaypointName.setText(waypointName);
+        }
+
+        @Override
+        public void onClick(View v) {
+            notifyItemClicked(this);
+
+            // Enable marquee TextScrolling of the Waypoint Name when clicking on it
+            // Set Waypoint Name TextView selected to enable text scrolling (marquee)
+            if (mTvWaypointName.isSelected()) {
+                mTvWaypointName.setSelected(false);
+            } else {
+                mTvWaypointName.setSelected(true);
+            }
+        }
+    }
+
+    public interface OnItemClickedListener {
+
+        public void onClick(RowViewHolder item);
     }
 }

@@ -181,7 +181,7 @@ public class NavigationActivity extends AppCompatActivity {
             // Set Custom ActionBar Layout
             getSupportActionBar().setCustomView(R.layout.actionbar_title);
         } else {
-            DebugUtils.toast(this, "Error while loading the SupportActionbar");
+            DebugUtils.toast("Error while loading the SupportActionbar");
         }
 
         mTextViewActionbarTitle = (TextView) findViewById(R.id.textview_actionbar_title);
@@ -215,6 +215,16 @@ public class NavigationActivity extends AppCompatActivity {
         mRvRouteList.setHasFixedSize(true); // No new Waypoints
         mRvRouteList.setLayoutManager(new LinearLayoutManager(this));
         mRouteAdapter = new RouteAdapter(this);
+        mRouteAdapter.addOnItemClickedListener(new RouteAdapter.OnItemClickedListener() {
+            @Override
+            public void onClick(RouteAdapter.RowViewHolder item) {
+                if (item.getWaypointState() != Waypoint.WaypointState.NOT_VISITED) {
+                    LatLng waypointLatLng = new LatLng(Route.get().getWaypointById(item.getWaypointId()).getLatitude(), Route.get().getWaypointById(item.getWaypointId()).getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(waypointLatLng));
+                    mDrawerLayout.closeDrawers();
+                }
+            }
+        });
         mRvRouteList.setAdapter(mRouteAdapter);
         mRvRouteList.addItemDecoration(new DividerItemDecorator(this));
     }
