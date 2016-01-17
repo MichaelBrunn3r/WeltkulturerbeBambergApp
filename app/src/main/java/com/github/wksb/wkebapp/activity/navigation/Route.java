@@ -336,7 +336,7 @@ public class Route {
      * Get the Users' Progress in the current Route
      * @return The Users' Progress in the current Route
      */
-    public int getProgress() {
+    public static int getProgress() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("PROGRESS", DEFAULT_ROUTE_PROGRESS);
     }
 
@@ -344,7 +344,7 @@ public class Route {
      * Set the Name of the current Name. The name will be used in the SQL Query, so make sure it matches exactly the Name of an existing Route
      * @param name The Name of the current Route
      */
-    public void setName(String name) {
+    public static void setName(String name) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putString("ROUTE_NAME", name).commit();
     }
 
@@ -352,7 +352,7 @@ public class Route {
      * Get the Name of the current Route
      * @return The Name of the current Route
      */
-    public String getName() {
+    public static String getName() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getString("ROUTE_NAME", DEFAULT_ROUTE_NAME);
     }
 
@@ -360,7 +360,7 @@ public class Route {
      * Set the State for the current Route. The Route can be either in Progress or not
      * @param isInProgress The State of the current Route
      */
-    public void setProgressState(boolean isInProgress) {
+    public static void setProgressState(boolean isInProgress) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("IS_IN_PROGRESS", isInProgress).commit();
     }
 
@@ -368,7 +368,7 @@ public class Route {
      * Check if the current Route is in Progress
      * @return true if the current Route is in Progress, false otherwise
      */
-    public boolean isInProgress() {
+    public static boolean isInProgress() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("IS_IN_PROGRESS", DEFAULT_IS_IN_PROGRESS);
     }
 
@@ -384,7 +384,7 @@ public class Route {
      * Set the QuizId of the Quiz that has to be solved next to make Progress in the current Route
      * @param quizId The QuizId of the Quiz that has to be solved next to make Progress in the current Route
      */
-    public void setCurrentQuizId(int quizId) {
+    public static void setCurrentQuizId(int quizId) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("CURRENT_QUIZ_ID", quizId).commit();
     }
 
@@ -392,17 +392,17 @@ public class Route {
      * Get the QuizId of the Quiz that has to be solved next to make Progress in the current Route
      * @return
      */
-    public int getCurrentQuizId() {
+    public static int getCurrentQuizId() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", DEFAULT_CURRENT_QUIZ_ID);
     }
 
     // TODO Description
-    public void setArrivedAtCurrentDestination(boolean arrivedAtCurrentDestination) {
+    public static void setArrivedAtCurrentDestination(boolean arrivedAtCurrentDestination) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("ARRIVED_AT_CURRENT_DESTINATION", arrivedAtCurrentDestination).commit();
     }
 
     // TODO Description
-    public boolean hasArrivedAtCurrentDestination() {
+    public static boolean hasArrivedAtCurrentDestination() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("ARRIVED_AT_CURRENT_DESTINATION", DEFAULT_ARRIVED_AT_CURRENT_DESTINATION);
     }
 
@@ -412,7 +412,7 @@ public class Route {
             // Query Arguments
             String[] projection = {RoutesTable.COLUMN_ROUTE_SEGMENT_ID, RoutesTable.COLUMN_ROUTE_SEGMENT_POSITION};
             String selection = RoutesTable.COLUMN_ROUTE_NAME + "=?";
-            String[] selectionArgs = {Route.get().getName()};
+            String[] selectionArgs = {getName()};
 
             // Query for Route Segments
             Cursor routeSegments = App.get().getContentResolver().query(WeltkulturerbeContentProvider.URI_TABLE_ROUTES,
