@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_arrived_at_waypoint_title">Arrived at Waypoint</string>
+    <string name="notification_arrived_at_waypoint_detail">Start the Quiz now</string>
+</resources>
