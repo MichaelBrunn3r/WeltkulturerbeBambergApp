@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -40,6 +41,9 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public class NavigationActivity extends AppCompatActivity {
+
+    // TODO Description
+    public static final String ACTION_NOTIFY_ARRIVED_AT_WAYPOINT = "com.github.wksb.wkebapp.NOTIFY_ARRIVED_AT_WAYPOINT";
 
     // Title of the ActionBar
     private TextView mTextViewActionbarTitle;
@@ -92,13 +96,13 @@ public class NavigationActivity extends AppCompatActivity {
         super.onResume();
 
         // Register the ArrivedAtWaypointReceiver to receive TODO missing Description
-        registerReceiver(ArrivedAtWaypointReceiver, new IntentFilter(ProximityAlertReceiver.ACTION_PROXIMITY_ALERT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(ArrivedAtWaypointReceiver, new IntentFilter(ACTION_NOTIFY_ARRIVED_AT_WAYPOINT));
     }
 
     @Override
     protected void onPause() {
         // Unregister the ArrivedAtWaypointReceiver since the Activity is not visible
-        unregisterReceiver(ArrivedAtWaypointReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(ArrivedAtWaypointReceiver);
         super.onPause();
     }
 
@@ -255,13 +259,7 @@ public class NavigationActivity extends AppCompatActivity {
     private BroadcastReceiver ArrivedAtWaypointReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean entering = intent.getBooleanExtra(LocationManager.KEY_PROXIMITY_ENTERING, false);
-            if (entering && !Route.hasArrivedAtCurrentDestination()) {
-                abortBroadcast();
-                if (intent.getIntExtra(ProximityAlertReceiver.TAG_QUIZ_ID, -1) == Route.getCurrentQuizId()) {
-                    onArrivedAtWaypoint();
-                }
-            }
+            onArrivedAtWaypoint();
         }
     };
 }

@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
+import com.github.wksb.wkebapp.activity.navigation.Route;
 
 //TODO Documentation
 /**
@@ -25,21 +26,27 @@ public class ProximityAlertReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         boolean entering = intent.getBooleanExtra(LocationManager.KEY_PROXIMITY_ENTERING, false);
         if (entering) {
-            Intent openNavigationActivity = new Intent(context, NavigationActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openNavigationActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+            if (intent.getIntExtra(TAG_QUIZ_ID, -1) != Route.getCurrentQuizId()) return;
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(String.format(
-                            context.getResources().getString(R.string.notification_arrived_at_waypoint_title)
-                            , intent.getStringExtra(TAG_WAYPOINT_NAME)))
-                    .setContentText(String.format(
-                            context.getResources().getString(R.string.notification_arrived_at_waypoint_detail)
-                            , intent.getStringExtra(TAG_WAYPOINT_NAME)
-                    ))
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent);
-            ((NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, builder.build());
+            if (!LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(NavigationActivity.ACTION_NOTIFY_ARRIVED_AT_WAYPOINT))) {
+                Intent openNavigationActivity = new Intent(context, NavigationActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openNavigationActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(String.format(
+                                context.getResources().getString(R.string.notification_arrived_at_waypoint_title)
+                                , intent.getStringExtra(TAG_WAYPOINT_NAME)))
+                        .setContentText(String.format(
+                                context.getResources().getString(R.string.notification_arrived_at_waypoint_detail)
+                                , intent.getStringExtra(TAG_WAYPOINT_NAME)
+                        ))
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+                ((NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, builder.build());
+
+                Route.setArrivedAtCurrentDestination(true);
+            }
         }
     }
 }
