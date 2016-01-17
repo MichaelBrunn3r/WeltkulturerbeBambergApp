@@ -81,10 +81,10 @@ public class NavigationActivity extends AppCompatActivity {
         mMap.clear();
         Route.get().renderOnMap(mMap);
 
-        if (Route.get().hasArrivedAtCurrentDestination()) onArrivedAtWaypoint();
+        if (Route.hasArrivedAtCurrentDestination()) onArrivedAtWaypoint();
 
         // TODO Change the Design of the Progress Bar
-        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.get().getProgress(), Route.get().getRouteSegments().size()));
+        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(), Route.get().getRouteSegments().size()));
     }
 
     @Override
@@ -237,7 +237,7 @@ public class NavigationActivity extends AppCompatActivity {
     // TODO Description
     public void onBtnClickedStartQuizNow(View view) {
         Intent startCurrentQuiz = new Intent(this, QuizActivity.class);
-        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.get().getCurrentQuizId());
+        startCurrentQuiz.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId());
         startActivity(startCurrentQuiz);
     }
 
@@ -249,16 +249,16 @@ public class NavigationActivity extends AppCompatActivity {
                         , Route.get().getCurrentDestinationWaypoint().getName()));
 
         QuizActivity.unlockQuiz();
-        Route.get().setArrivedAtCurrentDestination(true);
+        Route.setArrivedAtCurrentDestination(true);
     }
 
     private BroadcastReceiver ArrivedAtWaypointReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             boolean entering = intent.getBooleanExtra(LocationManager.KEY_PROXIMITY_ENTERING, false);
-            if (entering && !Route.get().hasArrivedAtCurrentDestination()) {
+            if (entering && !Route.hasArrivedAtCurrentDestination()) {
                 abortBroadcast();
-                if (intent.getIntExtra(ProximityAlertReceiver.TAG_QUIZ_ID, -1) == Route.get().getCurrentQuizId()) {
+                if (intent.getIntExtra(ProximityAlertReceiver.TAG_QUIZ_ID, -1) == Route.getCurrentQuizId()) {
                     onArrivedAtWaypoint();
                 }
             }

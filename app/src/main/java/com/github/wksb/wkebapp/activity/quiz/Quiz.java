@@ -79,9 +79,9 @@ public class Quiz implements QuizActivityState{
         mBtn_quiz_wrongAnswer2.setOnClickListener(goToInformation);
         mBtn_quiz_wrongAnswer3.setOnClickListener(goToInformation);
 
-        if (quizActivity.getQuizWrapper().getQuizId() == Route.get().getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
+        if (quizActivity.getQuizWrapper().getQuizId() == Route.getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
             Route.get().addProgress(1); // Increment the current Progress by 1 TODO Move to Route class
-            Route.get().setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
+            Route.setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
             QuizActivity.lockQuiz(); // This Quiz is finished. Lock the next Quiz
         }
     }

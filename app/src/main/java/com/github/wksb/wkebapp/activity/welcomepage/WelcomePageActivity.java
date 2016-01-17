@@ -57,7 +57,7 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onStart() {
         super.onStart();
-        if (Route.get().isInProgress()) {
+        if (Route.isInProgress()) {
             setActivityState(new TourInProgress(this));
         } else {
             setActivityState(new NoTourInProgress(this));
