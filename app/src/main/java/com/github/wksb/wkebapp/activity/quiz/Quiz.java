@@ -80,7 +80,8 @@ public class Quiz implements QuizActivityState{
         mBtn_quiz_wrongAnswer3.setOnClickListener(goToInformation);
 
         if (quizActivity.getQuizWrapper().getQuizId() == Route.get().getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
-            Route.get().addProgress(1); // Increment the current Progress by 1
+            Route.get().addProgress(1); // Increment the current Progress by 1 TODO Move to Route class
+            Route.get().setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
             QuizActivity.lockQuiz(); // This Quiz is finished. Lock the next Quiz
         }
     }
@@ -136,6 +137,7 @@ public class Quiz implements QuizActivityState{
         TransitionManager.go(scene, transition);
     }
 
+    // TODO Description
     void setUpLayout() {
         ViewGroup sceneRoot = (ViewGroup)quizActivity.findViewById(R.id.relativelayout_quiz_scene_root);
         sceneRoot.removeAllViews();
