@@ -81,7 +81,7 @@ public class Quiz implements QuizActivityState{
 
         if (quizActivity.getQuizWrapper().getQuizId() == Route.get().getCurrentQuizId()) { // Check if this Quiz is the current Quiz that has to solved to progress in the Tour
             Route.get().addProgress(1); // Increment the current Progress by 1
-            QuizActivity.setNextQuizLockState(QuizActivity.QUIZ_LOCKED); // This Quiz is finished. Set the Quiz State to NOT_IN_PROGRESS
+            QuizActivity.lockQuiz(); // This Quiz is finished. Lock the next Quiz
         }
     }
 

@@ -163,15 +163,19 @@ public class QuizActivity extends AppCompatActivity {
         return App.get().getSharedPreferences("TOUR", MODE_PRIVATE).getInt("NEXT_QUIZ_IS_UNLOCKED", DEFAULT_LOCK_STATE) == QUIZ_UNLOCKED;
     }
 
-    public static void setNextQuizLockState(@NEXT_QUIZ_STATE int lockState) {
-        App.get().getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("NEXT_QUIZ_IS_UNLOCKED", lockState).commit();
+    public static void unlockQuiz() {
+        App.get().getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("NEXT_QUIZ_IS_UNLOCKED", QUIZ_UNLOCKED).commit();
+    }
+
+    public static void lockQuiz() {
+        App.get().getSharedPreferences("TOUR", MODE_PRIVATE).edit().putInt("NEXT_QUIZ_IS_UNLOCKED", QUIZ_LOCKED).commit();
     }
 
     /**
      * Reset all Settings of the QuizActivity
      */
     public static void reset() {
-        setNextQuizLockState(DEFAULT_LOCK_STATE);
+        lockQuiz();
     }
 
     /**
