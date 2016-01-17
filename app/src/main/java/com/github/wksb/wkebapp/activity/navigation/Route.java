@@ -61,7 +61,7 @@ public class Route {
     /** The Waypoints should be ordered from the Destination to the Start */
     static final int DESTINATION_TO_START = 2;
 
-    // Default values
+    // Default values TODO Description
     /** The default Value for the Name of the current Route */
     static final String DEFAULT_ROUTE_NAME = "NO_ROUTE";
     /** The default Value for the Progress of the current Route */
@@ -70,6 +70,8 @@ public class Route {
     static final boolean DEFAULT_IS_IN_PROGRESS = false;
     /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
     static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have an Id of -1
+    // TODO Description
+    static final boolean DEFAULT_ARRIVED_AT_CURRENT_DESTINATION = false;
 
     /** The List of {@link RouteSegment}s in this Route */
     private final List<RouteSegment> routeSegmentsList;
@@ -152,6 +154,7 @@ public class Route {
         }
     }
 
+    // TODO Description
     private void renderNavigationPolylinesOnMap(GoogleMap googleMap) {
         // Remove all Polylines of this Route from the Map
         for (Polyline polyline : mNavigationPolylineList) polyline.remove();
@@ -172,6 +175,7 @@ public class Route {
         }
     }
 
+    // TODO Description
     private void addCurrentDestinationProximityAlert() {
         LocationManager locationManager = (LocationManager) App.get().getSystemService(Activity.LOCATION_SERVICE);
         Intent proximityAlert = new Intent();
@@ -242,6 +246,7 @@ public class Route {
         return null;
     }
 
+    // TODO Description
     public Waypoint getWaypointAt(int position) {
         int id = waypointOrderList.get(position);
         return getWaypointById(id);
@@ -272,10 +277,12 @@ public class Route {
         return result;
     }
 
+    // TODO Description
     public Waypoint getCurrentDestinationWaypoint() {
         return mCurrentDestinationWaypoint;
     }
 
+    // TODO Description
     public void syncWithProgress() {
         for (Waypoint waypoint : getWaypoints()) {
             if (waypointOrderList.indexOf(waypoint.getId()) <= getProgress())
@@ -319,6 +326,7 @@ public class Route {
         syncWithProgress();
     }
 
+    // TODO Description
     public void addProgress(int progress) {
         App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putInt("PROGRESS", getProgress() + progress).commit();
         syncWithProgress();
@@ -388,6 +396,17 @@ public class Route {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getInt("CURRENT_QUIZ_ID", DEFAULT_CURRENT_QUIZ_ID);
     }
 
+    // TODO Description
+    public void setArrivedAtCurrentDestination(boolean arrivedAtCurrentDestination) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("ARRIVED_AT_CURRENT_DESTINATION", arrivedAtCurrentDestination).commit();
+    }
+
+    // TODO Description
+    public boolean hasArrivedAtCurrentDestination() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("ARRIVED_AT_CURRENT_DESTINATION", DEFAULT_ARRIVED_AT_CURRENT_DESTINATION);
+    }
+
+    // TODO Description
     public void init() {
         if (!isInitialised()) {
             // Query Arguments
@@ -470,6 +489,7 @@ public class Route {
         setName(DEFAULT_ROUTE_NAME);
         setProgressState(DEFAULT_IS_IN_PROGRESS);
         setCurrentQuizId(DEFAULT_CURRENT_QUIZ_ID);
+        setArrivedAtCurrentDestination(DEFAULT_ARRIVED_AT_CURRENT_DESTINATION);
 
         routeSegmentsList.clear();
         waypointList.clear();
