@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
+import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 
 //TODO Documentation
 /**
@@ -29,8 +31,12 @@ public class ProximityAlertReceiver extends BroadcastReceiver{
             if (intent.getIntExtra(TAG_QUIZ_ID, -1) != Route.getCurrentQuizId()) return;
 
             if (!LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(NavigationActivity.ACTION_NOTIFY_ARRIVED_AT_WAYPOINT))) {
-                Intent openNavigationActivity = new Intent(context, NavigationActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openNavigationActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+                Intent openQuizActivity = new Intent(context, QuizActivity.class);
+                openQuizActivity.putExtra(QuizActivity.TAG_QUIZ_ID, Route.getCurrentQuizId());
+
+                PendingIntent pendingIntent = TaskStackBuilder.create(context)
+                        .addNextIntentWithParentStack(openQuizActivity)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)

@@ -152,7 +152,7 @@ public class NavigationActivity extends AppCompatActivity {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
         } else {
-            startActivity(NavUtils.getParentActivityIntent(this));
+            NavUtils.navigateUpFromSameTask(this);
         }
     }
 
