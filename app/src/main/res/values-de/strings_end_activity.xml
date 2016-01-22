@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tv_end_title">Herzlichen Glückwunsch</string>
+    <string name="tv_end_credits">Now you are a real Bamberg Adept\n\n
+        Thanks for choosing our Application.\n\n
+
+        Your P-Seminar P06 2015/16,\n\n
+
+        Teacher: Guido Wojaczek\n\n
+
+        Students:\n
+        Programming: Michael Brunner, Elena Müller, Matthias Schmitt\n
+        Content: Leon Krug, Leon Boschert, Daniel Hübner, Tobias Rittmaier\n
+        Design: Florian Hübner, Tobias Reckerth, Linus Rink</string>
+
+</resources>

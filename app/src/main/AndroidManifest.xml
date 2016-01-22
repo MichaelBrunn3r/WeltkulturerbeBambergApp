@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.wksb.wkebapp" >
+    package="com.github.wksb.wkebapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,11 +10,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/WeltkulturerbeBambergAppTheme" >
+        android:theme="@style/WeltkulturerbeBambergAppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -26,77 +26,76 @@
 
         <activity
             android:name=".activity.welcomepage.WelcomePageActivity"
-            android:label="@string/title_activity_welcomepage"
-            android:screenOrientation="portrait"
             android:clearTaskOnLaunch="true"
-            android:launchMode="singleTask">
+            android:label="@string/title_activity_welcomepage"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.InstructionsActivity"
             android:label="@string/title_activity_instructions"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
-
         <activity
             android:name=".activity.InformationActivity"
             android:label="@string/title_activity_information"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
-
         <activity
             android:name=".activity.navigation.NavigationActivity"
             android:label="@string/title_activity_navigation"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
         <activity
             android:name=".activity.quiz.QuizActivity"
             android:label="@string/title_activity_quiz"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.navigation.NavigationActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.navigation.NavigationActivity" />
         </activity>
-
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/title_activity_about"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity"/>
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
 
         <!-- Content Provider -->
 
         <provider
-            android:exported="false"
             android:name=".contentprovider.WeltkulturerbeContentProvider"
-            android:authorities="com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider" >
-        </provider>
+            android:authorities="com.github.wksb.wkebapp.contentprovider.WeltkulturerbeContentProvider"
+            android:exported="false"></provider>
 
         <!-- Broadcast Receiver -->
 
-        <receiver
-            android:name="ProximityAlertReceiver">
+        <receiver android:name=".ProximityAlertReceiver">
             <intent-filter>
                 <action android:name="com.github.wksb.wkebapp.PROXIMITY_ALERT" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.EndActivity"
+            android:label="@string/title_activity_end"
+            android:theme="@style/WeltkulturerbeBambergAppTheme"></activity>
     </application>
 
 </manifest>
