@@ -3,7 +3,7 @@
 
     <string name="title_activity_instructions">InstructionsActivity</string>
 
-    <string name="tv_instruc_title">Instructions</string>
+    <string name="tv_instruc_title">Welcome</string>
     <string name="tv_instruc_instructions">Welcome to this Paper Chase,\n\nThis
         application will guide you to all important World Cultural Heritage sights in Bamberg.
         Once you arrive at the first waypoint you have to solve a riddle to unlock the next waypoint.

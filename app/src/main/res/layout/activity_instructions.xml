@@ -13,33 +13,36 @@
         android:layout_height="@dimen/actionbar_height"
         android:theme="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:paddingTop="@dimen/actionbar_padding_top"
+        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.ActionBar"/>
+        android:layout_alignParentStart="true" />
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textview_instruc_header"
-        android:text="@string/tv_instruc_title"
-        android:layout_above="@+id/textview_instruc_instructions"
+        android:id="@+id/scrollView"
         android:layout_below="@+id/actionbar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center"
-        style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
-
-    <TextView
-        android:id="@+id/textview_instruc_instructions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_instruc_instructions"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_above="@+id/linearlayout_instruc_buttons"
-        android:layout_alignParentStart="true"
-        style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"/>
+        android:layout_margin="@dimen/screen_margin">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textview_instruc_instructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_instruc_instructions"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_alignParentStart="true"
+                style="@style/WeltkulturerbeBambergAppTheme.TextView.OnBackground"
+                android:layout_below="@+id/actionbar"
+                android:layout_above="@+id/linearlayout_instruc_buttons" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearlayout_instruc_buttons"

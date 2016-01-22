@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
@@ -55,6 +56,7 @@ public class InstructionsActivity extends AppCompatActivity {
 
         // Set Custom ActionBar Layout
         getSupportActionBar().setCustomView(R.layout.actionbar_title);
+        ((TextView)findViewById(R.id.textview_actionbar_title)).setText(getResources().getString(R.string.tv_instruc_title));
     }
 
     //TODO Documentation

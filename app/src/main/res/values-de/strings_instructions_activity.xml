@@ -3,8 +3,8 @@
 
     <string name="title_activity_instructions">InstructionsActivity</string>
 
-    <string name="tv_instruc_title">Einführung</string>
-    <string name="tv_instruc_instructions">Herzlich willkommen zur Schnitzeljagd,\n\nIn dIeser App
+    <string name="tv_instruc_title">Willkommen</string>
+    <string name="tv_instruc_instructions">Herzlich willkommen zur Schnitzeljagd,\n\nIn dieser App
         werden Sie zu allen wichtigen Weltkulturerbe-Sehenswürdigkeiten in Bamberg geführt.
         Wenn Sie am ersten Punkt angekommen sind, werden Sie dort ein Rätsel lösen müssen, um die
         Navigation zum nächsten Punkt freizuschalten.\nAchten sie dabei bitte auf die
