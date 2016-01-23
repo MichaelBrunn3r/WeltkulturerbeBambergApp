@@ -75,7 +75,7 @@
           "</l>",
         "</html>"
     ]},
-    {"id":7, "description": "Alte Hofhaltung", "image":null, "info-text":[
+    {"id":7, "description": "Alte Hofhaltung", "image":"img/alte_hofhaltung.jpg", "info-text":[
         "<html>",
           "<l>",
             "Seit der Bistumsgründung 1007 war die Hofhaltung Wohnsitz des Bischofs wurde jedoch",
@@ -102,7 +102,7 @@
           "</l>",
         "</html>"
     ]},
-    {"id":10, "description": "Martinskirche", "image":null, "info-text":[
+    {"id":10, "description": "Martinskirche", "image":"img/st_martin.jpg", "info-text":[
         "<html>",
           "<l>",
             "Die Martinskirche wurde zwischen 1686 und 1693 erbaut und befindet sich im Stadtzentrum.",
