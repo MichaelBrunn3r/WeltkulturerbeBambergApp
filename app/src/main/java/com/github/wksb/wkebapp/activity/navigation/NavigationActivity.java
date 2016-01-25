@@ -25,6 +25,7 @@ import com.github.wksb.wkebapp.Edge;
 import com.github.wksb.wkebapp.ProximityAlertReceiver;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.CollapsableView;
+import com.github.wksb.wkebapp.activity.EndActivity;
 import com.github.wksb.wkebapp.activity.quiz.QuizActivity;
 import com.github.wksb.wkebapp.utilities.DebugUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -88,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity {
         if (Route.hasArrivedAtCurrentDestination()) onArrivedAtWaypoint();
 
         // TODO Change the Design of the Progress Bar
-        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(), Route.get().getRouteSegments().size()));
+        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(), Route.get().getLength()));
     }
 
     @Override
@@ -141,6 +142,9 @@ public class NavigationActivity extends AppCompatActivity {
 
                 sendBroadcast(proximityAlert);
                 return true;
+            case R.id.action_start_end:
+
+                startActivity(new Intent(this, EndActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

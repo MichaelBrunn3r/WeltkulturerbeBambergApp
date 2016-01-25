@@ -65,13 +65,14 @@ public class Route {
     /** The default Value for the Name of the current Route */
     static final String DEFAULT_ROUTE_NAME = "NO_ROUTE";
     /** The default Value for the Progress of the current Route */
-    static final int DEFAULT_ROUTE_PROGRESS = 0;
+    static final int DEFAULT_ROUTE_PROGRESS = 1;
     /** Default for the boolean that determines if the current Route is in progress */
     static final boolean DEFAULT_IS_IN_PROGRESS = false;
     /** The default Value for Id of the current Quiz that has to be solved to progress in the current Route */
     static final int DEFAULT_CURRENT_QUIZ_ID = -1; // No Quiz should have an Id of -1
     // TODO Description
     static final boolean DEFAULT_ARRIVED_AT_CURRENT_DESTINATION = false;
+    static final boolean DEFAULT_TOUR_IS_FINISHED = false;
 
     /** The List of {@link RouteSegment}s in this Route */
     private final List<RouteSegment> routeSegmentsList;
@@ -309,10 +310,14 @@ public class Route {
         } else  mCurrentDestinationWaypoint = null;
     }
 
+    // TODO Documentation
     public boolean progressInTour(int quizID) {
         if (quizID == getCurrentQuizId()) {
-            addProgress(getProgress()+1);
+            addProgress(1);
             Route.setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
+            if (getProgress() == getLength()) {
+                setIsFinished(true);
+            }
             return true;
         }
         return false;
@@ -413,6 +418,16 @@ public class Route {
     // TODO Description
     public static boolean hasArrivedAtCurrentDestination() {
         return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("ARRIVED_AT_CURRENT_DESTINATION", DEFAULT_ARRIVED_AT_CURRENT_DESTINATION);
+    }
+
+    // TODO Documentation
+    public static boolean isFinished() {
+        return App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).getBoolean("TOUR_IS_FINISHED", DEFAULT_TOUR_IS_FINISHED);
+    }
+
+    // TODO Documentation
+    public static void setIsFinished(boolean isFinished) {
+        App.get().getSharedPreferences("TOUR", Context.MODE_PRIVATE).edit().putBoolean("TOUR_IS_FINISHED", isFinished).commit();
     }
 
     // TODO Description
