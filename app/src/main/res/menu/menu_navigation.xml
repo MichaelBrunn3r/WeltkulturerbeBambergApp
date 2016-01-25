@@ -7,7 +7,7 @@
         android:title="Start next Quiz"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_start_end"
-        android:title="Start End Activity"
+        android:id="@+id/action_finish"
+        android:title="Finish the Tour"
         app:showAsAction="never" />
 </menu>

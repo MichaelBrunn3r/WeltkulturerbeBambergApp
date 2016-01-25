@@ -60,6 +60,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.wksb.wkebapp.activity.navigation.NavigationActivity" />
         </activity>
+        <activity
+            android:name=".activity.EndActivity"
+            android:theme="@style/WeltkulturerbeBambergAppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
+        </activity>
 
         <!-- Content Provider -->
 
@@ -75,10 +82,6 @@
                 <action android:name="com.github.wksb.wkebapp.PROXIMITY_ALERT" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".activity.EndActivity"
-            android:theme="@style/WeltkulturerbeBambergAppTheme"></activity>
     </application>
 
 </manifest>

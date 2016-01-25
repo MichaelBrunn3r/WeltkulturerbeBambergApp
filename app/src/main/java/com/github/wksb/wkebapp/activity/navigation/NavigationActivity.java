@@ -89,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity {
         if (Route.hasArrivedAtCurrentDestination()) onArrivedAtWaypoint();
 
         // TODO Change the Design of the Progress Bar
-        mTextViewActionbarTitle.setText(String.format("Progress: %d / %d", Route.getProgress(), Route.get().getLength()));
+        mTextViewActionbarTitle.setText(String.format("Fortschritt: %d / %d", Route.getProgress(), Route.get().getLength()));
     }
 
     @Override
@@ -142,9 +142,9 @@ public class NavigationActivity extends AppCompatActivity {
 
                 sendBroadcast(proximityAlert);
                 return true;
-            case R.id.action_start_end:
-
-                startActivity(new Intent(this, EndActivity.class));
+            case R.id.action_finish:
+                Route.get().setProgress(Route.get().getLength()-1);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

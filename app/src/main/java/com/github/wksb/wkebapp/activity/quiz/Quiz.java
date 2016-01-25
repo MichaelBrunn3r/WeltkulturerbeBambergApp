@@ -1,5 +1,6 @@
 package com.github.wksb.wkebapp.activity.quiz;
 
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.transition.Scene;
 import android.transition.Transition;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.github.wksb.wkebapp.Edge;
 import com.github.wksb.wkebapp.R;
 import com.github.wksb.wkebapp.SlideTransition;
+import com.github.wksb.wkebapp.activity.EndActivity;
 import com.github.wksb.wkebapp.activity.navigation.Route;
 
 import java.util.ArrayList;
@@ -55,7 +57,12 @@ public class Quiz implements QuizActivityState{
 
     @Override
     public void onBackPressed() {
-        NavUtils.navigateUpFromSameTask(quizActivity); // Navigate to the Parent Activity
+        if (Route.isFinished()) {
+            Intent startEnd = new Intent(quizActivity, EndActivity.class);
+            quizActivity.startActivity(startEnd);
+        } else {
+            NavUtils.navigateUpFromSameTask(quizActivity); // Navigate to the Parent Activity
+        }
     }
 
     @Override
