@@ -291,9 +291,9 @@ public class Route {
         }
 
         for (RouteSegment segment : getRouteSegments()) {
-            if (routeSegmentsList.indexOf(segment) < getProgress())
+            if (waypointOrderList.indexOf(segment.getDestinationWaypointId()) < getProgress())
                 segment.setState(RouteSegment.RouteSegmentState.COMPLETED);
-            else if (routeSegmentsList.indexOf(segment) == getProgress()) {
+            else if (waypointOrderList.indexOf(segment.getDestinationWaypointId()) == getProgress()) {
                 segment.setState(RouteSegment.RouteSegmentState.ACTIVE);
                 mActiveRouteSegment = segment;
             }
@@ -308,6 +308,10 @@ public class Route {
 
             addCurrentDestinationProximityAlert();
         } else  mCurrentDestinationWaypoint = null;
+
+        if (getProgress() == getLength()) {
+            setIsFinished(true);
+        }
     }
 
     // TODO Documentation
@@ -315,9 +319,6 @@ public class Route {
         if (quizID == getCurrentQuizId()) {
             addProgress(1);
             Route.setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
-            if (getProgress() == getLength()) {
-                setIsFinished(true);
-            }
             return true;
         }
         return false;
@@ -514,6 +515,7 @@ public class Route {
         setProgressState(DEFAULT_IS_IN_PROGRESS);
         setCurrentQuizId(DEFAULT_CURRENT_QUIZ_ID);
         setArrivedAtCurrentDestination(DEFAULT_ARRIVED_AT_CURRENT_DESTINATION);
+        setIsFinished(DEFAULT_TOUR_IS_FINISHED);
 
         routeSegmentsList.clear();
         waypointList.clear();
