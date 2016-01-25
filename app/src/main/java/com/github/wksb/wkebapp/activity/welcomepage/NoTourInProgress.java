@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 
 import com.github.wksb.wkebapp.R;
-import com.github.wksb.wkebapp.activity.AboutActivity;
 import com.github.wksb.wkebapp.activity.InstructionsActivity;
 
 /**
@@ -44,12 +43,6 @@ public class NoTourInProgress implements WelcomePageActivityState{
     public void onBtnClickedStart(View view) {
         Intent startInstructionActivity = new Intent(welcomePageActivity, InstructionsActivity.class);
         welcomePageActivity.startActivity(startInstructionActivity);
-    }
-
-    @Override
-    public void onBtnClickedAbout(View view) {
-        Intent startAboutActivity = new Intent(welcomePageActivity, AboutActivity.class);
-        welcomePageActivity.startActivity(startAboutActivity);
     }
 
     @Override

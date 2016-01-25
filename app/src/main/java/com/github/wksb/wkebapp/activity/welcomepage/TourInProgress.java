@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 
 import com.github.wksb.wkebapp.R;
-import com.github.wksb.wkebapp.activity.AboutActivity;
 import com.github.wksb.wkebapp.activity.InstructionsActivity;
 import com.github.wksb.wkebapp.activity.navigation.NavigationActivity;
 
@@ -44,12 +43,6 @@ public class TourInProgress implements WelcomePageActivityState{
 
     @Override
     public void onBtnClickedStart(View view) {
-    }
-
-    @Override
-    public void onBtnClickedAbout(View view) {
-        Intent startAboutActivity = new Intent(welcomePageActivity, AboutActivity.class);
-        welcomePageActivity.startActivity(startAboutActivity);
     }
 
     @Override

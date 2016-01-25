@@ -160,10 +160,6 @@ public class WelcomePageActivity extends AppCompatActivity implements LoaderMana
         activityState.onBtnClickedContinue(view);
     }
 
-    public void onBtnClickedAbout(View view) {
-        activityState.onBtnClickedAbout(view);
-    }
-
     public void onBtnClickedRestartTour(View view) {
         activityState.onBtnClickedRestartTour(view);
     }

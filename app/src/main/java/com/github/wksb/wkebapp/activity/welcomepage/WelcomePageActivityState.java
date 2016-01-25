@@ -29,12 +29,6 @@ public interface WelcomePageActivityState {
     void onBtnClickedStart(View view);
 
     /**
-     * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_about} gets clicked
-     * @param view The view calling this method
-     */
-    void onBtnClickedAbout(View view);
-
-    /**
      * Logic executed if the Button {@link com.github.wksb.wkebapp.R.id#button_welcome_continue} gets clicked
      * @param view The view calling this method
      */

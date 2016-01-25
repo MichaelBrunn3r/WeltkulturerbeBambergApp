@@ -6,4 +6,8 @@
         android:id="@+id/action_start_next_quiz"
         android:title="Start next Quiz"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_start_end"
+        android:title="Start End Activity"
+        app:showAsAction="never" />
 </menu>

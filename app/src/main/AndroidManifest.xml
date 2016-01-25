@@ -45,14 +45,6 @@
                 android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
         <activity
-            android:name=".activity.InformationActivity"
-            android:label="@string/title_activity_information"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
-        </activity>
-        <activity
             android:name=".activity.navigation.NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:screenOrientation="portrait">
@@ -67,14 +59,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.wksb.wkebapp.activity.navigation.NavigationActivity" />
-        </activity>
-        <activity
-            android:name=".activity.AboutActivity"
-            android:label="@string/title_activity_about"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.wksb.wkebapp.activity.welcomepage.WelcomePageActivity" />
         </activity>
 
         <!-- Content Provider -->
@@ -94,7 +78,6 @@
 
         <activity
             android:name=".activity.EndActivity"
-            android:label="@string/title_activity_end"
             android:theme="@style/WeltkulturerbeBambergAppTheme"></activity>
     </application>
 
