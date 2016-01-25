@@ -309,6 +309,15 @@ public class Route {
         } else  mCurrentDestinationWaypoint = null;
     }
 
+    public boolean progressInTour(int quizID) {
+        if (quizID == getCurrentQuizId()) {
+            addProgress(getProgress()+1);
+            Route.setArrivedAtCurrentDestination(false); // User has not arrived at the next Waypoint, yet
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Get the {@link Context} of this Route
      * @return The {@link Context} of this Route
