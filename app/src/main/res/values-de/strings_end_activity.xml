@@ -2,16 +2,16 @@
 <resources>
 
     <string name="tv_end_title">Herzlichen Glückwunsch</string>
-    <string name="tv_end_credits">Now you are a real Bamberg Adept\n\n
-        Thanks for choosing our Application.\n\n
+    <string name="tv_end_credits">Nun sind Sie ein echter Bamberg-Kenner\n\n
+        Danke, dass Sie sich für unsere App entschieden haben.\n\n
 
-        Your P-Seminar P06 2015/16,\n\n
+        Ihr P-Seminar P06 2015/16,\n\n
 
-        Teacher: Guido Wojaczek\n\n
+        Lehrkraft: Guido Wojaczek\n\n
 
-        Students:\n
-        Programming: Michael Brunner, Elena Müller, Matthias Schmitt\n
-        Content: Leon Krug, Leon Boschert, Daniel Hübner, Tobias Rittmaier\n
+        Schüler:\n
+        Programmierung: Michael Brunner, Elena Müller, Matthias Schmitt\n
+        Inhalt: Leon Krug, Leon Boschert, Daniel Hübner, Tobias Rittmaier\n
         Design: Florian Hübner, Tobias Reckerth, Linus Rink</string>
 
 </resources>
